@@ -1,7 +1,8 @@
 // Player-deployable units. All stats are base values; upgrades modify them at runtime.
 // modelType: 'box' | 'capsule' | 'sphere' | 'cylinder' | 'cone'
 // attackType: 'melee' | 'ranged'
-// special: null | 'taunt' | 'dash' | 'stun' | 'splash' | 'burn' | 'rapid'
+// special: prototype values plus data-driven canonical character hooks
+import { CANONICAL_UNITS } from './canonicalCharacters.js';
 
 export const UNITS = [
   {
@@ -163,6 +164,7 @@ export const UNITS = [
     projectileColor: 0xff5533,
     scale: 1.0,
   },
+  ...CANONICAL_UNITS,
 ];
 
 export const UNIT_MAP = Object.fromEntries(UNITS.map(u => [u.id, u]));

@@ -1,0 +1,43 @@
+{
+  "id": "gym_uncle",
+  "name": "Gym Uncle",
+  "role": "frontline",
+  "country": "global",
+  "visual": {
+    "icon": "🏋️",
+    "color": "#c75bff",
+    "accent": "#fff06a",
+    "modelType": "capsule",
+    "scale": 1.22,
+    "silhouette": "Huge upper body, suspiciously tiny legs, oversized dumbbell always visible.",
+    "animationPersonality": "Top-heavy swagger, tiny rapid steps, dramatic recoil whenever the dumbbell leaves his hands."
+  },
+  "stats": {
+    "cost": 170,
+    "hp": 340,
+    "attack": 58,
+    "range": 1.45,
+    "attackSpeed": 0.72,
+    "moveSpeed": 1.0,
+    "deployCD": 5.8
+  },
+  "combat": {
+    "attackType": "melee",
+    "special": "knockback",
+    "normalSkill": "Weight Smack",
+    "passive": "Armor Bully",
+    "hiddenSkill": "Manager Cannon",
+    "counterHooks": ["armored", "manager"]
+  },
+  "traits": ["loud", "armored_counter", "protein_obsessed", "top_heavy"],
+  "relationships": [
+    { "target": "manager", "type": "hate", "strength": 0.85 },
+    { "target": "manager", "type": "annoyance", "strength": 0.95 }
+  ],
+  "comedy": {
+    "failureBehavior": "Overcommits to a swing and occasionally launches something that was not the intended target.",
+    "comedyEvents": ["manager_cannon", "human_baseball", "protein_rage"],
+    "rareBehaviorChance": 0.05,
+    "voice": "Booming confidence until a tiny-leg problem becomes visible."
+  }
+}
