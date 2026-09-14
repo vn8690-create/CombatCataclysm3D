@@ -12,7 +12,8 @@
     "test:comedy": "node tests/comedy-director.test.mjs",
     "test:characters": "node tests/character-systems.test.mjs",
     "test:world": "node tests/world-tour.test.mjs",
-    "test:unit": "npm run test:feel && npm run test:comedy && npm run test:characters && npm run test:world"
+    "test:boken": "node tests/boken.test.mjs",
+    "test:unit": "npm run test:feel && npm run test:comedy && npm run test:characters && npm run test:world && npm run test:boken"
   },
   "keywords": [
     "three.js",
