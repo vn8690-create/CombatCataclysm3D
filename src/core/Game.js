@@ -8,6 +8,7 @@ import { BattleScene } from '../scenes/BattleScene.js';
 import { UpgradeScene } from '../scenes/UpgradeScene.js';
 import { ResultScene } from '../scenes/ResultScene.js';
 import { BokenScene } from '../scenes/BokenScene.js';
+import { RosterScene } from '../scenes/RosterScene.js';
 import { BokenSystem } from '../systems/BokenSystem.js';
 import { BOKEN_ROUTES } from '../config/bokenRoutes.js';
 import { STAGES } from '../config/stages.js';
@@ -72,6 +73,7 @@ export class Game {
       case 'upgrade': scene = new UpgradeScene(this); break;
       case 'result': scene = new ResultScene(this, payload.result); break;
       case 'boken': scene = new BokenScene(this); break;
+      case 'roster': scene = new RosterScene(this); break;
       default:
         console.error('Unknown scene id', sceneId);
         return;
