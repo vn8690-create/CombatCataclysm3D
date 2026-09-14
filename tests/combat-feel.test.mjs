@@ -18,7 +18,13 @@ assert.ok(feel.shakeRemaining > 0, 'heavy impact should schedule camera shake');
 const frozenDt = feel.simulationDt(0.01);
 assert.equal(frozenDt, 0, 'small frame should be fully consumed by hit-stop');
 
-feel.impactFromDamage(30, 100, false);
+assert.equal(feel.classifyDamage(2, 100, false), 'light');
+assert.equal(feel.classifyDamage(10, 100, false), 'medium');
+assert.equal(feel.classifyDamage(30, 100, false), 'heavy');
+assert.equal(feel.classifyDamage(1, 100, true), 'ko');
+
+const impactLevel = feel.impactFromDamage(30, 100, false);
+assert.equal(impactLevel, 'heavy', 'impactFromDamage should return the resolved tier for animation reactions');
 assert.ok(feel.hitStopRemaining >= CombatFeelSystem.PRESETS.heavy.hitStop - 0.011, 'large damage should produce a strong impact tier');
 
 feel.updateCamera(1);
