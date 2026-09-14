@@ -86,6 +86,9 @@ export class Unit {
     this.dashing = false;
     this.dashTimer = 0;
     this.tauntActive = !!this.special && this.special === 'taunt';
+    this.hitReactTimer = 0;
+    this.hitReactStrength = 0;
+    this.attackAnimTimer = 0;
 
     const built = buildBodyMesh(this.config);
     this.group = built.group;
@@ -128,6 +131,37 @@ export class Unit {
 
   applyKnockback(force) {
     this.knockbackVel = -Math.abs(force);
+  }
+
+  reactToHit(level = 'light') {
+    const strength = level === 'heavy' ? 1 : level === 'medium' ? 0.72 : 0.48;
+    this.hitReactStrength = Math.max(this.hitReactStrength, strength);
+    this.hitReactTimer = Math.max(this.hitReactTimer, 0.12 + strength * 0.04);
+  }
+
+  _triggerAttackAnim() {
+    this.attackAnimTimer = Math.max(this.attackAnimTimer, 0.12);
+  }
+
+  _updateJuice(dt) {
+    this.hitReactTimer = Math.max(0, this.hitReactTimer - dt);
+    this.attackAnimTimer = Math.max(0, this.attackAnimTimer - dt);
+
+    if (this.hitReactTimer > 0) {
+      const pulse = Math.sin((this.hitReactTimer / 0.18) * Math.PI);
+      const s = this.hitReactStrength * Math.max(0, pulse);
+      this.body.scale.set(1 + 0.16 * s, 1 - 0.13 * s, 1 + 0.08 * s);
+      return;
+    }
+
+    if (this.attackAnimTimer > 0) {
+      const pulse = Math.sin((this.attackAnimTimer / 0.12) * Math.PI);
+      this.body.scale.set(1 + 0.10 * pulse, 1 - 0.05 * pulse, 1 + 0.04 * pulse);
+      return;
+    }
+
+    this.hitReactStrength = 0;
+    this.body.scale.set(1, 1, 1);
   }
 
   takeDamage(amount, source) {
@@ -179,6 +213,7 @@ export class Unit {
 
   update(dt, world) {
     if (!this.alive) return;
+    this._updateJuice(dt);
 
     if (this.burnTimer > 0) {
       this.burnTimer -= dt;
@@ -221,7 +256,13 @@ export class Unit {
         if (!e.alive) continue;
         const d = Math.abs(e.group.position.x - this.group.position.x);
         if (d < 0.8 && !(e._dashHitBy && e._dashHitBy.has(this))) {
-          e.takeDamage(this.attack * 1.2, this);
+          const wasAlive = e.alive;
+          const maxHp = e.maxHp || 100;
+          const dealt = this.attack * 1.2;
+          e.takeDamage(dealt, this);
+          const killed = wasAlive && !e.alive;
+          const level = world.combatFeel?.impactFromDamage(dealt, maxHp, killed) || 'medium';
+          if (!killed && e.reactToHit) e.reactToHit(level);
           if (!e._dashHitBy) e._dashHitBy = new Set();
           e._dashHitBy.add(this);
         }
@@ -250,6 +291,8 @@ export class Unit {
   }
 
   _performAttack(target, world) {
+    this._triggerAttackAnim();
+
     if (this.attackType === 'ranged') {
       world.combat.spawnProjectile({
         from: this.group.position.clone().setY(0.9),
@@ -264,7 +307,12 @@ export class Unit {
         stunDuration: this.special === 'stun' ? BALANCE.STUN_BASE_DURATION * this.stats.stunMul : 0,
       });
     } else {
+      const wasAlive = target.alive;
+      const maxHp = target.maxHp || 100;
       target.takeDamage(this.attack, this);
+      const killed = wasAlive && !target.alive;
+      const level = world.combatFeel?.impactFromDamage(this.attack, maxHp, killed) || 'light';
+      if (!killed && target.reactToHit) target.reactToHit(level);
       if (this.special === 'stun') target.applyStun && target.applyStun(BALANCE.STUN_BASE_DURATION * this.stats.stunMul);
       if (this.special === 'burn' && target.applyBurn) target.applyBurn(this.burnDamage, BALANCE.BURN_DURATION);
       if (target.applyKnockback && target.side === 'enemy') target.applyKnockback(BALANCE.KNOCKBACK_FORCE);
