@@ -10,7 +10,8 @@
     "test": "node tests/smoke.test.mjs",
     "test:feel": "node tests/combat-feel.test.mjs",
     "test:comedy": "node tests/comedy-director.test.mjs",
-    "test:unit": "npm run test:feel && npm run test:comedy"
+    "test:characters": "node tests/character-systems.test.mjs",
+    "test:unit": "npm run test:feel && npm run test:comedy && npm run test:characters"
   },
   "keywords": [
     "three.js",
