@@ -15,6 +15,7 @@ import { WaveManager } from '../systems/WaveManager.js';
 import { EconomySystem } from '../systems/EconomySystem.js';
 import { VFXSystem } from '../systems/VFXSystem.js';
 import { DebugSystem } from '../systems/DebugSystem.js';
+import { CombatFeelSystem } from '../systems/CombatFeelSystem.js';
 
 export class BattleScene {
   constructor(game, stageId) {
@@ -100,6 +101,7 @@ export class BattleScene {
     this.playerBase.vfx = this.vfx;
     this.enemyBase.vfx = this.vfx;
     this.combat = new CombatSystem(this.scene, this.vfx);
+    this.combatFeel = new CombatFeelSystem(this.camera);
     this.economy = new EconomySystem(this.stats.startMoneyBonus, this.stats.moneyMul);
     this.waveManager = new WaveManager(
       this.scene, this.vfx, this.stageId,
@@ -280,22 +282,31 @@ export class BattleScene {
       return;
     }
 
-    this.time += dt;
+    const simDt = this.combatFeel ? this.combatFeel.simulationDt(dt) : dt;
+    this.combatFeel?.updateCamera(dt);
+    if (simDt <= 0) {
+      this.vfx.update(dt);
+      this._updateHUD();
+      return;
+    }
+
+    this.time += simDt;
     if (!this.chaosActive && this.time >= BALANCE.CHAOS_TIME) {
       this.chaosActive = true;
       this.game.showToast('⚠ CHAOS MODE — enemy waves intensify!');
       if (this.vfx) this.vfx.spawnShockwave(new THREE.Vector3(0, 1, 0), 0xff3344, 4);
+      this.combatFeel?.impact('heavy');
     }
 
-    this.economy.update(dt, this.chaosActive);
-    for (const id of Object.keys(this.deployCd)) this.deployCd[id] = Math.max(0, this.deployCd[id] - dt);
+    this.economy.update(simDt, this.chaosActive);
+    for (const id of Object.keys(this.deployCd)) this.deployCd[id] = Math.max(0, this.deployCd[id] - simDt);
 
-    this.waveManager.update(dt, this.chaosActive);
-    this.combat.update(dt, this._worldSnapshot());
+    this.waveManager.update(simDt, this.chaosActive);
+    this.combat.update(simDt, this._worldSnapshot());
 
     const world = this._worldSnapshot();
-    for (const u of this.units) u.update(dt, world);
-    for (const e of this.enemies) e.update(dt, world);
+    for (const u of this.units) u.update(simDt, world);
+    for (const e of this.enemies) e.update(simDt, world);
 
     this.units = this.units.filter(u => u.alive);
     const deadEnemies = this.enemies.filter(e => !e.alive);
@@ -307,10 +318,10 @@ export class BattleScene {
     }
     this.enemies = this.enemies.filter(e => e.alive);
 
-    this.playerBase.update(dt);
-    this.enemyBase.update(dt);
+    this.playerBase.update(simDt);
+    this.enemyBase.update(simDt);
     this.vfx.update(dt);
-    this.debug.update(dt, world);
+    this.debug.update(simDt, world);
     this._updateHUD();
     this._checkEndState();
   }
@@ -322,6 +333,7 @@ export class BattleScene {
       playerBase: this.playerBase,
       enemyBase: this.enemyBase,
       combat: this.combat,
+      combatFeel: this.combatFeel,
       economy: this.economy,
       vfx: this.vfx,
       waveManager: this.waveManager,
@@ -349,6 +361,7 @@ export class BattleScene {
     if (this.playerBase) this.playerBase.destroy();
     if (this.enemyBase) this.enemyBase.destroy();
     if (this.combat) this.combat.clear();
+    if (this.combatFeel) this.combatFeel.clear();
     if (this.vfx) this.vfx.clear();
     if (this.scene) {
       this.scene.traverse(o => {
