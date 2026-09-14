@@ -63,6 +63,7 @@ export class MenuScene {
           <button class="btn primary" id="btnPlay">Quick Battle</button>
           <button class="btn" id="btnStages">Stage Select</button>
           <button class="btn success" id="btnBoken">🌍 Bōken</button>
+          <button class="btn" id="btnRoster">🎭 Roster</button>
           <button class="btn" id="btnUpgrade">Upgrades</button>
         </div>
         <div style="margin-top:16px; padding:14px 18px; border-radius:18px; background:rgba(255,255,255,.04); max-width:620px; text-align:center;">
@@ -72,8 +73,8 @@ export class MenuScene {
         <div class="row" style="margin-top: 12px;">
           <button class="btn" id="btnReset">Reset Save</button>
         </div>
-        <div class="subtitle" style="margin-top: 18px; max-width: 520px; text-align: center;">
-          Battle directly when you want a quick fight, or enter Bōken to travel through comedy regions, recruit characters and unlock encounters.
+        <div class="subtitle" style="margin-top: 18px; max-width: 540px; text-align: center;">
+          Battle directly, travel through Bōken, or inspect the cast in Roster before sending them into workplace-grade nonsense.
         </div>
         <div class="subtitle" style="font-size: 11px; color: #667;">Press D to toggle debug panel · Mobile-friendly</div>
       </div>
@@ -85,6 +86,7 @@ export class MenuScene {
     };
     document.getElementById('btnStages').onclick = () => this.game.goto('stage_select');
     document.getElementById('btnBoken').onclick = () => this.game.goto('boken');
+    document.getElementById('btnRoster').onclick = () => this.game.goto('roster');
     document.getElementById('btnUpgrade').onclick = () => this.game.goto('upgrade');
     document.getElementById('btnReset').onclick = () => {
       if (confirm('Reset all progress? This cannot be undone.')) {
