@@ -87,14 +87,20 @@ export class CombatSystem {
 
   _onHit(p, world) {
     if (!p.target || !p.target.alive) return;
+    const targetWasAlive = p.target.alive;
+    const targetMaxHp = p.target.maxHp || 100;
+
     if (p.splashRadius > 0) {
       const targets = p.fromEnemy ? world.units : world.enemies;
+      let anyKilled = false;
       for (const t of targets) {
         if (!t.alive) continue;
         const d = t.group.position.distanceTo(p.pos);
         if (d <= p.splashRadius) {
           const falloff = 1 - (d / p.splashRadius) * 0.4;
+          const wasAlive = t.alive;
           t.takeDamage(p.damage * falloff, p.owner);
+          if (wasAlive && !t.alive) anyKilled = true;
           this._applyStatus(p, t);
         }
       }
@@ -102,10 +108,13 @@ export class CombatSystem {
       const bd = base.group.position.distanceTo(p.pos);
       if (bd <= p.splashRadius) base.takeDamage(p.damage * 0.5, p.owner);
       if (this.vfx) this.vfx.spawnExplosion(p.pos.clone(), p.color, p.splashRadius);
+      if (world.combatFeel) world.combatFeel.impact(anyKilled ? 'ko' : 'heavy');
     } else {
       p.target.takeDamage(p.damage, p.owner);
+      const killed = targetWasAlive && !p.target.alive;
       this._applyStatus(p, p.target);
       if (this.vfx) this.vfx.spawnHitSpark(p.pos.clone(), p.color);
+      if (world.combatFeel) world.combatFeel.impactFromDamage(p.damage, targetMaxHp, killed);
     }
   }
 
