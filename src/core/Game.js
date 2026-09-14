@@ -92,6 +92,15 @@ export class Game {
     SaveSystem.save(this.save);
   }
 
+  resetProgress() {
+    this.save = SaveSystem.reset();
+    this.boken = new BokenSystem(BOKEN_ROUTES, null);
+    if (this.boken.currentNodeId) this.boken.visitedNodes.add(this.boken.currentNodeId);
+    this.save.boken = this.boken.serialize();
+    this.pendingBokenBattle = null;
+    SaveSystem.save(this.save);
+  }
+
   onResize() {
     const w = window.innerWidth;
     const h = window.innerHeight;
