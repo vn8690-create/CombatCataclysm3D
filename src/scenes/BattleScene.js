@@ -16,6 +16,7 @@ import { EconomySystem } from '../systems/EconomySystem.js';
 import { VFXSystem } from '../systems/VFXSystem.js';
 import { DebugSystem } from '../systems/DebugSystem.js';
 import { CombatFeelSystem } from '../systems/CombatFeelSystem.js';
+import { ComedyDirector } from '../systems/ComedyDirector.js';
 
 export class BattleScene {
   constructor(game, stageId) {
@@ -102,6 +103,12 @@ export class BattleScene {
     this.enemyBase.vfx = this.vfx;
     this.combat = new CombatSystem(this.scene, this.vfx);
     this.combatFeel = new CombatFeelSystem(this.camera);
+    this.comedyDirector = new ComedyDirector({
+      camera: this.camera,
+      combatFeel: this.combatFeel,
+      onBeatStart: beat => this._onComedyBeatStart(beat),
+      onBeatEnd: () => this._onComedyBeatEnd(),
+    });
     this.economy = new EconomySystem(this.stats.startMoneyBonus, this.stats.moneyMul);
     this.waveManager = new WaveManager(
       this.scene, this.vfx, this.stageId,
@@ -171,6 +178,10 @@ export class BattleScene {
   _buildHUD() {
     const ui = this.game.ui;
     ui.innerHTML = `
+      <div id="comedyBeat" style="display:none; position:fixed; inset:0; z-index:40; pointer-events:none; align-items:center; justify-content:center; flex-direction:column; text-align:center; background:radial-gradient(circle, rgba(0,0,0,0.05) 15%, rgba(0,0,0,0.72) 100%); text-shadow:0 4px 18px #000;">
+        <div id="comedyBeatTitle" style="font-size:clamp(30px,6vw,78px); font-weight:1000; letter-spacing:0.04em; transform:rotate(-2deg);"></div>
+        <div id="comedyBeatSubtitle" style="font-size:clamp(14px,2vw,24px); opacity:0.86; margin-top:8px;"></div>
+      </div>
       <div id="hud">
         <div id="hudTop">
           <div style="display:flex; flex-direction:column; gap:6px;">
@@ -217,6 +228,24 @@ export class BattleScene {
     document.getElementById('btnQuit').onclick = () => {
       if (confirm('Quit battle and return to menu?')) this.game.goto('menu');
     };
+  }
+
+  _onComedyBeatStart(beat) {
+    const overlay = document.getElementById('comedyBeat');
+    const title = document.getElementById('comedyBeatTitle');
+    const subtitle = document.getElementById('comedyBeatSubtitle');
+    const hud = document.getElementById('hud');
+    if (title) title.textContent = beat.title;
+    if (subtitle) subtitle.textContent = beat.subtitle;
+    if (overlay) overlay.style.display = beat.spotlight ? 'flex' : 'none';
+    if (hud && beat.suppressUI) hud.style.opacity = '0.36';
+  }
+
+  _onComedyBeatEnd() {
+    const overlay = document.getElementById('comedyBeat');
+    const hud = document.getElementById('hud');
+    if (overlay) overlay.style.display = 'none';
+    if (hud) hud.style.opacity = '1';
   }
 
   _updateHUD() {
@@ -282,7 +311,9 @@ export class BattleScene {
       return;
     }
 
-    const simDt = this.combatFeel ? this.combatFeel.simulationDt(dt) : dt;
+    this.comedyDirector?.update(dt);
+    const feelDt = this.combatFeel ? this.combatFeel.simulationDt(dt) : dt;
+    const simDt = feelDt * (this.comedyDirector?.simulationScale() || 1);
     this.combatFeel?.updateCamera(dt);
     if (simDt <= 0) {
       this.vfx.update(dt);
@@ -295,7 +326,16 @@ export class BattleScene {
       this.chaosActive = true;
       this.game.showToast('⚠ CHAOS MODE — enemy waves intensify!');
       if (this.vfx) this.vfx.spawnShockwave(new THREE.Vector3(0, 1, 0), 0xff3344, 4);
-      this.combatFeel?.impact('heavy');
+      this.comedyDirector?.requestBeat({
+        id: 'chaos-mode-arrival',
+        title: 'CHAOS CLOCKED IN',
+        subtitle: 'Nobody approved the overtime.',
+        priority: 'major',
+        duration: 0.85,
+        impact: 'heavy',
+        slowMotion: 0.55,
+        zoom: 0.08,
+      });
     }
 
     this.economy.update(simDt, this.chaosActive);
@@ -334,6 +374,7 @@ export class BattleScene {
       enemyBase: this.enemyBase,
       combat: this.combat,
       combatFeel: this.combatFeel,
+      comedyDirector: this.comedyDirector,
       economy: this.economy,
       vfx: this.vfx,
       waveManager: this.waveManager,
@@ -361,6 +402,7 @@ export class BattleScene {
     if (this.playerBase) this.playerBase.destroy();
     if (this.enemyBase) this.enemyBase.destroy();
     if (this.combat) this.combat.clear();
+    if (this.comedyDirector) this.comedyDirector.clear();
     if (this.combatFeel) this.combatFeel.clear();
     if (this.vfx) this.vfx.clear();
     if (this.scene) {
