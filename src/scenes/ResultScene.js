@@ -53,9 +53,11 @@ export class ResultScene {
         </h1>
         <h2>${stage ? stage.name : 'Stage ' + r.stageId}</h2>
         ${r.win ? `<div class="subtitle">💰 Reward: +${r.moneyEarned} · Treasury: ${this.game.save.money || 0}</div>` : `<div class="subtitle">Your base was destroyed. Try again!</div>`}
-        <div class="row" style="margin-top: 16px;">
+        ${r.bokenReturn ? `<div class="subtitle" style="margin-top:8px;">🌍 Adventure encounter ${r.win ? 'cleared. The road ahead is open.' : 'is still waiting for revenge.'}</div>` : ''}
+        <div class="row" style="margin-top: 16px; flex-wrap:wrap;">
+          ${r.bokenReturn ? `<button class="btn success" id="btnBoken">🌍 Continue Bōken</button>` : ''}
           <button class="btn primary" id="btnRetry">↻ Retry</button>
-          ${r.win && nextStage ? `<button class="btn success" id="btnNext" ${nextUnlocked ? '' : 'disabled'}>Next ▶</button>` : ''}
+          ${!r.bokenReturn && r.win && nextStage ? `<button class="btn success" id="btnNext" ${nextUnlocked ? '' : 'disabled'}>Next ▶</button>` : ''}
           <button class="btn" id="btnStages">Stages</button>
           <button class="btn" id="btnUpgrade">Upgrades</button>
           <button class="btn" id="btnMenu">Menu</button>
@@ -63,7 +65,17 @@ export class ResultScene {
       </div>
     `;
 
-    document.getElementById('btnRetry').onclick = () => this.game.startBattle(r.stageId);
+    document.getElementById('btnRetry').onclick = () => {
+      if (r.bokenReturn) {
+        const node = this.game.boken.getCurrentNode();
+        if (node && (node.type === 'battle' || node.type === 'boss')) this.game.startBokenBattle(node);
+        else this.game.startBattle(r.stageId);
+      } else {
+        this.game.startBattle(r.stageId);
+      }
+    };
+    const btnBoken = document.getElementById('btnBoken');
+    if (btnBoken) btnBoken.onclick = () => this.game.goto('boken');
     const btnNext = document.getElementById('btnNext');
     if (btnNext) btnNext.onclick = () => this.game.startBattle(r.stageId + 1);
     document.getElementById('btnStages').onclick = () => this.game.goto('stage_select');
