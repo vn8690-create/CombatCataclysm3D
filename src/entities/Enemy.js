@@ -68,6 +68,9 @@ export class Enemy {
     this.burnTickT = 0;
     this.knockbackVel = 0;
     this.flyHeight = this.config.flyHeight || 0;
+    this.hitReactTimer = 0;
+    this.hitReactStrength = 0;
+    this.attackAnimTimer = 0;
 
     this.bossSpecialCd = this.isBoss ? 6.0 : 0;
     this.summonTimer = this.config.summonInterval || 0;
@@ -116,6 +119,39 @@ export class Enemy {
   applyKnockback(force) {
     if (this.isBoss) return;
     this.knockbackVel = Math.abs(force);
+  }
+
+  reactToHit(level = 'light') {
+    const strength = level === 'heavy' ? 1 : level === 'medium' ? 0.72 : 0.48;
+    this.hitReactStrength = Math.max(this.hitReactStrength, strength);
+    this.hitReactTimer = Math.max(this.hitReactTimer, 0.12 + strength * 0.04);
+  }
+
+  _triggerAttackAnim() {
+    this.attackAnimTimer = Math.max(this.attackAnimTimer, this.isBoss ? 0.16 : 0.12);
+  }
+
+  _updateJuice(dt) {
+    this.hitReactTimer = Math.max(0, this.hitReactTimer - dt);
+    this.attackAnimTimer = Math.max(0, this.attackAnimTimer - dt);
+
+    if (this.hitReactTimer > 0) {
+      const pulse = Math.sin((this.hitReactTimer / 0.18) * Math.PI);
+      const s = this.hitReactStrength * Math.max(0, pulse);
+      this.body.scale.set(1 + 0.16 * s, 1 - 0.13 * s, 1 + 0.08 * s);
+      return;
+    }
+
+    if (this.attackAnimTimer > 0) {
+      const duration = this.isBoss ? 0.16 : 0.12;
+      const pulse = Math.sin((this.attackAnimTimer / duration) * Math.PI);
+      const boost = this.isBoss ? 1.25 : 1;
+      this.body.scale.set(1 + 0.10 * pulse * boost, 1 - 0.05 * pulse, 1 + 0.04 * pulse * boost);
+      return;
+    }
+
+    this.hitReactStrength = 0;
+    this.body.scale.set(1, 1, 1);
   }
 
   takeDamage(amount, source) {
@@ -192,6 +228,7 @@ export class Enemy {
 
   update(dt, world) {
     if (!this.alive) return;
+    this._updateJuice(dt);
 
     if (this.burnTimer > 0) {
       this.burnTimer -= dt;
@@ -255,6 +292,8 @@ export class Enemy {
   }
 
   _performAttack(target, world) {
+    this._triggerAttackAnim();
+
     if (this.attackType === 'ranged') {
       world.combat.spawnProjectile({
         from: this.group.position.clone().setY(0.9),
@@ -268,7 +307,14 @@ export class Enemy {
         fromEnemy: true,
       });
     } else {
+      const wasAlive = target.alive;
+      const maxHp = target.maxHp || 100;
       target.takeDamage(this.attack, this);
+      const killed = wasAlive && !target.alive;
+      const level = world.combatFeel?.impactFromDamage(this.attack, maxHp, killed) || (this.isBoss ? 'heavy' : 'light');
+      if (!killed && target.reactToHit) target.reactToHit(level);
+      if (this.isBoss && world.combatFeel && !killed) world.combatFeel.impact('heavy');
+
       if (this.special === 'steal' && this.stealCd <= 0 && target === world.playerBase) {
         this.stealCd = 3.0;
         if (world.economy) {
@@ -281,6 +327,8 @@ export class Enemy {
 
   _doBossSpecial(world) {
     if (!world.combat) return;
+    this._triggerAttackAnim();
+    world.combatFeel?.impact('boss');
     const sx = this.group.position.x;
     switch (this.config.bossSpecial) {
       case 'paper_storm': {
@@ -306,7 +354,12 @@ export class Enemy {
           if (!u.alive) continue;
           const d = sx - u.group.position.x;
           if (d > 0 && d < 4.0) {
-            u.takeDamage(this.attack * 1.2, this);
+            const dealt = this.attack * 1.2;
+            const wasAlive = u.alive;
+            const maxHp = u.maxHp || 100;
+            u.takeDamage(dealt, this);
+            const killed = wasAlive && !u.alive;
+            if (!killed) u.reactToHit?.(world.combatFeel?.classifyDamage(dealt, maxHp, false) || 'heavy');
             u.applyBurn && u.applyBurn(20, 2.0);
           }
         }
