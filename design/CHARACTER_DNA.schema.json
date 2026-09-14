@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://combat-cataclysm.local/schemas/character-dna.schema.json",
+  "title": "Combat Cataclysm Character DNA",
+  "type": "object",
+  "required": ["id", "name", "role", "visual", "stats", "combat", "comedy"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+    "name": { "type": "string", "minLength": 1 },
+    "role": { "type": "string", "enum": ["frontline", "tank", "ranged", "support", "disruptor", "counter", "boss", "enemy"] },
+    "country": { "type": "string" },
+    "visual": {
+      "type": "object",
+      "required": ["icon", "color", "accent", "modelType", "silhouette"],
+      "properties": {
+        "icon": { "type": "string" },
+        "color": { "type": ["string", "integer"] },
+        "accent": { "type": ["string", "integer"] },
+        "modelType": { "type": "string", "enum": ["box", "capsule", "sphere", "cylinder", "cone"] },
+        "scale": { "type": "number", "minimum": 0.5, "maximum": 3 },
+        "silhouette": { "type": "string", "minLength": 1 },
+        "animationPersonality": { "type": "string" }
+      }
+    },
+    "stats": {
+      "type": "object",
+      "required": ["cost", "hp", "attack", "range", "attackSpeed", "moveSpeed", "deployCD"],
+      "properties": {
+        "cost": { "type": "number", "minimum": 0 },
+        "hp": { "type": "number", "exclusiveMinimum": 0 },
+        "attack": { "type": "number", "minimum": 0 },
+        "range": { "type": "number", "minimum": 0 },
+        "attackSpeed": { "type": "number", "exclusiveMinimum": 0 },
+        "moveSpeed": { "type": "number", "minimum": 0 },
+        "deployCD": { "type": "number", "minimum": 0 }
+      }
+    },
+    "combat": {
+      "type": "object",
+      "required": ["attackType"],
+      "properties": {
+        "attackType": { "type": "string", "enum": ["melee", "ranged"] },
+        "projectileSpeed": { "type": "number", "minimum": 0 },
+        "projectileColor": { "type": ["string", "integer"] },
+        "special": { "type": ["string", "null"] },
+        "normalSkill": { "type": ["string", "null"] },
+        "passive": { "type": ["string", "null"] },
+        "hiddenSkill": { "type": ["string", "null"] },
+        "counterHooks": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "traits": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "relationships": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["target", "type"],
+        "properties": {
+          "target": { "type": "string" },
+          "type": { "type": "string", "enum": ["friend", "rival", "fear", "hate", "crush", "idol", "annoyance"] },
+          "strength": { "type": "number", "minimum": 0, "maximum": 1 }
+        }
+      }
+    },
+    "comedy": {
+      "type": "object",
+      "required": ["failureBehavior", "comedyEvents"],
+      "properties": {
+        "failureBehavior": { "type": "string" },
+        "comedyEvents": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+        "rareBehaviorChance": { "type": "number", "minimum": 0, "maximum": 1 },
+        "voice": { "type": "string" }
+      }
+    }
+  },
+  "additionalProperties": true
+}
