@@ -87,14 +87,27 @@ export class CombatSystem {
 
   _onHit(p, world) {
     if (!p.target || !p.target.alive) return;
+    const targetWasAlive = p.target.alive;
+    const targetMaxHp = p.target.maxHp || 100;
+
     if (p.splashRadius > 0) {
       const targets = p.fromEnemy ? world.units : world.enemies;
+      let anyKilled = false;
       for (const t of targets) {
         if (!t.alive) continue;
         const d = t.group.position.distanceTo(p.pos);
         if (d <= p.splashRadius) {
           const falloff = 1 - (d / p.splashRadius) * 0.4;
-          t.takeDamage(p.damage * falloff, p.owner);
+          const dealt = p.damage * falloff;
+          const wasAlive = t.alive;
+          const maxHp = t.maxHp || 100;
+          t.takeDamage(dealt, p.owner);
+          const killed = wasAlive && !t.alive;
+          if (killed) anyKilled = true;
+          if (!killed && t.reactToHit) {
+            const level = world.combatFeel?.classifyDamage(dealt, maxHp, false) || 'light';
+            t.reactToHit(level);
+          }
           this._applyStatus(p, t);
         }
       }
@@ -102,10 +115,18 @@ export class CombatSystem {
       const bd = base.group.position.distanceTo(p.pos);
       if (bd <= p.splashRadius) base.takeDamage(p.damage * 0.5, p.owner);
       if (this.vfx) this.vfx.spawnExplosion(p.pos.clone(), p.color, p.splashRadius);
+      if (world.combatFeel) world.combatFeel.impact(anyKilled ? 'ko' : 'heavy');
     } else {
       p.target.takeDamage(p.damage, p.owner);
+      const killed = targetWasAlive && !p.target.alive;
       this._applyStatus(p, p.target);
       if (this.vfx) this.vfx.spawnHitSpark(p.pos.clone(), p.color);
+      if (world.combatFeel) {
+        const level = world.combatFeel.impactFromDamage(p.damage, targetMaxHp, killed);
+        if (!killed && p.target.reactToHit) p.target.reactToHit(level);
+      } else if (!killed && p.target.reactToHit) {
+        p.target.reactToHit('light');
+      }
     }
   }
 
