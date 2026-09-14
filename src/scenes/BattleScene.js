@@ -17,6 +17,8 @@ import { VFXSystem } from '../systems/VFXSystem.js';
 import { DebugSystem } from '../systems/DebugSystem.js';
 import { CombatFeelSystem } from '../systems/CombatFeelSystem.js';
 import { ComedyDirector } from '../systems/ComedyDirector.js';
+import { RelationshipSystem } from '../systems/RelationshipSystem.js';
+import { ControlledChaosSystem } from '../systems/ControlledChaosSystem.js';
 
 export class BattleScene {
   constructor(game, stageId) {
@@ -109,6 +111,13 @@ export class BattleScene {
       onBeatStart: beat => this._onComedyBeatStart(beat),
       onBeatEnd: () => this._onComedyBeatEnd(),
     });
+    this.relationships = new RelationshipSystem();
+    for (const cfg of UNITS) this.relationships.registerCharacter(cfg);
+    this.controlledChaos = new ControlledChaosSystem({
+      relationshipSystem: this.relationships,
+      comedyDirector: this.comedyDirector,
+    });
+    this.chaosCheckTimer = 1.0;
     this.economy = new EconomySystem(this.stats.startMoneyBonus, this.stats.moneyMul);
     this.waveManager = new WaveManager(
       this.scene, this.vfx, this.stageId,
@@ -305,6 +314,20 @@ export class BattleScene {
     }
   }
 
+  _updateControlledChaos(simDt) {
+    this.relationships?.update(simDt, this.time);
+    this.chaosCheckTimer -= simDt;
+    if (this.chaosCheckTimer > 0 || this.units.length < 2) return;
+    this.chaosCheckTimer = 1.0;
+
+    const world = this._worldSnapshot();
+    for (const actor of this.units) {
+      if (!actor.alive || !(actor.config?.relationships?.length)) continue;
+      const event = this.controlledChaos?.tryInteraction(actor, this.units, world);
+      if (event) break;
+    }
+  }
+
   update(dt) {
     if (this.paused) {
       this.debug.update(dt, this._worldSnapshot());
@@ -347,6 +370,7 @@ export class BattleScene {
     const world = this._worldSnapshot();
     for (const u of this.units) u.update(simDt, world);
     for (const e of this.enemies) e.update(simDt, world);
+    this._updateControlledChaos(simDt);
 
     this.units = this.units.filter(u => u.alive);
     const deadEnemies = this.enemies.filter(e => !e.alive);
@@ -375,6 +399,8 @@ export class BattleScene {
       combat: this.combat,
       combatFeel: this.combatFeel,
       comedyDirector: this.comedyDirector,
+      relationships: this.relationships,
+      controlledChaos: this.controlledChaos,
       economy: this.economy,
       vfx: this.vfx,
       waveManager: this.waveManager,
@@ -405,6 +431,8 @@ export class BattleScene {
     if (this.comedyDirector) this.comedyDirector.clear();
     if (this.combatFeel) this.combatFeel.clear();
     if (this.vfx) this.vfx.clear();
+    this.relationships = null;
+    this.controlledChaos = null;
     if (this.scene) {
       this.scene.traverse(o => {
         if (o.geometry) o.geometry.dispose();
