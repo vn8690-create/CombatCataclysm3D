@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%231a1a2e'/%3E%3Ctext x='8' y='12' font-size='10' text-anchor='middle' fill='%23ffcc40'%3E%E2%9A%94%3C/text%3E%3C/svg%3E" />
+  <title>Combat Cataclysm 3D</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #0a0a14; color: #f5f5f5; font-family: 'Segoe UI', Tahoma, sans-serif; user-select: none; -webkit-tap-highlight-color: transparent; }
+    #app { position: fixed; inset: 0; z-index: 1; }
+    canvas { display: block; }
+    #ui { position: fixed; inset: 0; pointer-events: none; display: flex; flex-direction: column; z-index: 10; }
+    #ui > * { pointer-events: auto; }
+    .panel { background: rgba(10,12,24,.85); border: 1px solid #2a3050; border-radius: 12px; backdrop-filter: blur(6px); padding: 18px; }
+    .btn { cursor:pointer; background:linear-gradient(180deg,#2c3a78 0%,#1a2348 100%); color:#fff; border:1px solid #3c4a90; padding:12px 22px; border-radius:10px; font-size:16px; font-weight:600; transition:transform .08s ease,filter .15s ease; box-shadow:0 4px 0 #0d1230,inset 0 1px 0 rgba(255,255,255,.15); }
+    .btn:hover { filter:brightness(1.15); } .btn:active { transform:translateY(2px); box-shadow:0 2px 0 #0d1230; } .btn:disabled { opacity:.45; cursor:not-allowed; }
+    .btn.primary { background:linear-gradient(180deg,#d34a2c 0%,#8e2a14 100%); border-color:#f06030; } .btn.success { background:linear-gradient(180deg,#2c8a4a 0%,#145030 100%); border-color:#3cb060; }
+    .screen { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px; background:radial-gradient(ellipse at center,rgba(20,30,60,.55),rgba(5,8,18,.95)); pointer-events:auto; }
+    .screen h1 { font-size:48px; letter-spacing:2px; background:linear-gradient(90deg,#ff5040,#ffcc40,#4a90ff); -webkit-background-clip:text; background-clip:text; color:transparent; text-shadow:0 0 24px rgba(255,120,80,.35); text-align:center; }
+    .screen h2 { font-size:26px; color:#ffcc88; } .screen .subtitle { color:#aab4d4; font-size:14px; margin-top:-8px; }
+    .row { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
+    #hud { position:absolute; inset:0; pointer-events:none; display:flex; flex-direction:column; justify-content:space-between; }
+    #hud button,#hud .deploySlot,#hud .stat,#hud .baseHp { pointer-events:auto; }
+    #hudTop { display:flex; justify-content:space-between; align-items:flex-start; padding:10px 14px; gap:10px; }
+    .stat { background:rgba(10,12,24,.8); border:1px solid #2a3050; border-radius:10px; padding:6px 12px; font-size:14px; min-width:90px; text-align:center; }
+    .stat .label { color:#8893b8; font-size:11px; text-transform:uppercase; letter-spacing:1px; } .stat .value { font-size:18px; font-weight:700; color:#ffcc66; }
+    #bases { display:flex; justify-content:space-between; width:100%; padding:0 14px; }
+    .baseHp { width:38vw; max-width:460px; background:rgba(0,0,0,.55); border:1px solid #444a70; border-radius:8px; height:18px; overflow:hidden; position:relative; }
+    .baseHp .fill { height:100%; background:linear-gradient(90deg,#50d070,#2c9a44); transition:width .25s ease; } .baseHp.enemy .fill { background:linear-gradient(90deg,#d04040,#8a1c1c); }
+    .baseHp .lbl { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#fff; text-shadow:0 1px 2px #000; }
+    #deployBar { display:flex; gap:6px; flex-wrap:wrap; padding:10px; justify-content:center; pointer-events:auto; }
+    .deploySlot { width:84px; height:96px; background:linear-gradient(180deg,#1a2244,#0e1430); border:1px solid #3a4278; border-radius:10px; display:flex; flex-direction:column; align-items:center; justify-content:space-between; padding:6px 4px; cursor:pointer; position:relative; transition:transform .08s ease,filter .15s ease; overflow:hidden; }
+    .deploySlot:hover { filter:brightness(1.18); } .deploySlot:active { transform:translateY(2px); } .deploySlot.locked { opacity:.4; cursor:not-allowed; filter:grayscale(.8); } .deploySlot.affordable { box-shadow:0 0 0 1px #ffcc40,0 0 12px rgba(255,200,60,.25); }
+    .deploySlot .icon { width:40px; height:40px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:700; }
+    .deploySlot .name { font-size:10px; color:#cfd6f0; text-align:center; line-height:1.05; } .deploySlot .cost { font-size:12px; color:#ffcc66; font-weight:700; }
+    .deploySlot .cd { position:absolute; left:0; right:0; bottom:0; background:rgba(0,0,0,.6); height:0%; transition:height .05s linear; pointer-events:none; }
+    .stageGrid { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; max-width:720px; padding:12px; }
+    .stageTile { aspect-ratio:1; background:linear-gradient(180deg,#182044,#0c1230); border:1px solid #3a4278; border-radius:10px; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; font-size:22px; font-weight:700; color:#fff; transition:transform .08s ease,filter .15s ease; position:relative; }
+    .stageTile:hover { filter:brightness(1.18); } .stageTile:active { transform:translateY(2px); } .stageTile.locked { opacity:.4; cursor:not-allowed; filter:grayscale(.8); } .stageTile .star { position:absolute; bottom:4px; font-size:11px; color:#ffcc66; } .stageTile.boss { border-color:#d04040; box-shadow:0 0 12px rgba(208,64,64,.3); }
+    .upgradeList { display:flex; flex-direction:column; gap:10px; max-width:560px; width:90vw; max-height:60vh; overflow-y:auto; padding:4px; }
+    .upgradeItem { display:flex; justify-content:space-between; align-items:center; background:rgba(20,28,52,.7); border:1px solid #2a3050; border-radius:10px; padding:10px 14px; gap:10px; }
+    .upgradeItem .info { flex:1; } .upgradeItem .info .n { font-weight:700; color:#ffcc88; } .upgradeItem .info .d { font-size:12px; color:#aab4d4; } .upgradeItem .lvl { font-size:12px; color:#8893b8; }
+    #debugPanel { position:absolute; top:8px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,.7); border:1px solid #2a3050; border-radius:8px; padding:6px 10px; font-family:monospace; font-size:11px; color:#7aff90; pointer-events:none; max-width:90vw; display:none; z-index:100; }
+    #debugPanel.visible { display:block; }
+    #toast { position:absolute; bottom:130px; left:50%; transform:translateX(-50%); background:rgba(0,0,0,.85); border:1px solid #ffcc66; color:#ffcc66; padding:8px 16px; border-radius:20px; font-size:13px; opacity:0; transition:opacity .3s ease; pointer-events:none; z-index:200; }
+    #toast.visible { opacity:1; }
+    @media (max-width:640px) { .screen h1{font-size:32px}.btn{padding:10px 16px;font-size:14px}.deploySlot{width:64px;height:78px}.deploySlot .icon{width:32px;height:32px;font-size:18px}.deploySlot .name{font-size:9px}.deploySlot .cost{font-size:11px}.stat{min-width:70px;padding:4px 8px}.stat .value{font-size:14px}.baseHp{height:14px}.stageGrid{grid-template-columns:repeat(3,1fr)} }
+    #loader { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:#0a0a14; color:#ffcc66; font-size:18px; z-index:1000; }
+    #loader.hidden { display:none; }
+  </style>
+</head>
+<body>
+  <div id="app"></div><div id="ui"></div><div id="debugPanel"></div><div id="toast"></div>
+  <div id="loader">Loading Combat Cataclysm 3D…</div>
+  <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
