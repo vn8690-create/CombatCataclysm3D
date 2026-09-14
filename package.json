@@ -13,7 +13,8 @@
     "test:characters": "node tests/character-systems.test.mjs",
     "test:world": "node tests/world-tour.test.mjs",
     "test:boken": "node tests/boken.test.mjs",
-    "test:unit": "npm run test:feel && npm run test:comedy && npm run test:characters && npm run test:world && npm run test:boken"
+    "test:roster": "node tests/roster.test.mjs",
+    "test:unit": "npm run test:feel && npm run test:comedy && npm run test:characters && npm run test:world && npm run test:boken && npm run test:roster"
   },
   "keywords": [
     "three.js",
