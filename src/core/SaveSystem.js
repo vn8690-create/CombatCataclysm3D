@@ -6,6 +6,7 @@ const DEFAULT_SAVE = {
   clearedStages: {},
   upgrades: {},
   money: 0,
+  boken: null,
   version: 1,
 };
 
@@ -21,6 +22,7 @@ export class SaveSystem {
         unlockedStages: Array.from(new Set([...DEFAULT_SAVE.unlockedStages, ...(parsed.unlockedStages || [])])),
         clearedStages: { ...(parsed.clearedStages || {}) },
         upgrades: { ...(parsed.upgrades || {}) },
+        boken: parsed.boken && typeof parsed.boken === 'object' ? { ...parsed.boken } : null,
       };
     } catch (e) {
       console.warn('[SaveSystem] load failed, using defaults', e);
