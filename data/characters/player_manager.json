@@ -1,0 +1,25 @@
+{
+  "id": "player_manager",
+  "displayName": "Manager",
+  "faction": "player",
+  "country": "japan",
+  "role": "support",
+  "rarity": "rare",
+  "cost": 180,
+  "traits": ["human", "support", "annoying", "backline"],
+  "personality": ["bureaucratic", "avoids_frontline", "talks_too_much"],
+  "skills": {
+    "active": ["powerpoint_attack", "emergency_meeting"],
+    "passive": ["annoyance_meter"],
+    "hidden": []
+  },
+  "failureBehaviors": ["bad_order", "interrupt_ally"],
+  "relationships": [
+    {"target": "player_gym_uncle", "type": "annoyance", "strength": 1.0}
+  ],
+  "comedyHooks": ["manager_cannon", "emergency_meeting", "powerpoint_attack"],
+  "ai": {
+    "preferredDistance": "backline",
+    "avoidFrontline": true
+  }
+}
