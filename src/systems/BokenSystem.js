@@ -10,6 +10,7 @@ export class BokenSystem {
     this.currentRouteId = saveState?.currentRouteId || firstRoute?.id || null;
     this.currentNodeId = saveState?.currentNodeId || firstRoute?.startNodeId || null;
     this.visitedNodes = new Set(saveState?.visitedNodes || []);
+    this.resolvedNodes = new Set(saveState?.resolvedNodes || []);
     this.completedRoutes = new Set(saveState?.completedRoutes || []);
     this.recruitedCharacters = new Set(saveState?.recruitedCharacters || []);
     this.flags = { ...(saveState?.flags || {}) };
@@ -97,6 +98,7 @@ export class BokenSystem {
       Object.assign(this.flags, result.flags);
     }
 
+    this.resolvedNodes.add(node.id);
     if (node.next.length === 0) this.completedRoutes.add(this.currentRouteId);
     return {
       ok: true,
@@ -111,6 +113,7 @@ export class BokenSystem {
       currentRouteId: this.currentRouteId,
       currentNodeId: this.currentNodeId,
       visitedNodes: [...this.visitedNodes],
+      resolvedNodes: [...this.resolvedNodes],
       completedRoutes: [...this.completedRoutes],
       recruitedCharacters: [...this.recruitedCharacters],
       flags: { ...this.flags },

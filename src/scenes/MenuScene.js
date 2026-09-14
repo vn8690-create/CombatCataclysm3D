@@ -52,21 +52,28 @@ export class MenuScene {
 
   _buildUI() {
     const ui = this.game.ui;
+    const boken = this.game.boken;
+    const route = boken?.getRoute();
+    const node = boken?.getCurrentNode();
     ui.innerHTML = `
       <div class="screen">
         <h1>COMBAT CATACLYSM 3D</h1>
-        <div class="subtitle">An original 3D lane-defense game · Three.js</div>
-        <div class="row">
-          <button class="btn primary" id="btnPlay">Play</button>
+        <div class="subtitle">Comedy-first lane defense · now with a world tour</div>
+        <div class="row" style="flex-wrap:wrap;">
+          <button class="btn primary" id="btnPlay">Quick Battle</button>
           <button class="btn" id="btnStages">Stage Select</button>
-          <button class="btn success" id="btnUpgrade">Upgrades</button>
+          <button class="btn success" id="btnBoken">🌍 Bōken</button>
+          <button class="btn" id="btnUpgrade">Upgrades</button>
+        </div>
+        <div style="margin-top:16px; padding:14px 18px; border-radius:18px; background:rgba(255,255,255,.04); max-width:620px; text-align:center;">
+          <div style="font-weight:800;">Current adventure</div>
+          <div class="subtitle" style="margin-top:5px;">${route ? route.name : 'No route selected'}${node ? ` · 📍 ${node.title}` : ''}</div>
         </div>
         <div class="row" style="margin-top: 12px;">
           <button class="btn" id="btnReset">Reset Save</button>
         </div>
-        <div class="subtitle" style="margin-top: 18px; max-width: 480px; text-align: center;">
-          Deploy quirky office-themed units to march right and crush the enemy base.
-          Earn cash, buy permanent upgrades, defeat 4 bosses across 10 stages.
+        <div class="subtitle" style="margin-top: 18px; max-width: 520px; text-align: center;">
+          Battle directly when you want a quick fight, or enter Bōken to travel through comedy regions, recruit characters and unlock encounters.
         </div>
         <div class="subtitle" style="font-size: 11px; color: #667;">Press D to toggle debug panel · Mobile-friendly</div>
       </div>
@@ -77,11 +84,11 @@ export class MenuScene {
       this.game.startBattle(target);
     };
     document.getElementById('btnStages').onclick = () => this.game.goto('stage_select');
+    document.getElementById('btnBoken').onclick = () => this.game.goto('boken');
     document.getElementById('btnUpgrade').onclick = () => this.game.goto('upgrade');
     document.getElementById('btnReset').onclick = () => {
       if (confirm('Reset all progress? This cannot be undone.')) {
-        this.game.save = { unlockedStages: [1], clearedStages: {}, upgrades: {}, money: 0, version: 1 };
-        this.game.persistSave();
+        this.game.resetProgress();
         this.game.showToast('Save reset');
         this._buildUI();
       }
