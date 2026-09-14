@@ -42,11 +42,11 @@ if errorlevel 1 (
   exit /b 1
 )
 
-echo [2/4] Running lightweight Combat Feel checks...
-call npm run test:feel
+echo [2/4] Running lightweight system checks...
+call npm run test:unit
 if errorlevel 1 (
   echo.
-  echo [WARNING] Combat Feel check reported a problem.
+  echo [WARNING] A lightweight system check reported a problem.
   echo Starting the game anyway because this launcher is configured for easy local testing.
   echo.
 )
