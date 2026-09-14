@@ -1,0 +1,27 @@
+{
+  "id": "player_gym_uncle",
+  "displayName": "Gym Uncle",
+  "faction": "player",
+  "country": "japan",
+  "role": "bruiser",
+  "rarity": "rare",
+  "cost": 220,
+  "traits": ["human", "bruiser", "chaos", "showoff"],
+  "personality": ["loves_flexing", "hates_manager", "low_patience"],
+  "counterTags": ["armored"],
+  "weakTags": ["sleep", "fear"],
+  "skills": {
+    "active": ["weight_throw"],
+    "passive": ["protein_rage"],
+    "hidden": ["manager_cannon", "human_baseball"]
+  },
+  "failureBehaviors": ["overcommit_swing", "ally_launch_accident"],
+  "relationships": [
+    {"target": "player_manager", "type": "hate", "strength": 0.9}
+  ],
+  "comedyHooks": ["manager_cannon", "crowd_flex", "protein_rage"],
+  "art": {
+    "silhouette": "huge_torso_tiny_legs",
+    "prop": "oversized_weight"
+  }
+}
