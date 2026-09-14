@@ -10,19 +10,27 @@ export class CombatFeelSystem {
   }
 
   impact(level = 'light') {
-    const preset = CombatFeelSystem.PRESETS[level] || CombatFeelSystem.PRESETS.light;
+    const resolved = CombatFeelSystem.PRESETS[level] ? level : 'light';
+    const preset = CombatFeelSystem.PRESETS[resolved];
     this.hitStopRemaining = Math.max(this.hitStopRemaining, preset.hitStop);
     this.shakeRemaining = Math.max(this.shakeRemaining, preset.shakeDuration);
     this.shakeDuration = Math.max(this.shakeDuration, preset.shakeDuration);
     this.shakeAmplitude = Math.max(this.shakeAmplitude, preset.shakeAmplitude);
+    return resolved;
+  }
+
+  classifyDamage(damage, targetMaxHp = 100, killed = false) {
+    if (killed) return 'ko';
+    const ratio = targetMaxHp > 0 ? damage / targetMaxHp : 0;
+    if (ratio >= 0.22) return 'heavy';
+    if (ratio >= 0.08) return 'medium';
+    return 'light';
   }
 
   impactFromDamage(damage, targetMaxHp = 100, killed = false) {
-    if (killed) return this.impact('ko');
-    const ratio = targetMaxHp > 0 ? damage / targetMaxHp : 0;
-    if (ratio >= 0.22) return this.impact('heavy');
-    if (ratio >= 0.08) return this.impact('medium');
-    return this.impact('light');
+    const level = this.classifyDamage(damage, targetMaxHp, killed);
+    this.impact(level);
+    return level;
   }
 
   simulationDt(dt) {
