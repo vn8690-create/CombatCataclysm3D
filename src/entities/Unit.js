@@ -96,6 +96,11 @@ function buildBodyMesh(config) {
   return { group, body, mat, accentMat, isSprite: false };
 }
 
+function targetPosition(target, fallbackX) {
+  if (target?.group?.position) return target.group.position.clone();
+  return new THREE.Vector3(Number.isFinite(target?.x) ? target.x : fallbackX, 0.7, 0);
+}
+
 export class Unit {
   constructor(opts) {
     this.scene = opts.scene;
@@ -125,21 +130,30 @@ export class Unit {
     this.dashTimer = 0;
     this.tauntActive = this.special === 'taunt';
     this.hitReactTimer = 0;
+    this.hitReactDuration = 0;
     this.hitReactStrength = 0;
     this.attackAnimTimer = 0;
+    this.attackAnimDuration = 0;
     this.animClock = Math.random() * 10;
+    this.walkFxCd = 0;
+    this.comicFxCd = 0;
     this.personality = this.config.dna?.id || this.config.id;
 
     const built = buildBodyMesh(this.config);
     this.group = built.group;
     this.body = built.body;
     this.isSpriteBody = built.isSprite;
+    this.baseBodyX = built.body.position.x;
     this.baseBodyY = built.body.position.y;
     this.mat = built.mat;
     this.accentMat = built.accentMat;
     this.group.position.set(this.x, 0, 0);
     this.scene.add(this.group);
     this._buildBar();
+
+    if (this.personality === 'gym_uncle') {
+      this.vfx?.spawnDeployPuff(this.group.position.clone(), 0xffd84d);
+    }
   }
 
   _buildBar() {
@@ -170,48 +184,98 @@ export class Unit {
 
   reactToHit(l = 'light') {
     const s = l === 'heavy' ? 1 : l === 'medium' ? .72 : .48;
+    const duration = this.personality === 'gym_uncle' ? .28 : .12 + s * .04;
     this.hitReactStrength = Math.max(this.hitReactStrength, s);
-    this.hitReactTimer = Math.max(this.hitReactTimer, .12 + s * .04);
+    this.hitReactTimer = Math.max(this.hitReactTimer, duration);
+    this.hitReactDuration = Math.max(this.hitReactDuration, duration);
   }
 
   _triggerAttackAnim() {
-    this.attackAnimTimer = Math.max(this.attackAnimTimer, this.personality === 'gym_uncle' ? .24 : .14);
+    const duration = this.personality === 'gym_uncle' ? .56 : .14;
+    this.attackAnimTimer = Math.max(this.attackAnimTimer, duration);
+    this.attackAnimDuration = Math.max(this.attackAnimDuration, duration);
+  }
+
+  _resetBodyPose() {
+    this.body.position.x = this.baseBodyX;
+    this.body.position.y = this.baseBodyY;
+    this.body.rotation.x = 0;
+    this.body.rotation.z = 0;
+    this.body.scale.set(1, 1, 1);
   }
 
   _updateJuice(dt) {
     this.hitReactTimer = Math.max(0, this.hitReactTimer - dt);
     this.attackAnimTimer = Math.max(0, this.attackAnimTimer - dt);
+    this.comicFxCd = Math.max(0, this.comicFxCd - dt);
 
     if (this.hitReactTimer > 0) {
-      const p = Math.sin(this.hitReactTimer / .18 * Math.PI);
-      const s = this.hitReactStrength * Math.max(0, p);
-      this.body.scale.set(1 + .16 * s, 1 - .13 * s, 1 + .08 * s);
-      return;
+      const dur = Math.max(.001, this.hitReactDuration);
+      const p = 1 - this.hitReactTimer / dur;
+      const wave = Math.sin(p * Math.PI);
+      const s = this.hitReactStrength * wave;
+      this.body.position.x = this.baseBodyX - .08 * s;
+      this.body.position.y = this.baseBodyY + .035 * wave;
+      this.body.rotation.z = this.personality === 'gym_uncle' ? .16 * wave : .05 * wave;
+      this.body.scale.set(1 + .11 * s, 1 - .09 * s, 1);
+      return true;
     }
 
     if (this.attackAnimTimer > 0) {
-      const dur = this.personality === 'gym_uncle' ? .24 : .14;
-      const p = Math.sin(this.attackAnimTimer / dur * Math.PI);
+      const dur = Math.max(.001, this.attackAnimDuration);
+      const p = 1 - this.attackAnimTimer / dur;
       if (this.personality === 'gym_uncle') {
-        this.body.rotation.z = -.28 * p;
-        this.body.scale.set(1 + .18 * p, 1 - .1 * p, 1 + .08 * p);
-      } else if (this.personality === 'manager') {
-        this.body.rotation.z = .16 * p;
-        this.body.scale.set(1 + .05 * p, 1 + .09 * p, 1);
+        let rot = 0;
+        let x = 0;
+        let y = 0;
+        let sx = 1;
+        let sy = 1;
+
+        if (p < .32) {
+          const k = p / .32;
+          rot = .22 * k;
+          x = -.08 * k;
+          y = .035 * k;
+          sx = 1 - .035 * k;
+          sy = 1 + .045 * k;
+        } else if (p < .56) {
+          const k = (p - .32) / .24;
+          rot = .22 + (-.58) * k;
+          x = -.08 + .28 * k;
+          y = .035 - .12 * k;
+          sx = .965 + .14 * k;
+          sy = 1.045 - .16 * k;
+        } else {
+          const k = (p - .56) / .44;
+          rot = -.36 * (1 - k);
+          x = .20 * (1 - k);
+          y = -.085 * (1 - k);
+          sx = 1.105 - .105 * k;
+          sy = .885 + .115 * k;
+        }
+
+        this.body.position.x = this.baseBodyX + x;
+        this.body.position.y = this.baseBodyY + y;
+        this.body.rotation.z = rot;
+        this.body.scale.set(sx, sy, 1);
       } else {
-        this.body.scale.set(1 + .1 * p, 1 - .05 * p, 1 + .04 * p);
+        const wave = Math.sin(p * Math.PI);
+        this.body.rotation.z = this.personality === 'manager' ? .16 * wave : -.14 * wave;
+        this.body.scale.set(1 + .08 * wave, 1 - .045 * wave, 1);
       }
-      return;
+      return true;
     }
 
     this.hitReactStrength = 0;
-    this.body.scale.set(1, 1, 1);
+    this.hitReactDuration = 0;
+    this.attackAnimDuration = 0;
+    return false;
   }
 
   takeDamage(a) {
     if (!this.alive) return;
     this.hp -= a;
-    if (this.vfx) this.vfx.spawnHitSpark(this.group.position.clone().setY(.8), 0xffcc66);
+    this.vfx?.spawnHitSpark(this.group.position.clone().setY(.8), 0xffcc66);
     if (this.hp <= 0) {
       this.hp = 0;
       this.die();
@@ -221,7 +285,10 @@ export class Unit {
 
   die() {
     this.alive = false;
-    if (this.vfx) this.vfx.spawnDeathBurst(this.group.position.clone().setY(.7), this.config.color);
+    this.vfx?.spawnDeathBurst(this.group.position.clone().setY(.7), this.config.color);
+    if (this.personality === 'gym_uncle') {
+      this.vfx?.spawnComicText(this.group.position.clone().setY(.8), 'LEG DAY?!', '#ffb84d');
+    }
     this.scene.remove(this.group);
     this.group.traverse(o => {
       if (o.geometry) o.geometry.dispose();
@@ -241,8 +308,7 @@ export class Unit {
     let bd = Infinity;
     for (const e of es) {
       if (!e.alive) continue;
-      const signed = e.group.position.x - this.group.position.x;
-      const d = Math.abs(signed);
+      const d = Math.abs(e.group.position.x - this.group.position.x);
       if (d < bd) {
         bd = d;
         best = e;
@@ -257,7 +323,7 @@ export class Unit {
   update(dt, w) {
     if (!this.alive) return;
     this.animClock += dt;
-    this._updateJuice(dt);
+    const lockedPose = this._updateJuice(dt);
 
     if (this.burnTimer > 0) {
       this.burnTimer -= dt;
@@ -271,7 +337,7 @@ export class Unit {
 
     if (this.stunTimer > 0) {
       this.stunTimer -= dt;
-      this._idle();
+      if (!lockedPose) this._idle();
       return;
     }
 
@@ -312,7 +378,7 @@ export class Unit {
         }
       }
       if (this.dashTimer <= 0) this.dashing = false;
-      this._walkAnim(true);
+      if (!lockedPose) this._walkAnim(true);
       return;
     }
 
@@ -323,10 +389,17 @@ export class Unit {
         this.attackCd = 1 / this.attackSpeed;
         this._performAttack(target, w);
       }
-      this._idle();
+      if (!lockedPose && this.attackAnimTimer <= 0) this._idle();
     } else {
       this.group.position.x += this.moveSpeed * dt;
-      this._walkAnim(false);
+      if (this.personality === 'gym_uncle') {
+        this.walkFxCd -= dt;
+        if (this.walkFxCd <= 0) {
+          this.walkFxCd = .42;
+          this.vfx?.spawnFootDust(this.group.position.clone());
+        }
+      }
+      if (!lockedPose) this._walkAnim(false);
     }
 
     this.group.position.x = Math.min(w.enemyBase.x - 1, Math.max(BALANCE.PLAYER_BASE_X + 1, this.group.position.x));
@@ -334,6 +407,7 @@ export class Unit {
 
   _performAttack(t, w) {
     this._triggerAttackAnim();
+
     if (this.attackType === 'ranged') {
       w.combat.spawnProjectile({
         from: this.group.position.clone().setY(.9),
@@ -347,26 +421,39 @@ export class Unit {
         burnDamage: this.burnDamage,
         stunDuration: this.special === 'stun' ? BALANCE.STUN_BASE_DURATION * this.stats.stunMul : 0,
       });
-    } else {
-      const was = t.alive;
-      const max = t.maxHp || 100;
-      t.takeDamage(this.attack, this);
-      const killed = was && !t.alive;
-      const level = w.combatFeel?.impactFromDamage(this.attack, max, killed) || 'light';
-      if (!killed) t.reactToHit?.(level);
-      if (this.special === 'stun') t.applyStun?.(BALANCE.STUN_BASE_DURATION * this.stats.stunMul);
-      if (this.special === 'burn') t.applyBurn?.(this.burnDamage, BALANCE.BURN_DURATION);
-      if (t.applyKnockback && t.side === 'enemy') t.applyKnockback(BALANCE.KNOCKBACK_FORCE);
+      return;
+    }
+
+    const was = t.alive;
+    const max = t.maxHp || 100;
+    t.takeDamage(this.attack, this);
+    const killed = was && !t.alive;
+    const level = w.combatFeel?.impactFromDamage(this.attack, max, killed) || 'light';
+    if (!killed) t.reactToHit?.(level);
+    if (this.special === 'stun') t.applyStun?.(BALANCE.STUN_BASE_DURATION * this.stats.stunMul);
+    if (this.special === 'burn') t.applyBurn?.(this.burnDamage, BALANCE.BURN_DURATION);
+    if (t.applyKnockback && t.side === 'enemy') t.applyKnockback(BALANCE.KNOCKBACK_FORCE);
+
+    if (this.personality === 'gym_uncle') {
+      const impact = targetPosition(t, this.group.position.x + this.range).setY(.72);
+      this.vfx?.spawnGymImpact(impact);
+      if (this.comicFxCd <= 0 && Math.random() < .5) {
+        this.comicFxCd = 1.4;
+        this.vfx?.spawnComicText(impact, Math.random() < .5 ? 'ORA!' : 'BỐP!', '#ffe04d');
+      }
     }
   }
 
   _walkAnim(fast) {
-    const speed = fast ? 14 : this.personality === 'gym_uncle' ? 13 : this.personality === 'manager' ? 5 : 8;
+    const speed = fast ? 10 : this.personality === 'gym_uncle' ? 5.2 : this.personality === 'manager' ? 5 : 8;
     const t = this.animClock * speed;
+
     if (this.personality === 'gym_uncle') {
-      this.body.position.y = this.baseBodyY + Math.abs(Math.sin(t)) * .075;
-      this.body.rotation.z = Math.sin(t) * .14;
-      this.body.rotation.x = this.isSpriteBody ? 0 : Math.sin(t * 2) * .035;
+      this.body.position.x = this.baseBodyX + Math.sin(t * .5) * .015;
+      this.body.position.y = this.baseBodyY + Math.abs(Math.sin(t)) * .05;
+      this.body.rotation.z = Math.sin(t) * .055;
+      this.body.rotation.x = 0;
+      this.body.scale.set(1 + Math.abs(Math.sin(t)) * .018, 1 - Math.abs(Math.sin(t)) * .012, 1);
     } else if (this.personality === 'manager') {
       this.body.position.y = this.baseBodyY + Math.abs(Math.sin(t)) * .025;
       this.body.rotation.z = Math.sin(t) * .035;
@@ -377,12 +464,14 @@ export class Unit {
   }
 
   _idle() {
-    const t = this.animClock * (this.personality === 'manager' ? 3 : 4);
-    this.body.position.y = this.baseBodyY + Math.abs(Math.sin(t)) * (this.personality === 'gym_uncle' ? .025 : .04);
-    if (this.attackAnimTimer <= 0) {
-      if (this.personality === 'manager') this.body.rotation.z = Math.sin(t * .7) * .045;
-      else if (this.personality === 'gym_uncle') this.body.rotation.z = Math.sin(t * .5) * .025;
-    }
+    const t = this.animClock * (this.personality === 'gym_uncle' ? 2.2 : this.personality === 'manager' ? 3 : 4);
+    this.body.position.x = this.baseBodyX;
+    this.body.position.y = this.baseBodyY + Math.abs(Math.sin(t)) * (this.personality === 'gym_uncle' ? .018 : .04);
+    this.body.rotation.x = 0;
+    if (this.personality === 'manager') this.body.rotation.z = Math.sin(t * .7) * .045;
+    else if (this.personality === 'gym_uncle') this.body.rotation.z = Math.sin(t * .55) * .016;
+    else this.body.rotation.z = 0;
+    this.body.scale.set(1, 1, 1);
   }
 
   destroy() {
