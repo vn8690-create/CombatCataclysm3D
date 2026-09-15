@@ -1,0 +1,15 @@
+{
+  "image": "/assets/characters/gym_uncle_spritesheet.png",
+  "frameWidth": 128,
+  "frameHeight": 128,
+  "columns": 5,
+  "rows": 5,
+  "frames": 25,
+  "animations": {
+    "idle": {"start": 0, "count": 4, "fps": 5, "loop": true},
+    "walk": {"start": 4, "count": 6, "fps": 8, "loop": true},
+    "attack": {"start": 10, "count": 7, "fps": 14, "loop": false},
+    "hit": {"start": 17, "count": 3, "fps": 12, "loop": false},
+    "death": {"start": 20, "count": 5, "fps": 8, "loop": false}
+  }
+}
