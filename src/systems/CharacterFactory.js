@@ -37,6 +37,7 @@ export class CharacterFactory {
       id: dna.id,
       name: dna.name,
       icon: dna.visual.icon || '❓',
+      portrait: dna.visual.portrait || null,
       color: toHex(dna.visual.color, 0xffffff),
       accent: toHex(dna.visual.accent, 0x222222),
       modelType: dna.visual.modelType || 'box',

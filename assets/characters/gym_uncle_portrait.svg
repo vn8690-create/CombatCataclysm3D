@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Gym Uncle portrait">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#1b2035"/><stop offset="1" stop-color="#51305e"/></linearGradient><linearGradient id="skin" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffd0ad"/><stop offset="1" stop-color="#d98c67"/></linearGradient></defs>
+<rect width="512" height="512" rx="48" fill="url(#bg)"/><circle cx="430" cy="82" r="92" fill="#ffdc58" opacity=".13"/><circle cx="78" cy="438" r="120" fill="#c75bff" opacity=".16"/>
+<!-- dumbbell --> <g transform="translate(45 84) rotate(-18 90 90)" fill="#24242d" stroke="#090a0f" stroke-width="9"><rect x="70" y="28" width="34" height="190" rx="12"/><rect x="25" y="44" width="55" height="158" rx="16"/><rect x="4" y="65" width="36" height="116" rx="12"/><rect x="94" y="44" width="55" height="158" rx="16"/><rect x="139" y="65" width="36" height="116" rx="12"/></g>
+<!-- legs --> <g fill="url(#skin)" stroke="#6b3e35" stroke-width="8"><path d="M195 375c-11 39-12 79-3 112h52l16-105z"/><path d="M322 375c13 39 14 79 5 112h-52l-18-105z"/></g>
+<!-- sandals --> <g fill="#22252c"><path d="M176 476h76v23h-88c-7-13-3-20 12-23z"/><path d="M264 476h76c15 3 19 10 12 23h-88z"/></g>
+<!-- huge torso --> <path d="M132 203c23-64 72-90 124-90s104 27 126 90c18 54 10 147-20 190-26 37-184 37-210 0-31-44-39-135-20-190z" fill="url(#skin)" stroke="#6b3e35" stroke-width="10"/>
+<!-- tank top --> <path d="M194 151c18 22 106 22 124 0l37 64-19 161c-48 20-111 20-159 0l-20-161z" fill="#f6f3ea" stroke="#31323b" stroke-width="8"/><path d="M212 151c5 35 84 35 90 0" fill="none" stroke="#31323b" stroke-width="8"/>
+<!-- arms --> <path d="M157 205c-50 4-71 55-49 96 18 33 54 15 69-15" fill="url(#skin)" stroke="#6b3e35" stroke-width="10"/><path d="M354 205c51 4 72 55 50 96-18 33-55 15-70-15" fill="url(#skin)" stroke="#6b3e35" stroke-width="10"/>
+<!-- head --> <ellipse cx="256" cy="112" rx="73" ry="69" fill="url(#skin)" stroke="#6b3e35" stroke-width="9"/>
+<!-- hair --> <path d="M188 100c4-52 29-76 68-76 43 0 70 25 72 75-18-21-34-27-50-19-14-22-28-22-42-2-15-13-31-6-48 22z" fill="#191a20"/>
+<!-- headband --> <path d="M188 84c41-16 94-17 137 0l-5 22c-43-14-84-14-127 0z" fill="#fff" stroke="#d94343" stroke-width="8"/>
+<!-- face --> <path d="M217 118q18-14 35 0M271 118q18-14 34 0" fill="none" stroke="#3b2927" stroke-width="8" stroke-linecap="round"/><path d="M236 147q20 18 42 0" fill="none" stroke="#7d3b38" stroke-width="8" stroke-linecap="round"/><path d="M249 126q7 10 14 0" fill="none" stroke="#9c604f" stroke-width="6"/>
+<!-- towel --> <path d="M185 166c10 5 19 9 28 11l-25 112-31-8zM327 166c-10 5-19 9-28 11l25 112 31-8z" fill="#fff" stroke="#4c7dcc" stroke-width="7"/>
+<!-- shorts --> <path d="M174 366h164l-9 73-72-9-73 9z" fill="#20232c" stroke="#0b0c10" stroke-width="8"/><path d="M198 371v57M314 371v57" stroke="#d94a4a" stroke-width="9"/>
+<!-- shirt joke --> <text x="256" y="245" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="25" fill="#222">NO MUSCLE</text><text x="256" y="274" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="25" fill="#222">NO LIFE</text><text x="256" y="323" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="19" fill="#c75bff">GYM UNCLE</text>
+</svg>
