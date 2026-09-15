@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Gym Uncle battle sprite">
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Gym Uncle battle sprite">
 <defs>
   <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffd0ad"/><stop offset="1" stop-color="#d98c67"/></linearGradient>
 </defs>
