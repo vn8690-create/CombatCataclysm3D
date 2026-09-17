@@ -10,6 +10,7 @@ import { Base } from '../entities/Base.js';
 import { Unit } from '../entities/Unit.js';
 import { Enemy } from '../entities/Enemy.js';
 
+import { FormationSystem } from '../systems/FormationSystem.js';
 import { CombatSystem } from '../systems/CombatSystem.js';
 import { WaveManager } from '../systems/WaveManager.js';
 import { EconomySystem } from '../systems/EconomySystem.js';
@@ -104,6 +105,7 @@ export class BattleScene {
     this.playerBase.vfx = this.vfx;
     this.enemyBase.vfx = this.vfx;
     this.combat = new CombatSystem(this.scene, this.vfx);
+    this.formation = new FormationSystem();
     this.combatFeel = new CombatFeelSystem(this.camera);
     this.comedyDirector = new ComedyDirector({
       camera: this.camera,
@@ -159,6 +161,7 @@ export class BattleScene {
       this._spawnEnemy(scfg, sx, { hpMul: opts.hpMul * 0.6, atkMul: opts.atkMul * 0.8 });
     };
     this.enemies.push(e);
+    this.formation.register(e);
     return e;
   }
 
@@ -182,6 +185,7 @@ export class BattleScene {
       x: BALANCE.PLAYER_BASE_X + 1.5,
     });
     this.units.push(u);
+    this.formation.register(u);
   }
 
   _buildHUD() {
@@ -368,6 +372,7 @@ export class BattleScene {
     this.combat.update(simDt, this._worldSnapshot());
 
     const world = this._worldSnapshot();
+    this.formation.prepare(simDt, world);
     for (const u of this.units) u.update(simDt, world);
     for (const e of this.enemies) e.update(simDt, world);
     this._updateControlledChaos(simDt);
@@ -397,6 +402,7 @@ export class BattleScene {
       playerBase: this.playerBase,
       enemyBase: this.enemyBase,
       combat: this.combat,
+      formation: this.formation,
       combatFeel: this.combatFeel,
       comedyDirector: this.comedyDirector,
       relationships: this.relationships,

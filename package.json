@@ -1,7 +1,7 @@
 {
   "name": "combat-cataclysm-3d",
   "version": "1.0.0",
-  "description": "A 3D side-view lane-defense game built with Three.js. Original work — no copyrighted assets or names.",
+  "description": "A 3D side-view lane-defense game built with Three.js. Original work, no copyrighted assets or names.",
   "type": "module",
   "main": "index.html",
   "scripts": {
@@ -15,7 +15,8 @@
     "test:boken": "node tests/boken.test.mjs",
     "test:roster": "node tests/roster.test.mjs",
     "test:personality": "node tests/character-personality.test.mjs",
-    "test:unit": "npm run test:feel && npm run test:comedy && npm run test:characters && npm run test:world && npm run test:boken && npm run test:roster && npm run test:personality"
+    "test:unit": "npm run test:feel && npm run test:comedy && npm run test:characters && npm run test:world && npm run test:boken && npm run test:roster && npm run test:personality && npm run test:formation",
+    "test:formation": "node tests/formation.test.mjs"
   },
   "keywords": ["three.js", "game", "lane-defense", "3d", "browser-game", "webgl"],
   "author": "Combat Cataclysm Team",
