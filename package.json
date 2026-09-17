@@ -1,7 +1,7 @@
 {
   "name": "combat-cataclysm-3d",
   "version": "1.0.0",
-  "description": "A 3D side-view lane-defense game built with Three.js. Original work \u00e2\u20ac\u201d no copyrighted assets or names.",
+  "description": "A 3D side-view lane-defense game built with Three.js. Original work, no copyrighted assets or names.",
   "type": "module",
   "main": "index.html",
   "scripts": {
