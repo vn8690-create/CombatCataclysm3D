@@ -1,30 +1,28 @@
 # Combat Cataclysm: instructions for Codex
 
-This is an EXISTING, PLAYABLE comedy lane-defense game written in vanilla ES modules and Three.js. Do not start over, replace it with a new sample, or claim mockups are implemented. Preserve existing character sprites and game progression.
+This is an EXISTING, PLAYABLE comedy lane-defense game using vanilla ES modules and Three.js. Never restart the game, replace it with a sample, or claim a mockup is implemented. Preserve the repository's approved art, gameplay, save and progression.
 
 ## Read before changing code
-- `CLAUDE.md` (the existing architecture and safety rules apply equally to Codex)
-- `README.md`, `design/GAME_BIBLE.md`, `design/COMEDY_BIBLE.md`, `design/TECHNICAL_ARCHITECTURE.md`
-- `src/scenes/BattleScene.js`, `src/entities/Unit.js`, `src/entities/Enemy.js`, `src/entities/Base.js`, `src/systems/CombatSystem.js`, `src/systems/FormationSystem.js`, `src/systems/CombatFeelSystem.js`, `src/systems/VFXSystem.js`
-- `production/ANIMATION_PIPELINE.md`, `docs/day1/README.md`
+- `CLAUDE.md`, `README.md`, `design/GAME_BIBLE.md`, `design/COMEDY_BIBLE.md`, `design/TECHNICAL_ARCHITECTURE.md`
+- `src/systems/CharacterFactory.js`, `src/config/canonicalCharacters.js`, `src/config/units.js`, `src/entities/Unit.js`, `src/systems/CombatPose.js`, `src/systems/AttackTimeline.js`, `src/scenes/BattleScene.js`, roster and deployment UI
+- `production/ANIMATION_PIPELINE.md`, `docs/day1/README.md`, `docs/day2/README.md`; check the actual files under `assets/characters/`
 
-## Sprint scope: Day 2
-The current priority is GitHub issue #29, Day 2 of the ten-day **playable PC-browser MVP** sprint. Day 1 contact combat, 2.5D fan-out, base siege and tests are already merged via PR #28. Do NOT repeat Day 1 as a new project. Implement actual runtime combat feel: anticipation -> timed contact/actual damage and impact FX -> recovery; reliable interruption on death/stun/pause; distinct legible Gym Uncle motion with the existing approved single battle sprite; restrained VFX/readability for 3v3 and crowded combat. Preserve all Day 1 behaviors and every existing save and stage. Read the issue for exact acceptance criteria and test evidence.
+## Sprint scope: Day 3, Issue #32
+Day 1 2.5D combat (PR #28) and Day 2 timed attacks/VFX (PR #31) are merged. Current task: implement reusable character presentation/asset validation using the EXISTING `CharacterFactory` and canonical DNA, then make four actual characters recognizable and playable: preserve approved Gym Uncle; produce ORIGINAL distinct battlefield SVG art and portraits for Manager, Drunk Uncle and Supermarket Auntie, integrate them into existing roster/spawn/animation, and prove browser visibility. `CharacterFactory`, six canonical entries and all six unit configs already exist. Only Gym Uncle currently has battle/portrait assets. Do not rename these as brand-new systems or claim unimplemented skills work. All new art is provisional until user visually approves it.
 
-Important asset truth: Gym Uncle currently uses one approved static battle image with code-driven pose curves and VFX. That is NOT a true multi-frame sprite sheet or rigged 3D. Never claim frame art, GLB/rigging or browser test results that do not exist. Multi-frame production is a separate approved-art task. Existing CombatFeelSystem and VFXSystem already contain hit-stop, shake, dust, sparks, shockwaves and comic text; improve timing, quality and effect budgets rather than presenting old behavior as new.
+Read full Issue #32 for detailed acceptance criteria, test evidence and narrow priorities. Do not expand to new stages, extra characters, shop, full 3D/Blender, a real sprite atlas without approved frames, or new paid dependencies. The approved Gym asset must not change. Current single-image animation uses code-driven motion; never call it multi-frame or rigged 3D.
 
 ## Operating contract
-1. Inspect branch and `git status` first. Branch from updated `main` for the issue; never discard user edits or push directly to `main`.
-2. Write a brief plan, then implement real code and tests. Do not stop after a plan or generate concept images. No paid API, hosted service, dependency changes or Blender/3D experiments needed for Day 2.
-3. Keep combat truth in simulation/entity systems. Coordinate timed contact and visuals without double hits, delayed damage after death, phantom pause strikes, animation overwrites or changed attack cadence. Damage, projectile release, base hits, camera hit-stop and VFX must align with real impact.
-4. Preserve Gym Uncle approved sprite and speed 0.62, earlier one-image animation as fallback, formation/collision/boss/dash/knockback, economy/stages/rewards/save compatibility. No giant renderer rewrite.
-5. Test actual behavior: windup -> single hit -> recovery; interrupted attack; crossed target; large dt; ranged release and projectile impact; opposing base siege; scene exit cleanup; 3v3 effect spam; all Day 1 regressions. Run `npm run test:unit` and `npm test` separately and report exact actual outcomes or blockers. Play/browser screenshots or traces when possible.
-6. Make a small PR linked to issue #29, DO NOT auto-merge gameplay changes. Report changed files, what is genuinely new, tests, screenshots/traces and remaining visual limitations.
+1. Inspect current branch and `git status`, preserve uncommitted work. Start from up-to-date `main` on a separate `codex/day3-character-pipeline` branch or unique equivalent. Do not push gameplay changes to main or auto-merge.
+2. Implement real runtime code, actual original art files where feasible, and deterministic tests. Do not stop at plans or SVG-only unintegrated mockups. Do not use unattended paid APIs, hosted models or new npm dependencies.
+3. Extend `CharacterFactory` and DNA consistently, ensure missing/broken sprite URLs lead to visible fallback rather than invisible actors. Keep local asset paths correct, no broken portrait references, and avoid disposing shared textures on individual death or scene exit.
+4. Keep existing `AttackTimeline`/`CombatPose` contact synchronization, base hits, formation, sprites/HP bars/ground positions, Gym's exact approved art and movement speed 0.62, current stats/DPS, economy, stages, saves and progression intact. Give the other three lightweight visually distinct code-driven motion; never claim fully articulated animation.
+5. Run `npm run test:unit` and `npm test` independently, check actual browser screenshots at 1440x900 and 960x540 for all four deployed actors and roster portraits, and test missing assets, 3v3 mixed roles, attack/recovery, both base sieges, shared texture lifetime and scene cleanup. Report exact results or blockers, no fabricated pass or screenshots.
+6. Open a PR linked to Issue #32 without auto-merging. Include `docs/day3/README.md` with accurate before/after, real image evidence, what is implemented vs proposed/unapproved art, limitations, and the minimal Day 4 handoff.
 
 ## Run
-- `npm start` runs `server.mjs` at `http://127.0.0.1:8000` without a build step.
-- `START_GAME.bat` launches it on Windows.
-- Unit tests: `npm run test:unit`. Browser smoke: `npm test` (may need Playwright setup; see README).
+- `npm start` runs `server.mjs` at `http://127.0.0.1:8000` with no build step; `START_GAME.bat` launches on Windows.
+- Unit tests: `npm run test:unit`. Browser smoke: `npm test` (may require Playwright Chromium; see README).
 
 ## Definition of done for v1 release
-A tester can launch the game, pick a stage, deploy units, fight with visible 2.5D positioning, destroy a base, receive rewards, upgrade/unlock, win campaign, close/reopen and find saved progress intact. This is the release gate, NOT a claim that every item is already implemented.
+Tester launches game, selects a stage, deploys recognizable actors, fights with readable 2.5D combat, destroys a base, receives rewards, upgrades/unlocks, completes campaign, reopens and finds saved progress. This is a release gate, not a claim all items are already finished.
