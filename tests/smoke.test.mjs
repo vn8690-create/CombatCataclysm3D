@@ -78,6 +78,10 @@ try {
   });
   combatResults.forEach(result => console.log('PASS ' + result));
 
+  const timing = await page.evaluate(async () => (await import('/tests/browser-timing.js')).runTimingRegression());
+  timing.results.forEach(result => console.log('PASS ' + result));
+  console.log('TIMING TRACE ' + JSON.stringify(timing.trace));
+
   const save = await page.evaluate(() => localStorage.getItem('cc3d_save_v1'));
   if (!save) throw new Error('Expected localStorage save key cc3d_save_v1');
   if (errors.length) throw new Error('Console errors:\n' + errors.join('\n'));

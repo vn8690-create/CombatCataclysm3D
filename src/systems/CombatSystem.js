@@ -1,5 +1,6 @@
 // CombatSystem manages projectiles in flight and applies damage on hit.
 import * as THREE from 'three';
+import { applyImpact, impactPosition } from './CombatImpact.js';
 
 export class CombatSystem {
   constructor(scene, vfx) {
@@ -30,24 +31,26 @@ export class CombatSystem {
     const mat = new THREE.MeshBasicMaterial({ color: opts.color });
     const mesh = new THREE.Mesh(geo, mat);
     mesh.position.copy(proj.pos);
+    mesh.visible = proj.delay <= 0;
     this.scene.add(mesh);
     proj.mesh = mesh;
-
-    if (proj.speed > 5) {
-      const light = new THREE.PointLight(opts.color, 0.6, 3);
-      mesh.add(light);
-    }
 
     this.projectiles.push(proj);
   }
 
   update(dt, world) {
+    if (!(dt > 0) || world.paused) return;
     for (let i = this.projectiles.length - 1; i >= 0; i--) {
       const p = this.projectiles[i];
 
+      let travelDt = dt;
       if (p.delay > 0) {
-        p.delay -= dt;
-        continue;
+        if (!p.owner?.alive || p.owner.stunTimer > 0) { this._remove(i); continue; }
+        const delay = p.delay;
+        p.delay = Math.max(0, delay - dt);
+        if (p.delay > 0) continue;
+        travelDt = dt - delay;
+        p.mesh.visible = true;
       }
 
       if (!p.alive || !p.target || !p.target.alive) {
@@ -64,7 +67,8 @@ export class CombatSystem {
         else p.target = base;
       }
 
-      const targetPos = p.target.group.position.clone().setY(0.9);
+      if (!p.target?.alive) { this._remove(i); continue; }
+      const targetPos = p.target.isPlayer !== undefined ? impactPosition(p.target, p.pos) : p.target.group.position.clone().setY(0.9);
       const dir = targetPos.clone().sub(p.pos);
       const dist = dir.length();
       if (dist < 0.001) {
@@ -73,7 +77,7 @@ export class CombatSystem {
         continue;
       }
       dir.normalize();
-      const step = p.speed * dt;
+      const step = p.speed * travelDt;
       if (step >= dist) {
         p.pos.copy(targetPos);
         this._onHit(p, world);
@@ -87,8 +91,6 @@ export class CombatSystem {
 
   _onHit(p, world) {
     if (!p.target || !p.target.alive) return;
-    const targetWasAlive = p.target.alive;
-    const targetMaxHp = p.target.maxHp || 100;
 
     if (p.splashRadius > 0) {
       const targets = p.fromEnemy ? world.units : world.enemies;
@@ -99,34 +101,19 @@ export class CombatSystem {
         if (d <= p.splashRadius) {
           const falloff = 1 - (d / p.splashRadius) * 0.4;
           const dealt = p.damage * falloff;
-          const wasAlive = t.alive;
-          const maxHp = t.maxHp || 100;
-          t.takeDamage(dealt, p.owner);
-          const killed = wasAlive && !t.alive;
+          const killed = applyImpact(t, dealt, p.owner, world, { position: p.pos, camera: false, effects: false });
           if (killed) anyKilled = true;
-          if (!killed && t.reactToHit) {
-            const level = world.combatFeel?.classifyDamage(dealt, maxHp, false) || 'light';
-            t.reactToHit(level);
-          }
           this._applyStatus(p, t);
         }
       }
       const base = p.fromEnemy ? world.playerBase : world.enemyBase;
       const bd = base.group.position.distanceTo(p.pos);
-      if (bd <= p.splashRadius) base.takeDamage(p.damage * 0.5, p.owner);
+      if (p.target === base || bd <= p.splashRadius) applyImpact(base, p.damage * 0.5, p.owner, world, { position: p.pos, camera: false, effects: false });
       if (this.vfx) this.vfx.spawnExplosion(p.pos.clone(), p.color, p.splashRadius);
-      if (world.combatFeel) world.combatFeel.impact(anyKilled ? 'ko' : 'heavy');
+      if (world.combatFeel) world.combatFeel.impact(p.target === base ? 'base' : anyKilled ? 'ko' : p.owner?.isBoss ? 'boss' : 'heavy');
     } else {
-      p.target.takeDamage(p.damage, p.owner);
-      const killed = targetWasAlive && !p.target.alive;
+      applyImpact(p.target, p.damage, p.owner, world, { position: p.pos, color: p.color });
       this._applyStatus(p, p.target);
-      if (this.vfx) this.vfx.spawnHitSpark(p.pos.clone(), p.color);
-      if (world.combatFeel) {
-        const level = world.combatFeel.impactFromDamage(p.damage, targetMaxHp, killed);
-        if (!killed && p.target.reactToHit) p.target.reactToHit(level);
-      } else if (!killed && p.target.reactToHit) {
-        p.target.reactToHit('light');
-      }
     }
   }
 

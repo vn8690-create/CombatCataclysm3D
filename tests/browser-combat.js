@@ -104,7 +104,9 @@ export async function runCombatRegression() {
     const t = encounter(), p = t.unit('office_cat', .3), e = t.enemy('angry_printer', 0);
     check(e.findTarget(t.w.units, t.w.playerBase).target === p, 'enemy must see crossed target');
     check(p.findTarget(t.w.enemies, t.w.enemyBase).target === e, 'player must see crossed target');
-    t.tick(.05); check(p.hp < p.maxHp || e.hp < e.maxHp, 'crossed entities fight');
+    t.tick(.05);
+    check(p.hp === p.maxHp && e.hp === e.maxHp, 'crossed combat also anticipates');
+    t.tick(.1); check(p.hp < p.maxHp || e.hp < e.maxHp, 'crossed entities fight');
     const taunt = t.unit('rice_cooker_tank', -.4);
     check(e.findTarget(t.w.units, t.w.playerBase).target === taunt, 'in-range taunt priority');
     t.dispose(); results.push('crossed-target and taunt regressions');

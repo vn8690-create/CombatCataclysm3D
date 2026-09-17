@@ -39,4 +39,14 @@ feel.clear();
 assert.equal(feel.hitStopRemaining, 0);
 assert.equal(feel.shakeRemaining, 0);
 
+feel.impact('base');
+const initialStop = feel.hitStopRemaining;
+for (let i = 0; i < 20; i++) feel.impact('base');
+assert.equal(feel.hitStopRemaining, initialStop, 'crowd hits do not stack hitstop');
+feel.simulationDt(.05);
+for (let i = 0; i < 20; i++) feel.impact('base');
+assert.equal(feel.hitStopRemaining, 0, 'crowd cannot renew hitstop within cooldown');
+feel.simulationDt(.2); feel.impact('base');
+assert.ok(feel.hitStopRemaining > 0, 'later impact gets a fresh restrained beat');
+feel.clear();
 console.log('CombatFeelSystem tests passed');

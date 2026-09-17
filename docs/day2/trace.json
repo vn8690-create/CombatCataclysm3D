@@ -1,0 +1,312 @@
+[
+  {
+    "width": 1440,
+    "height": 900,
+    "scene": "enemy",
+    "trace": [
+      {
+        "time": 0.0167,
+        "event": "attack-start",
+        "actor": "gym_uncle",
+        "target": "angry_printer"
+      },
+      {
+        "time": 0.3,
+        "event": "impact",
+        "actor": "gym_uncle",
+        "target": "angry_printer",
+        "damage": 58,
+        "position": [
+          0.22499999999999998,
+          0.85,
+          0.361
+        ]
+      },
+      {
+        "time": 0.3,
+        "event": "contact",
+        "actor": "gym_uncle",
+        "target": "angry_printer"
+      }
+    ],
+    "phase": "strike",
+    "hp": 49942,
+    "particles": 23
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "scene": "base",
+    "trace": [
+      {
+        "time": 0.0167,
+        "event": "attack-start",
+        "actor": "gym_uncle",
+        "target": "base"
+      },
+      {
+        "time": 0.3,
+        "event": "impact",
+        "actor": "gym_uncle",
+        "target": "base",
+        "damage": 58,
+        "position": [
+          9.18,
+          1.15,
+          0
+        ]
+      },
+      {
+        "time": 0.3,
+        "event": "contact",
+        "actor": "gym_uncle",
+        "target": "base"
+      }
+    ],
+    "phase": "strike",
+    "hp": 1742,
+    "particles": 22
+  },
+  {
+    "width": 1440,
+    "height": 900,
+    "scene": "3v3",
+    "trace": [
+      {
+        "time": 0.0167,
+        "event": "attack-start",
+        "actor": "gym_uncle",
+        "target": "angry_printer"
+      },
+      {
+        "time": 0.0167,
+        "event": "attack-start",
+        "actor": "gym_uncle",
+        "target": "angry_printer"
+      },
+      {
+        "time": 0.0167,
+        "event": "attack-start",
+        "actor": "gym_uncle",
+        "target": "angry_printer"
+      },
+      {
+        "time": 0.3,
+        "event": "impact",
+        "actor": "gym_uncle",
+        "target": "angry_printer",
+        "damage": 58,
+        "position": [
+          0.22499999999999998,
+          0.85,
+          0.361
+        ]
+      },
+      {
+        "time": 0.3,
+        "event": "contact",
+        "actor": "gym_uncle",
+        "target": "angry_printer"
+      },
+      {
+        "time": 0.3,
+        "event": "impact",
+        "actor": "gym_uncle",
+        "target": "angry_printer",
+        "damage": 58,
+        "position": [
+          0.22499999999999998,
+          0.85,
+          0.361
+        ]
+      },
+      {
+        "time": 0.3,
+        "event": "contact",
+        "actor": "gym_uncle",
+        "target": "angry_printer"
+      },
+      {
+        "time": 0.3,
+        "event": "impact",
+        "actor": "gym_uncle",
+        "target": "angry_printer",
+        "damage": 58,
+        "position": [
+          0.22499999999999998,
+          0.85,
+          0.361
+        ]
+      },
+      {
+        "time": 0.3,
+        "event": "contact",
+        "actor": "gym_uncle",
+        "target": "angry_printer"
+      }
+    ],
+    "phase": "strike",
+    "hp": 49826,
+    "particles": 65
+  },
+  {
+    "stress": {
+      "actors": 20,
+      "frames": 179,
+      "medianFrameMs": 17.200000000000273,
+      "p95FrameMs": 18.200000000000273,
+      "peakEffects": 51,
+      "peakTexts": 1
+    }
+  },
+  {
+    "width": 960,
+    "height": 540,
+    "scene": "enemy",
+    "trace": [
+      {
+        "time": 0.0167,
+        "event": "attack-start",
+        "actor": "gym_uncle",
+        "target": "angry_printer"
+      },
+      {
+        "time": 0.3,
+        "event": "impact",
+        "actor": "gym_uncle",
+        "target": "angry_printer",
+        "damage": 58,
+        "position": [
+          0.22499999999999998,
+          0.85,
+          0.361
+        ]
+      },
+      {
+        "time": 0.3,
+        "event": "contact",
+        "actor": "gym_uncle",
+        "target": "angry_printer"
+      }
+    ],
+    "phase": "strike",
+    "hp": 49942,
+    "particles": 22
+  },
+  {
+    "width": 960,
+    "height": 540,
+    "scene": "base",
+    "trace": [
+      {
+        "time": 0.0167,
+        "event": "attack-start",
+        "actor": "gym_uncle",
+        "target": "base"
+      },
+      {
+        "time": 0.3,
+        "event": "impact",
+        "actor": "gym_uncle",
+        "target": "base",
+        "damage": 58,
+        "position": [
+          9.18,
+          1.15,
+          0
+        ]
+      },
+      {
+        "time": 0.3,
+        "event": "contact",
+        "actor": "gym_uncle",
+        "target": "base"
+      }
+    ],
+    "phase": "strike",
+    "hp": 1742,
+    "particles": 23
+  },
+  {
+    "width": 960,
+    "height": 540,
+    "scene": "3v3",
+    "trace": [
+      {
+        "time": 0.0167,
+        "event": "attack-start",
+        "actor": "gym_uncle",
+        "target": "angry_printer"
+      },
+      {
+        "time": 0.0167,
+        "event": "attack-start",
+        "actor": "gym_uncle",
+        "target": "angry_printer"
+      },
+      {
+        "time": 0.0167,
+        "event": "attack-start",
+        "actor": "gym_uncle",
+        "target": "angry_printer"
+      },
+      {
+        "time": 0.3,
+        "event": "impact",
+        "actor": "gym_uncle",
+        "target": "angry_printer",
+        "damage": 58,
+        "position": [
+          0.22499999999999998,
+          0.85,
+          0.361
+        ]
+      },
+      {
+        "time": 0.3,
+        "event": "contact",
+        "actor": "gym_uncle",
+        "target": "angry_printer"
+      },
+      {
+        "time": 0.3,
+        "event": "impact",
+        "actor": "gym_uncle",
+        "target": "angry_printer",
+        "damage": 58,
+        "position": [
+          0.22499999999999998,
+          0.85,
+          0.361
+        ]
+      },
+      {
+        "time": 0.3,
+        "event": "contact",
+        "actor": "gym_uncle",
+        "target": "angry_printer"
+      },
+      {
+        "time": 0.3,
+        "event": "impact",
+        "actor": "gym_uncle",
+        "target": "angry_printer",
+        "damage": 58,
+        "position": [
+          0.22499999999999998,
+          0.85,
+          0.361
+        ]
+      },
+      {
+        "time": 0.3,
+        "event": "contact",
+        "actor": "gym_uncle",
+        "target": "angry_printer"
+      }
+    ],
+    "phase": "strike",
+    "hp": 49826,
+    "particles": 65
+  }
+]

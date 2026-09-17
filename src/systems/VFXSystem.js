@@ -3,6 +3,7 @@
 // prototype stays light while following the same data-driven particle ideas used by
 // dedicated Three.js particle libraries.
 import * as THREE from 'three';
+import { EffectBudget } from './EffectBudget.js';
 
 const MAX_PARTICLES = 320;
 
@@ -10,11 +11,13 @@ export class VFXSystem {
   constructor(scene) {
     this.scene = scene;
     this.particles = [];
+    this.budget = new EffectBudget();
     this._sharedGeo = new THREE.SphereGeometry(0.12, 6, 4);
   }
 
   _disposeParticle(p) {
     if (!p?.mesh) return;
+    this.budget.release(p.kind);
     this.scene.remove(p.mesh);
     if (p.mesh.geometry && p.mesh.geometry !== this._sharedGeo) p.mesh.geometry.dispose();
     if (p.texture) p.texture.dispose();
@@ -29,6 +32,7 @@ export class VFXSystem {
   }
 
   _spawnParticle(pos, color, life, velocity, scale = 1, gravity = -3) {
+    if (!this._sharedGeo || !this.budget.acquire('particle')) return false;
     this._trimPool();
     const mat = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 1 });
     const mesh = new THREE.Mesh(this._sharedGeo, mat);
@@ -36,12 +40,13 @@ export class VFXSystem {
     mesh.scale.setScalar(scale);
     this.scene.add(mesh);
     this.particles.push({
-      mesh, mat,
+      mesh, mat, kind: 'particle', baseScale: scale,
       pos: pos.clone(),
       vel: velocity.clone(),
       life, maxLife: life,
       gravity,
     });
+    return true;
   }
 
   spawnHitSpark(pos, color) {
@@ -69,6 +74,7 @@ export class VFXSystem {
   }
 
   spawnShockwave(pos, color, radius = 1.5) {
+    if (!this._sharedGeo || !this.budget.acquire('ring')) return false;
     this._trimPool();
     const geo = new THREE.RingGeometry(0.1, 0.3, 24);
     const mat = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.8, side: THREE.DoubleSide });
@@ -78,7 +84,7 @@ export class VFXSystem {
     ring.rotation.x = -Math.PI / 2;
     this.scene.add(ring);
     this.particles.push({
-      mesh: ring, mat,
+      mesh: ring, mat, kind: 'ring',
       pos: pos.clone(),
       vel: new THREE.Vector3(),
       life: 0.4, maxLife: 0.4,
@@ -86,6 +92,7 @@ export class VFXSystem {
       isRing: true,
       maxRadius: radius * 1.5,
     });
+    return true;
   }
 
   spawnCoinBurst(pos, amount) {
@@ -132,17 +139,16 @@ export class VFXSystem {
 
   spawnGymImpact(pos) {
     const p = pos.clone();
-    p.y = Math.max(0.55, p.y || 0.55);
     this.spawnHitSpark(p, 0xffd84d);
-    for (let i = 0; i < 9; i++) {
-      const a = (i / 9) * Math.PI * 2;
+    for (let i = 0; i < 6; i++) {
+      const a = (i / 6) * Math.PI * 2;
       const speed = 2.3 + Math.random() * 2.4;
       this._spawnParticle(
         p.clone(),
         i % 3 === 0 ? 0xffffff : 0xff9f2d,
         0.3 + Math.random() * 0.18,
         new THREE.Vector3(Math.cos(a) * speed, Math.sin(a) * speed * 0.65 + 1.1, (Math.random() - 0.5) * 1.2),
-        0.65 + Math.random() * 0.45,
+        0.5 + Math.random() * 0.3,
         -2.2
       );
     }
@@ -150,13 +156,13 @@ export class VFXSystem {
   }
 
   spawnComicText(pos, text, color = '#ffd84d') {
-    if (typeof document === 'undefined') return;
-    this._trimPool();
+    if (!this._sharedGeo || typeof document === 'undefined' || !this.budget.acquire('text')) return false;
     const canvas = document.createElement('canvas');
     canvas.width = 256;
     canvas.height = 96;
     const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    if (!ctx) { this.budget.release('text'); return false; }
+    this._trimPool();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
@@ -177,7 +183,7 @@ export class VFXSystem {
     sprite.scale.set(1.9, 0.72, 1);
     this.scene.add(sprite);
     this.particles.push({
-      mesh: sprite, mat, texture,
+      mesh: sprite, mat, texture, kind: 'text',
       pos: sprite.position.clone(),
       vel: new THREE.Vector3(0.15, 0.7, 0),
       life: 0.62, maxLife: 0.62,
@@ -185,9 +191,12 @@ export class VFXSystem {
       isText: true,
       baseScale: new THREE.Vector3(1.9, 0.72, 1),
     });
+    return true;
   }
 
   update(dt) {
+    if (!Number.isFinite(dt) || dt <= 0) return;
+    this.budget.update(dt);
     for (let i = this.particles.length - 1; i >= 0; i--) {
       const p = this.particles[i];
       p.life -= dt;
@@ -221,13 +230,14 @@ export class VFXSystem {
       p.mesh.position.copy(p.pos);
       const t = p.life / p.maxLife;
       p.mat.opacity = t;
-      p.mesh.scale.setScalar(0.6 + 0.6 * t);
+      p.mesh.scale.setScalar(p.baseScale * (0.6 + 0.4 * t));
     }
   }
 
   clear() {
     for (const p of this.particles) this._disposeParticle(p);
     this.particles.length = 0;
+    this.budget.reset();
     if (this._sharedGeo) {
       this._sharedGeo.dispose();
       this._sharedGeo = null;

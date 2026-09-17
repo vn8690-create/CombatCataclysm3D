@@ -59,6 +59,14 @@ npm test
 
 ## Current playable systems
 
+Day 2 aligns anticipation, damage/release, impact and recovery using one bounded
+simulation timeline per actor. Gym Uncle's approved single sprite has a loaded
+windup, visible billboard rotation, contact hold and recovery; this is code-driven
+motion, **not a multi-frame atlas**. Impact budgets limit crowd noise, and short
+viewports use a compact deployment row. See [Day 2 screenshots, timing traces,
+test results and limitations](docs/day2/README.md). Reproduce captures with
+`node tests/capture-day2.mjs` using the same Playwright setup as `npm test`.
+
 Day 1 combat now uses persistent shallow-depth formation slots, grounded contact
 checks and ally spacing. Frontline, ranged and support units keep their existing
 attack ranges (large bodies use surface contact), regroup after kills and siege

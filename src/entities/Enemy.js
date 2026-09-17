@@ -3,6 +3,10 @@
 import * as THREE from 'three';
 import { BALANCE } from '../config/balance.js';
 import { attackDistance } from '../systems/FormationSystem.js';
+import { AttackTimeline, attackTiming } from '../systems/AttackTimeline.js';
+import { advanceAttack, beginAttack } from '../systems/AttackExecution.js';
+import { applyImpact } from '../systems/CombatImpact.js';
+import { updateCombatPose } from '../systems/CombatPose.js';
 
 function buildEnemyMesh(config) {
   const mat = new THREE.MeshStandardMaterial({ color: config.color, roughness: 0.6, metalness: 0.1 });
@@ -71,7 +75,6 @@ export class Enemy {
     this.flyHeight = this.config.flyHeight || 0;
     this.hitReactTimer = 0;
     this.hitReactStrength = 0;
-    this.attackAnimTimer = 0;
 
     this.bossSpecialCd = this.isBoss ? 6.0 : 0;
     this.summonTimer = this.config.summonInterval || 0;
@@ -79,9 +82,14 @@ export class Enemy {
     this._splitDone = false;
     this.stealCd = 0;
 
+    this.attackTimeline = new AttackTimeline(attackTiming(this));
+    this.animationState = 'idle';
+
     const built = buildEnemyMesh(this.config);
     this.group = built.group;
     this.body = built.body;
+    this.baseBodyX = this.body.position.x;
+    this.baseBodyY = this.body.position.y;
     this.mat = built.mat;
     this.accentMat = built.accentMat;
     this.group.position.set(this.x, this.flyHeight, 0);
@@ -115,6 +123,8 @@ export class Enemy {
 
   applyStun(duration) {
     this.stunTimer = Math.max(this.stunTimer, duration);
+    this.attackTimeline.cancel();
+    this.pendingSpecial = false;
   }
 
   applyKnockback(force) {
@@ -126,39 +136,15 @@ export class Enemy {
     const strength = level === 'heavy' ? 1 : level === 'medium' ? 0.72 : 0.48;
     this.hitReactStrength = Math.max(this.hitReactStrength, strength);
     this.hitReactTimer = Math.max(this.hitReactTimer, 0.12 + strength * 0.04);
+    this._updateJuice(0);
   }
 
-  _triggerAttackAnim() {
-    this.attackAnimTimer = Math.max(this.attackAnimTimer, this.isBoss ? 0.16 : 0.12);
-  }
+  _updateJuice(dt) { return updateCombatPose(this, dt); }
 
-  _updateJuice(dt) {
-    this.hitReactTimer = Math.max(0, this.hitReactTimer - dt);
-    this.attackAnimTimer = Math.max(0, this.attackAnimTimer - dt);
-
-    if (this.hitReactTimer > 0) {
-      const pulse = Math.sin((this.hitReactTimer / 0.18) * Math.PI);
-      const s = this.hitReactStrength * Math.max(0, pulse);
-      this.body.scale.set(1 + 0.16 * s, 1 - 0.13 * s, 1 + 0.08 * s);
-      return;
-    }
-
-    if (this.attackAnimTimer > 0) {
-      const duration = this.isBoss ? 0.16 : 0.12;
-      const pulse = Math.sin((this.attackAnimTimer / duration) * Math.PI);
-      const boost = this.isBoss ? 1.25 : 1;
-      this.body.scale.set(1 + 0.10 * pulse * boost, 1 - 0.05 * pulse, 1 + 0.04 * pulse * boost);
-      return;
-    }
-
-    this.hitReactStrength = 0;
-    this.body.scale.set(1, 1, 1);
-  }
-
-  takeDamage(amount, source) {
+  takeDamage(amount, source, options = {}) {
     if (!this.alive) return;
     this.hp -= amount;
-    if (this.vfx) this.vfx.spawnHitSpark(this.group.position.clone().setY(0.8), 0xffaaaa);
+    if (!options.suppressHitSpark) this.vfx?.spawnHitSpark(this.group.position.clone().setY(0.8), 0xffaaaa);
     if (this.hp <= 0) {
       this.hp = 0;
       this.die();
@@ -168,6 +154,9 @@ export class Enemy {
 
   die() {
     this.alive = false;
+    this.attackTimeline.cancel();
+    this.pendingSpecial = false;
+    this.animationState = 'death';
     if (this.vfx) this.vfx.spawnDeathBurst(this.group.position.clone().setY(0.7), this.config.color);
     if (this.special === 'split' && !this._splitDone && this.config.splitInto) {
       this._splitDone = true;
@@ -226,8 +215,17 @@ export class Enemy {
   }
 
   update(dt, world) {
-    if (!this.alive) return;
-    this._updateJuice(dt);
+    if (!this.alive || !(dt > 0)) return;
+    this.body.position.set(this.baseBodyX, this.baseBodyY, 0);
+    this.body.rotation.z = 0; this.body.scale.set(1, 1, 1);
+    this.animationState = 'idle';
+    this._updateSimulation(dt, world);
+    if (this.group.position.x < world.playerBase.x + 1.0) this.group.position.x = world.playerBase.x + 1.0;
+    if (this.group.position.x > BALANCE.ENEMY_BASE_X - 1.0) this.group.position.x = BALANCE.ENEMY_BASE_X - 1.0;
+    if (this.alive) this._updateJuice(dt);
+  }
+
+  _updateSimulation(dt, world) {
 
     if (this.burnTimer > 0) {
       this.burnTimer -= dt;
@@ -240,6 +238,8 @@ export class Enemy {
     }
 
     if (this.stunTimer > 0) {
+      this.attackTimeline.cancel();
+      this.pendingSpecial = false;
       this.stunTimer -= dt;
       return;
     }
@@ -252,13 +252,7 @@ export class Enemy {
       this.knockbackVel = 0;
     }
 
-    if (this.isBoss && this.bossSpecialCd > 0) {
-      this.bossSpecialCd -= dt;
-      if (this.bossSpecialCd <= 0) {
-        this.bossSpecialCd = 7.0;
-        this._doBossSpecial(world);
-      }
-    }
+    if (this.isBoss) this.bossSpecialCd = Math.max(0, this.bossSpecialCd - dt);
 
     if (this.special === 'summon' && this.summonTimer > 0) {
       this.summonTimer -= dt;
@@ -274,13 +268,21 @@ export class Enemy {
 
     if (this.stealCd > 0) this.stealCd -= dt;
 
+    if (advanceAttack(this, dt, world, world.units, world.playerBase)) return;
+    if (this.isBoss && this.bossSpecialCd <= 0) {
+      this.attackTimeline.begin(world.playerBase);
+      this.pendingSpecial = true;
+      this.bossSpecialCd = 7;
+      world.onCombatEvent?.({ type: 'special-start', actor: this });
+      return;
+    }
+
     const { target, dist } = this.findTarget(world.units, world.playerBase);
 
     if (target && dist <= this.range + 1e-6) {
       this.attackCd -= dt;
       if (this.attackCd <= 0) {
-        this.attackCd = 1 / this.attackSpeed;
-        this._performAttack(target, world);
+        beginAttack(this, target, world);
       }
     } else {
       const step = Math.min(this.moveSpeed * dt, Math.max(0, dist - this.range));
@@ -288,13 +290,9 @@ export class Enemy {
       else this.group.position.x -= step;
       this._walkAnim(dt);
     }
-
-    if (this.group.position.x < world.playerBase.x + 1.0) this.group.position.x = world.playerBase.x + 1.0;
-    if (this.group.position.x > BALANCE.ENEMY_BASE_X - 1.0) this.group.position.x = BALANCE.ENEMY_BASE_X - 1.0;
   }
 
   _performAttack(target, world) {
-    this._triggerAttackAnim();
 
     if (this.attackType === 'ranged') {
       world.combat.spawnProjectile({
@@ -309,13 +307,7 @@ export class Enemy {
         fromEnemy: true,
       });
     } else {
-      const wasAlive = target.alive;
-      const maxHp = target.maxHp || 100;
-      target.takeDamage(this.attack, this);
-      const killed = wasAlive && !target.alive;
-      const level = world.combatFeel?.impactFromDamage(this.attack, maxHp, killed) || (this.isBoss ? 'heavy' : 'light');
-      if (!killed && target.reactToHit) target.reactToHit(level);
-      if (this.isBoss && world.combatFeel && !killed) world.combatFeel.impact('heavy');
+      applyImpact(target, this.attack, this, world);
 
       if (this.special === 'steal' && this.stealCd <= 0 && target === world.playerBase) {
         this.stealCd = 3.0;
@@ -329,8 +321,6 @@ export class Enemy {
 
   _doBossSpecial(world) {
     if (!world.combat) return;
-    this._triggerAttackAnim();
-    world.combatFeel?.impact('boss');
     const sx = this.group.position.x;
     switch (this.config.bossSpecial) {
       case 'paper_storm': {
@@ -357,11 +347,7 @@ export class Enemy {
           const d = sx - u.group.position.x;
           if (d > 0 && d < 4.0) {
             const dealt = this.attack * 1.2;
-            const wasAlive = u.alive;
-            const maxHp = u.maxHp || 100;
-            u.takeDamage(dealt, this);
-            const killed = wasAlive && !u.alive;
-            if (!killed) u.reactToHit?.(world.combatFeel?.classifyDamage(dealt, maxHp, false) || 'heavy');
+            applyImpact(u, dealt, this, world);
             u.applyBurn && u.applyBurn(20, 2.0);
           }
         }
@@ -397,6 +383,7 @@ export class Enemy {
   }
 
   _walkAnim(dt) {
+    this.animationState = 'walk';
     const t = performance.now() * 0.001 * 6;
     this.body.position.y = 0.7 + Math.abs(Math.sin(t)) * 0.1;
     this.body.rotation.z = Math.sin(t) * 0.06;
@@ -405,6 +392,9 @@ export class Enemy {
   destroy() {
     if (!this.alive) return;
     this.alive = false;
+    this.attackTimeline.cancel();
+    this.pendingSpecial = false;
+    this.animationState = 'death';
     this.scene.remove(this.group);
     this.group.traverse(o => {
       if (o.geometry) o.geometry.dispose();

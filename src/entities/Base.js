@@ -10,6 +10,8 @@ export class Base {
     this.maxHp = opts.maxHp;
     this.hp = this.maxHp;
     this.alive = true;
+    this.isBase = true;
+    this.hitTimer = 0;
     this.vfx = opts.vfx;
     this.color = opts.color || (this.isPlayer ? 0x4477ff : 0xff4444);
     this.accent = opts.accent || 0xffffff;
@@ -69,10 +71,11 @@ export class Base {
     if (!this.isPlayer) this.group.scale.x = -1;
   }
 
-  takeDamage(amount, source) {
+  takeDamage(amount, source, options = {}) {
     if (!this.alive) return;
     this.hp -= amount;
-    if (this.vfx) this.vfx.spawnHitSpark(new THREE.Vector3(this.x, 2.0, 0), this.isPlayer ? 0x4488ff : 0xff4444);
+    if (!options.suppressHitSpark) this.vfx?.spawnHitSpark(options.impactPosition || new THREE.Vector3(this.x, 1.15, 0), this.color);
+    this.reactToHit();
     if (this.hp <= 0) {
       this.hp = 0;
       this.alive = false;
@@ -88,14 +91,10 @@ export class Base {
   }
 
   die() {
-    if (this.vfx) {
-      for (let i = 0; i < 30; i++) {
-        this.vfx.spawnHitSpark(
-          new THREE.Vector3(this.x + (Math.random() - 0.5) * 2, 1 + Math.random() * 2, 0),
-          this.isPlayer ? 0x4488ff : 0xff4444
-        );
-      }
-    }
+    this.vfx?.spawnExplosion(new THREE.Vector3(this.x, 1.2, 0), this.color, 1.4);
+    this.hitTimer = 0;
+    this.tower.material.emissive.setHex(0);
+    this.tower.rotation.z = 0;
     this.tower.material.color.set(0x333333);
     this.tower.scale.y = 0.3;
     this.tower.position.y = 0.6;
@@ -107,7 +106,19 @@ export class Base {
     this.barFill.position.x = -(1.0 * (1 - f));
   }
 
+  reactToHit() {
+    if (!this.alive) return;
+    this.hitTimer = .18;
+    this.tower.material.emissive.setHex(0x44331a);
+    this.tower.rotation.z = (this.isPlayer ? -1 : 1) * .035;
+  }
+
   update(dt) {
+    if (this.alive && this.hitTimer > 0) {
+      this.hitTimer = Math.max(0, this.hitTimer - dt);
+      this.tower.rotation.z = (this.isPlayer ? -1 : 1) * .035 * this.hitTimer / .18;
+      this.tower.material.emissive.setHex(this.hitTimer > 0 ? 0x44331a : 0);
+    }
     this.barBg.lookAt(0, 4.0, 13);
     this.barFill.lookAt(0, 4.0, 13);
   }

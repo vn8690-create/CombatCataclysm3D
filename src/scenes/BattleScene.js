@@ -35,7 +35,7 @@ export class BattleScene {
 
     const w = window.innerWidth, h = window.innerHeight;
     this.camera = new THREE.PerspectiveCamera(BALANCE.CAMERA_FOV, w / h, 0.1, 100);
-    this.camera.position.set(BALANCE.CAMERA_POS.x, BALANCE.CAMERA_POS.y, BALANCE.CAMERA_POS.z);
+    this.camera.position.set(BALANCE.CAMERA_POS.x, BALANCE.CAMERA_POS.y, Math.max(17, 27 / (2 * Math.tan(BALANCE.CAMERA_FOV * Math.PI / 360) * w / h)));
     this.camera.lookAt(BALANCE.CAMERA_LOOK.x, BALANCE.CAMERA_LOOK.y, BALANCE.CAMERA_LOOK.z);
 
     const hemi = new THREE.HemisphereLight(0x99aaff, 0x222244, 0.6);
@@ -333,6 +333,13 @@ export class BattleScene {
   }
 
   update(dt) {
+    if (this.ended) {
+      for (const actor of [...this.units, ...this.enemies]) actor.attackTimeline?.cancel();
+      this.combat.clear();
+      this.vfx.update(dt);
+      this.combatFeel?.updateCamera(dt);
+      return;
+    }
     if (this.paused) {
       this.debug.update(dt, this._worldSnapshot());
       return;
@@ -422,6 +429,8 @@ export class BattleScene {
   onResize(w, h) {
     if (this.camera) {
       this.camera.aspect = w / h;
+      this.camera.position.z = Math.max(17, 27 / (2 * Math.tan(BALANCE.CAMERA_FOV * Math.PI / 360) * w / h));
+      if (this.combatFeel) this.combatFeel.baseCameraPos.z = this.camera.position.z;
       this.camera.updateProjectionMatrix();
     }
   }
