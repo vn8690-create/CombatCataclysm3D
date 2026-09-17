@@ -5,20 +5,21 @@ This is an EXISTING, PLAYABLE comedy lane-defense game written in vanilla ES mod
 ## Read before changing code
 - `CLAUDE.md` (the existing architecture and safety rules apply equally to Codex)
 - `README.md`, `design/GAME_BIBLE.md`, `design/COMEDY_BIBLE.md`, `design/TECHNICAL_ARCHITECTURE.md`
-- `src/scenes/BattleScene.js`, `src/entities/Unit.js`, `src/entities/Enemy.js`, `src/entities/Base.js`, `src/systems/CombatSystem.js`, `src/config/balance.js`
-- `production/ANIMATION_PIPELINE.md`
+- `src/scenes/BattleScene.js`, `src/entities/Unit.js`, `src/entities/Enemy.js`, `src/entities/Base.js`, `src/systems/CombatSystem.js`, `src/systems/FormationSystem.js`, `src/systems/CombatFeelSystem.js`, `src/systems/VFXSystem.js`
+- `production/ANIMATION_PIPELINE.md`, `docs/day1/README.md`
 
-## Sprint scope
-The current priority is GitHub issue #26, Day 1 of a ten-day **playable PC-browser MVP** sprint. Make 2.5D contact combat actually work: player/enemy units meet, fan out in shallow lane depth, fight without crossing/stacking, and after defeating opponents resume marching to attack the opposing base. Keep base damage, win/lose and save flow working. Prioritize readable mechanics over visual rework. Implement narrow, tested, reviewable changes.
+## Sprint scope: Day 2
+The current priority is GitHub issue #29, Day 2 of the ten-day **playable PC-browser MVP** sprint. Day 1 contact combat, 2.5D fan-out, base siege and tests are already merged via PR #28. Do NOT repeat Day 1 as a new project. Implement actual runtime combat feel: anticipation -> timed contact/actual damage and impact FX -> recovery; reliable interruption on death/stun/pause; distinct legible Gym Uncle motion with the existing approved single battle sprite; restrained VFX/readability for 3v3 and crowded combat. Preserve all Day 1 behaviors and every existing save and stage. Read the issue for exact acceptance criteria and test evidence.
+
+Important asset truth: Gym Uncle currently uses one approved static battle image with code-driven pose curves and VFX. That is NOT a true multi-frame sprite sheet or rigged 3D. Never claim frame art, GLB/rigging or browser test results that do not exist. Multi-frame production is a separate approved-art task. Existing CombatFeelSystem and VFXSystem already contain hit-stop, shake, dust, sparks, shockwaves and comic text; improve timing, quality and effect budgets rather than presenting old behavior as new.
 
 ## Operating contract
-1. Inspect the current branch, git status and project first. Make a dedicated feature branch; avoid committing to `main` or discarding user changes. If local working tree is dirty, preserve those changes and ask before potentially destructive operations.
-2. Write a brief plan, then implement real code and tests. Do not stop after a plan or generate only concept images. No unattended paid API, hosted model, dependency changes or new external services.
-3. Keep core combat decisions in simulation/entity systems, not presentation/VFX. Prefer deterministic slot assignment, limited Z lane offsets, collision safety against large `dt`, and explicit dash/flying/knockback behavior. Be careful with target-nearest fixes and avoid freezes when opposing units cross through previously.
-4. Do not overwrite the Gym Uncle approved sprite, slow movement and V1 motion/VFX. Treat Blender/3D experiments as optional isolated prototypes until verified and approved, not a prerequisite for Day 1.
-5. Add focused tests and run `npm run test:unit`; run `npm test` when Playwright exists. If unavailable or failing, report the actual failure; never claim tests passed without running them.
-6. Verify at least 1v1 melee, 3v3 spread, ranged/backline, player and enemy base siege, victory/defeat, boss/dash/knockback regressions. Check UI/animation and browser if the environment permits. Keep historical save format compatible.
-7. Open a PR linked to issue #26. Do not auto-merge gameplay changes until inspected/tested. In the final report explain what truly changed, test commands/results and unresolved limitations.
+1. Inspect branch and `git status` first. Branch from updated `main` for the issue; never discard user edits or push directly to `main`.
+2. Write a brief plan, then implement real code and tests. Do not stop after a plan or generate concept images. No paid API, hosted service, dependency changes or Blender/3D experiments needed for Day 2.
+3. Keep combat truth in simulation/entity systems. Coordinate timed contact and visuals without double hits, delayed damage after death, phantom pause strikes, animation overwrites or changed attack cadence. Damage, projectile release, base hits, camera hit-stop and VFX must align with real impact.
+4. Preserve Gym Uncle approved sprite and speed 0.62, earlier one-image animation as fallback, formation/collision/boss/dash/knockback, economy/stages/rewards/save compatibility. No giant renderer rewrite.
+5. Test actual behavior: windup -> single hit -> recovery; interrupted attack; crossed target; large dt; ranged release and projectile impact; opposing base siege; scene exit cleanup; 3v3 effect spam; all Day 1 regressions. Run `npm run test:unit` and `npm test` separately and report exact actual outcomes or blockers. Play/browser screenshots or traces when possible.
+6. Make a small PR linked to issue #29, DO NOT auto-merge gameplay changes. Report changed files, what is genuinely new, tests, screenshots/traces and remaining visual limitations.
 
 ## Run
 - `npm start` runs `server.mjs` at `http://127.0.0.1:8000` without a build step.
