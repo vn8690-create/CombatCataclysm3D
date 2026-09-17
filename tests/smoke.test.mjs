@@ -34,9 +34,10 @@ async function waitForServer() {
   throw new Error('Local server did not start.\n' + output);
 }
 
+let browser;
 try {
   await waitForServer();
-  const browser = await chromium.launch();
+  browser = await chromium.launch({ executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE || undefined });
   const page = await browser.newPage({ viewport: { width: 960, height: 540 } });
   const errors = [];
   page.on('console', msg => {
@@ -63,11 +64,25 @@ try {
     await wait(80);
   }
 
+  await page.locator('#btnPause').click();
+  const pausedTime = await page.evaluate(() => window.__game.currentScene.time);
+  await wait(200);
+  if (await page.evaluate(() => window.__game.currentScene.time) !== pausedTime) throw new Error('Pause must stop simulation');
+  await page.locator('#btnPause').click();
+  await wait(100);
+  if (await page.evaluate(() => window.__game.currentScene.time) <= pausedTime) throw new Error('Resume must advance simulation');
+
+  const combatResults = await page.evaluate(async () => {
+    const { runCombatRegression } = await import('/tests/browser-combat.js');
+    return runCombatRegression();
+  });
+  combatResults.forEach(result => console.log('PASS ' + result));
+
   const save = await page.evaluate(() => localStorage.getItem('cc3d_save_v1'));
   if (!save) throw new Error('Expected localStorage save key cc3d_save_v1');
   if (errors.length) throw new Error('Console errors:\n' + errors.join('\n'));
-  await browser.close();
   console.log('Smoke test passed');
 } finally {
+  await browser?.close();
   server.kill();
 }

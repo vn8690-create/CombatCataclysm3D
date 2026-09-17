@@ -1,6 +1,7 @@
 // Player-deployed combatant. Walks right, attacks enemies in range.
 import * as THREE from 'three';
 import { BALANCE } from '../config/balance.js';
+import { attackDistance } from '../systems/FormationSystem.js';
 
 const BATTLE_TEXTURES = new Map();
 
@@ -308,15 +309,15 @@ export class Unit {
     let bd = Infinity;
     for (const e of es) {
       if (!e.alive) continue;
-      const d = Math.abs(e.group.position.x - this.group.position.x);
+      const d = attackDistance(this, e);
       if (d < bd) {
         bd = d;
         best = e;
       }
     }
     const base = Math.max(0, b.x - this.group.position.x);
-    if (best && bd <= this.range) return { target: best, dist: bd };
-    if (base <= this.range) return { target: b, dist: base };
+    if (best && bd <= this.range + 1e-6) return { target: best, dist: bd };
+    if (base <= this.range + 1e-6) return { target: b, dist: base };
     return { target: null, dist: Math.min(bd, base) };
   }
 
@@ -342,7 +343,8 @@ export class Unit {
     }
 
     if (this.knockbackVel < -.01) {
-      this.group.position.x += this.knockbackVel * dt;
+      if (w.formation) w.formation.move(this, this.knockbackVel * dt, dt);
+      else this.group.position.x += this.knockbackVel * dt;
       this.knockbackVel *= Math.pow(.88, dt * 60);
     } else {
       this.knockbackVel = 0;
@@ -360,11 +362,13 @@ export class Unit {
 
     if (this.dashCd > 0) this.dashCd -= dt;
     if (this.dashing) {
+      const dashStart = this.group.position.x;
+      this.group.position.x += BALANCE.DASH_SPEED * Math.min(dt, this.dashTimer);
       this.dashTimer -= dt;
-      this.group.position.x += BALANCE.DASH_SPEED * dt;
       for (const e of w.enemies) {
         if (!e.alive) continue;
-        const d = Math.abs(e.group.position.x - this.group.position.x);
+        const ex = e.group.position.x;
+        const d = Math.max(dashStart - ex, ex - this.group.position.x, 0);
         if (d < .8 && !(e._dashHitBy && e._dashHitBy.has(this))) {
           const was = e.alive;
           const max = e.maxHp || 100;
@@ -377,13 +381,14 @@ export class Unit {
           e._dashHitBy.add(this);
         }
       }
+      this.group.position.x = Math.min(w.enemyBase.x - 1, this.group.position.x);
       if (this.dashTimer <= 0) this.dashing = false;
       if (!lockedPose) this._walkAnim(true);
       return;
     }
 
     const { target, dist } = this.findTarget(w.enemies, w.enemyBase);
-    if (target && dist <= this.range) {
+    if (target && dist <= this.range + 1e-6) {
       this.attackCd -= dt;
       if (this.attackCd <= 0) {
         this.attackCd = 1 / this.attackSpeed;
@@ -391,7 +396,9 @@ export class Unit {
       }
       if (!lockedPose && this.attackAnimTimer <= 0) this._idle();
     } else {
-      this.group.position.x += this.moveSpeed * dt;
+      const step = Math.min(this.moveSpeed * dt, Math.max(0, dist - this.range));
+      if (w.formation) w.formation.move(this, step, dt);
+      else this.group.position.x += step;
       if (this.personality === 'gym_uncle') {
         this.walkFxCd -= dt;
         if (this.walkFxCd <= 0) {

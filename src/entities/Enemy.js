@@ -2,6 +2,7 @@
 // Supports specials: split, steal, fly, summon (boss), enrage (boss), aoe (boss).
 import * as THREE from 'three';
 import { BALANCE } from '../config/balance.js';
+import { attackDistance } from '../systems/FormationSystem.js';
 
 function buildEnemyMesh(config) {
   const mat = new THREE.MeshStandardMaterial({ color: config.color, roughness: 0.6, metalness: 0.1 });
@@ -205,24 +206,22 @@ export class Enemy {
   findTarget(units, playerBase) {
     let best = null;
     let bestDist = Infinity;
+    let taunt = null;
+    let tauntDist = Infinity;
     for (const u of units) {
       if (!u.alive) continue;
-      const d = this.group.position.x - u.group.position.x;
-      if (u.tauntActive) {
-        const dist = Math.abs(d);
-        if (dist < BALANCE.TAUNT_RADIUS + 1.0 && dist < bestDist + 100) {
-          best = u; bestDist = dist;
-          continue;
-        }
+      const d = attackDistance(this, u);
+      if (u.tauntActive && Math.abs(this.group.position.x - u.group.position.x) < BALANCE.TAUNT_RADIUS + 1 && d < tauntDist) {
+        taunt = u; tauntDist = d;
       }
-      if (d > 0 && d < bestDist) {
-        bestDist = d; best = u;
-      }
+      if (d < bestDist) { bestDist = d; best = u; }
     }
-    const baseDist = this.group.position.x - playerBase.x;
-    if (best && bestDist <= this.range) return { target: best, dist: bestDist };
-    if (bestDist <= this.range) return { target: best, dist: bestDist };
-    if (baseDist <= this.range) return { target: playerBase, dist: baseDist };
+    // Preserve taunt priority, but don't ignore an adjacent blocker when the
+    // taunter is outside attack range (which otherwise causes a permanent jam).
+    if (taunt && tauntDist <= this.range + 1e-6) { best = taunt; bestDist = tauntDist; }
+    const baseDist = Math.max(0, this.group.position.x - playerBase.x);
+    if (best && bestDist <= this.range + 1e-6) return { target: best, dist: bestDist };
+    if (baseDist <= this.range + 1e-6) return { target: playerBase, dist: baseDist };
     return { target: null, dist: Math.min(bestDist, baseDist) };
   }
 
@@ -246,8 +245,9 @@ export class Enemy {
     }
 
     if (this.knockbackVel > 0.01) {
-      this.group.position.x += this.knockbackVel * dt;
-      this.knockbackVel *= 0.88;
+      if (world.formation) world.formation.move(this, this.knockbackVel * dt, dt);
+      else this.group.position.x += this.knockbackVel * dt;
+      this.knockbackVel *= Math.pow(.88, dt * 60);
     } else {
       this.knockbackVel = 0;
     }
@@ -276,14 +276,16 @@ export class Enemy {
 
     const { target, dist } = this.findTarget(world.units, world.playerBase);
 
-    if (target && dist <= this.range) {
+    if (target && dist <= this.range + 1e-6) {
       this.attackCd -= dt;
       if (this.attackCd <= 0) {
         this.attackCd = 1 / this.attackSpeed;
         this._performAttack(target, world);
       }
     } else {
-      this.group.position.x -= this.moveSpeed * dt;
+      const step = Math.min(this.moveSpeed * dt, Math.max(0, dist - this.range));
+      if (world.formation) world.formation.move(this, -step, dt);
+      else this.group.position.x -= step;
       this._walkAnim(dt);
     }
 

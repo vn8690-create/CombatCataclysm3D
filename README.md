@@ -59,6 +59,20 @@ npm test
 
 ## Current playable systems
 
+Day 1 combat now uses persistent shallow-depth formation slots, grounded contact
+checks and ally spacing. Frontline, ranged and support units keep their existing
+attack ranges (large bodies use surface contact), regroup after kills and siege
+either base. Flying units and active dashes intentionally bypass ground contact;
+dash hits are swept, and knockback still retreats. Gym Uncle's sprite, V1 motion,
+VFX and slow speed are unchanged. See the [actual before/after captures and
+verification notes](docs/day1/README.md).
+
+`npm run test:unit` includes the dependency-free formation regressions. `npm test`
+also exercises actual entities, projectiles, both base results and Bōken defeat
+in Chromium. With an existing compatible Chromium installation, optionally set
+`PLAYWRIGHT_CHROMIUM_EXECUTABLE` to its executable path; otherwise install the
+browser with `npx playwright install chromium`. No runtime dependencies were added.
+
 The prototype includes menu, stage selection, battle flow, win/lose states, upgrades, local save data, units, enemies, bosses, economy, waves, combat and VFX.
 
 Combat Feel now adds reusable impact tiers, hit-stop, restrained camera shake, projectile/melee impact routing, attack pulses, squash/stretch hit reactions and stronger boss-impact feedback.
