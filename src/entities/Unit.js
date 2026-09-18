@@ -5,18 +5,8 @@ import { attackDistance } from '../systems/FormationSystem.js';
 import { AttackTimeline, attackTiming } from '../systems/AttackTimeline.js';
 import { advanceAttack, beginAttack } from '../systems/AttackExecution.js';
 import { applyImpact, impactPosition } from '../systems/CombatImpact.js';
-import { updateCombatPose } from '../systems/CombatPose.js';
-
-const BATTLE_TEXTURES = new Map();
-
-function getBattleTexture(url) {
-  if (!url) return null;
-  if (BATTLE_TEXTURES.has(url)) return BATTLE_TEXTURES.get(url);
-  const texture = new THREE.TextureLoader().load(url);
-  texture.colorSpace = THREE.SRGBColorSpace;
-  BATTLE_TEXTURES.set(url, texture);
-  return texture;
-}
+import { updateCombatPose, characterDepthOffset } from '../systems/CombatPose.js';
+import { getCharacterTexture } from '../systems/CharacterAssets.js';
 
 function buildSpriteBody(config) {
   const group = new THREE.Group();
@@ -25,8 +15,9 @@ function buildSpriteBody(config) {
   const height = config.battleSpriteHeight || 2.1;
   body.position.y = height * 0.5;
 
+  const asset = getCharacterTexture(config.battleSprite);
   const spriteMat = new THREE.SpriteMaterial({
-    map: getBattleTexture(config.battleSprite),
+    map: asset.texture,
     color: 0xffffff,
     transparent: true,
     alphaTest: 0.04,
@@ -37,6 +28,15 @@ function buildSpriteBody(config) {
   sprite.center.set(0.5, 0.5);
   body.add(sprite);
   group.add(body);
+  const fallback = buildBodyMesh({ ...config, battleSprite: null }).group;
+  fallback.position.y = -height * .5;
+  body.add(fallback);
+  const releaseAsset = asset.subscribe(status => {
+    group.userData.assetState = status;
+    group.userData.fallbackVisible = status !== 'ready';
+    sprite.visible = status === 'ready';
+    fallback.visible = status !== 'ready';
+  });
 
   const shadow = new THREE.Mesh(
     new THREE.CircleGeometry(0.52, 20),
@@ -47,7 +47,7 @@ function buildSpriteBody(config) {
   shadow.position.set(0, 0.012, 0);
   group.add(shadow);
 
-  return { group, body, mat: spriteMat, accentMat: spriteMat, isSprite: true };
+  return { group, body, mat: spriteMat, accentMat: spriteMat, isSprite: true, releaseAsset, shadow };
 }
 
 function buildBodyMesh(config) {
@@ -148,6 +148,8 @@ export class Unit {
     this.baseBodyY = built.body.position.y;
     this.mat = built.mat;
     this.accentMat = built.accentMat;
+    this.releaseAsset = built.releaseAsset;
+    this.presentationShadow = built.shadow;
     this.group.position.set(this.x, 0, 0);
     this.scene.add(this.group);
     this._buildBar();
@@ -192,7 +194,16 @@ export class Unit {
     this._updateJuice(0);
   }
 
-  _updateJuice(dt) { return updateCombatPose(this, dt); }
+  _updateJuice(dt) {
+    const posed = updateCombatPose(this, dt);
+    if (this.personality !== 'gym_uncle' && this.isSpriteBody) {
+      const offset = characterDepthOffset(this);
+      this.barBg.position.x = offset;
+      this.barFill.position.x = offset - .5 * (1 - Math.max(0, this.hp / this.maxHp));
+      this.presentationShadow.position.x = offset;
+    }
+    return posed;
+  }
 
   takeDamage(a, source, options = {}) {
     if (!this.alive) return;
@@ -206,6 +217,7 @@ export class Unit {
   }
 
   die() {
+    if (!this.alive) return;
     this.alive = false;
     this.attackTimeline.cancel();
     this.animationState = 'death';
@@ -213,17 +225,13 @@ export class Unit {
     if (this.personality === 'gym_uncle') {
       this.vfx?.spawnComicText(this.group.position.clone().setY(.8), 'LEG DAY?!', '#ffb84d');
     }
-    this.scene.remove(this.group);
-    this.group.traverse(o => {
-      if (o.geometry) o.geometry.dispose();
-      if (o.material) o.material.dispose();
-    });
+    this._disposeBody();
   }
 
   _updateBar() {
     const f = Math.max(0, this.hp / this.maxHp);
     this.barFill.scale.x = f;
-    this.barFill.position.x = -.5 * (1 - f);
+    this.barFill.position.x = this.barBg.position.x - .5 * (1 - f);
     f < .35 ? this.barFill.material.color.setHex(0xff5050) : this.barFill.material.color.setHex(0x50d070);
   }
 
@@ -341,7 +349,8 @@ export class Unit {
   _performAttack(t, w) {
     if (this.attackType === 'ranged') {
       w.combat.spawnProjectile({
-        from: this.group.position.clone().setY(.9),
+        from: this.group.position.clone().add(new THREE.Vector3(
+          (this.config.projectileOrigin?.x || 0) + characterDepthOffset(this), this.config.projectileOrigin?.y ?? .9, 0)),
         target: t,
         speed: this.config.projectileSpeed,
         damage: this.attack,
@@ -383,6 +392,12 @@ export class Unit {
     } else if (this.personality === 'manager') {
       this.body.position.y = this.baseBodyY + Math.abs(Math.sin(t)) * .025;
       this.body.rotation.z = Math.sin(t) * .035;
+    } else if (this.config.animationPreset === 'drunk_sway') {
+      this.body.position.y = this.baseBodyY + Math.abs(Math.sin(t * .65)) * .035;
+      this.body.rotation.z = Math.sin(t * .55) * .105;
+    } else if (this.config.animationPreset === 'grocery_throw') {
+      this.body.position.y = this.baseBodyY + Math.abs(Math.sin(t)) * .045;
+      this.body.rotation.z = Math.sin(t) * .045;
     } else {
       this.body.position.y = this.baseBodyY + Math.abs(Math.sin(t)) * .12;
       this.body.rotation.z = Math.sin(t) * .08;
@@ -397,6 +412,8 @@ export class Unit {
     this.body.rotation.x = 0;
     if (this.personality === 'manager') this.body.rotation.z = Math.sin(t * .7) * .045;
     else if (this.personality === 'gym_uncle') this.body.rotation.z = Math.sin(t * .55) * .016;
+    else if (this.config.animationPreset === 'drunk_sway') this.body.rotation.z = Math.sin(t * .4) * .065;
+    else if (this.config.animationPreset === 'grocery_throw') this.body.rotation.z = Math.sin(t * .65) * .025;
     else this.body.rotation.z = 0;
     this.body.scale.set(1, 1, 1);
   }
@@ -406,10 +423,18 @@ export class Unit {
     this.alive = false;
     this.attackTimeline.cancel();
     this.animationState = 'death';
-    this.scene.remove(this.group);
+    this._disposeBody();
+  }
+
+  _disposeBody() {
+    this.releaseAsset?.();
+    this.releaseAsset = null;
+    this.group.removeFromParent();
+    const resources = new Set();
     this.group.traverse(o => {
-      if (o.geometry) o.geometry.dispose();
-      if (o.material) o.material.dispose();
+      if (o.geometry) resources.add(o.geometry);
+      if (o.material) resources.add(o.material);
     });
+    resources.forEach(resource => resource.dispose());
   }
 }

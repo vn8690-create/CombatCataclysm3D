@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Supermarket Auntie portrait, provisional original artwork">
+<rect width="512" height="512" rx="52" fill="#733956"/>
+<circle cx="252" cy="235" r="214" fill="#ffffff" opacity=".07"/>
+<g transform="translate(-44 18) scale(1.15)">
+<defs><linearGradient id="skin" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffdab6"/><stop offset="1" stop-color="#df9e79"/></linearGradient></defs>
+<g stroke="#352833" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Broad skirt and practical slippers, with a decisive raised hand. -->
+  <path d="M195 394l-2 80 39 5 16-83M267 393l12 84 41-5-5-81" fill="url(#skin)"/>
+  <path d="M190 467l-23 15q-10 8-5 15h74l1-24zM278 473l1 24h73q9-12-7-21l-26-7z" fill="#83557c"/>
+  <path d="M169 300l-27 122q97 29 195-2l-35-122z" fill="#506975"/>
+  <path d="M186 362l-9 54M219 367l-2 55M277 367l8 54M306 356l11 54" fill="none" stroke="#799199" stroke-width="6"/>
+  <path d="M191 180q-28 2-47 22l18 70-18 83q100 37 184-4l-18-86 15-59-44-27z" fill="#e75f78"/>
+  <path d="M204 187h67l29 160q-52 17-104 2z" fill="#a4cfa0"/>
+  <path d="M216 189l-9 74M266 189l12 74" fill="none" stroke="#e5eed0" stroke-width="10"/>
+  <path d="M209 283h72l-5 39q-31 17-62 0z" fill="#83b784" stroke-width="6"/>
+  <path d="M228 295l18 12 20-14" fill="none" stroke="#e8efcf" stroke-width="5"/>
+  <path d="M153 207q-24 3-35 21l-7-38-33 3 4 78q9 22 31 11l51-28" fill="#e75f78"/>
+  <path d="M79 196l-13-27q-5-17 8-17l10 15-3-34q-1-14 11-14 9 0 10 13l5 29 11-10q10-8 17 1l-5 34-21 18z" fill="url(#skin)" stroke-width="7"/>
+  <path d="M318 212q28 5 30 37l-3 47-36 2-8-49" fill="#e75f78"/>
+  <path d="M152 295l-7 25M316 301l6 24" fill="none" stroke="#ad3f61" stroke-width="6"/>
+  <path d="M215 157l-4 30q24 25 57 0l-4-34" fill="url(#skin)"/>
+  <!-- High bun, broad cheeks and raised eyebrow distinguish her portrait. -->
+  <path d="M202 69q-27-38 8-52 37-18 63 12l2 31z" fill="#443441"/>
+  <path d="M208 38q18-9 31 1M211 59l41-14" fill="none" stroke="#755464" stroke-width="6"/>
+  <path d="M172 100q-3-56 63-56 68 0 79 57l-4 52q-11 54-70 58-64-9-73-55z" fill="url(#skin)"/>
+  <path d="M169 124q-21-56 24-76 32-19 72-4 44 12 51 58l-10 26-17-44q-34 14-75-6l-27 43-10-21z" fill="#443441"/>
+  <path d="M192 77q38-15 74-8" fill="none" stroke="#755464" stroke-width="7"/>
+  <path d="M190 121l30-9M266 113l28 8" fill="none" stroke-width="7"/>
+  <path d="M201 132v7M280 130v7" fill="none" stroke-width="9"/>
+  <path d="M239 139l-5 12 14 3M220 174q24 8 48-5" fill="none" stroke="#93544c" stroke-width="6"/>
+  <ellipse cx="193" cy="156" rx="17" ry="9" fill="#ee9a90" stroke="none"/>
+  <ellipse cx="289" cy="154" rx="17" ry="9" fill="#ee9a90" stroke="none"/>
+  <circle cx="170" cy="156" r="10" fill="#f5d77a" stroke-width="5"/>
+  <circle cx="308" cy="153" r="10" fill="#f5d77a" stroke-width="5"/>
+  <!-- Grocery bag full of recognizable leek, baguette, carrot and cabbage. -->
+  <path d="M341 279l-2-71 12-17 14 20-3 77" fill="#eff0bd" stroke-width="7"/>
+  <path d="M341 230l-22-53 15-4 15 38-1-58 15 2-1 57 21-42 15 10-34 64" fill="#76ae69" stroke-width="6"/>
+  <path d="M387 299l24-99q7-24 27-16 18 7 11 29l-29 90z" fill="#e5b774" stroke-width="7"/>
+  <path d="M417 211l16 8M410 238l16 7M403 263l15 6" fill="none" stroke="#ab764c" stroke-width="6"/>
+  <path d="M370 283l7-49 26 7-16 47" fill="#ed9543" stroke-width="6"/>
+  <path d="M380 243l-9-27M389 242l9-21" fill="none" stroke="#76ae69" stroke-width="7"/>
+  <path d="M324 297q-13-25 8-39 16-12 35 3 23-3 27 20l-6 27" fill="#b6d576" stroke-width="7"/>
+  <path d="M337 277l17 20M370 278l-14 17" fill="none" stroke="#81ab59" stroke-width="5"/>
+  <path d="M310 285l18 130q55 22 111 0l18-131-51 9-41-8-27 11z" fill="#d9a973" stroke-width="8"/>
+  <path d="M340 306l7 66q35 22 61 0l12-67" fill="none" stroke="#886440" stroke-width="9"/>
+  <path d="M328 291q-2-25-19-20-14 7-7 23l10 24q13 8 24-3l-6-12" fill="url(#skin)" stroke-width="7"/>
+  <path d="M360 385l18-16 18 16-18 17z" fill="#7f9c59" stroke-width="5"/>
+</g>
+</g>
+</svg>

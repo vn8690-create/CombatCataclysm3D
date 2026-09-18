@@ -20,6 +20,7 @@ import { CombatFeelSystem } from '../systems/CombatFeelSystem.js';
 import { ComedyDirector } from '../systems/ComedyDirector.js';
 import { RelationshipSystem } from '../systems/RelationshipSystem.js';
 import { ControlledChaosSystem } from '../systems/ControlledChaosSystem.js';
+import { portraitMarkup, bindPortraits } from '../ui/CharacterPortrait.js';
 
 export class BattleScene {
   constructor(game, stageId) {
@@ -215,7 +216,7 @@ export class BattleScene {
           <div id="deployBar">
             ${UNITS.map(u => `
               <div class="deploySlot" data-unit="${u.id}">
-                <div class="icon" style="background: linear-gradient(135deg, #${u.color.toString(16).padStart(6,'0')}, #${u.accent.toString(16).padStart(6,'0')});">${u.icon}</div>
+                ${portraitMarkup(u, 'icon', 40)}
                 <div class="name">${u.name}</div>
                 <div class="cost">💰${u.cost}</div>
                 <div class="cd" id="cd_${u.id}"></div>
@@ -226,6 +227,7 @@ export class BattleScene {
       </div>
     `;
 
+    bindPortraits(ui);
     ui.querySelectorAll('.deploySlot').forEach(el => {
       el.onclick = () => {
         const id = el.dataset.unit;

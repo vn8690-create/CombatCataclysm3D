@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Drunk Uncle battlefield sprite, provisional original artwork">
+<defs><linearGradient id="skin" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffd2a8"/><stop offset="1" stop-color="#da946b"/></linearGradient></defs>
+<g stroke="#322832" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Short mismatched stance supports a broad, off-balance belly. -->
+  <path d="M170 384l-9 85 47 10 29-88M278 388l22 91 48-14-18-88" fill="url(#skin)"/>
+  <path d="M154 463l-28 17q-13 12-1 17h86l3-25zM299 470l5 27h81q6-10-12-21l-31-13z" fill="#655050"/>
+  <path d="M147 354q-4 36 11 64l76 14 20-39 27 38 68-19 4-64" fill="#6b6153"/>
+  <path d="M135 214q-49 49-23 99 18 32 47 9l33-51" fill="url(#skin)"/>
+  <path d="M166 176q-57 34-54 133 0 72 59 94 53 20 139 5 65-13 65-87-3-106-64-135z" fill="#d99548"/>
+  <path d="M174 185q30 60 69 68 38-11 59-63" fill="url(#skin)"/>
+  <path d="M174 182l-41 37 40 14-4 42 72-23-32-36zM301 187l41 31-37 18 6 39-70-23 33-29z" fill="#f2bf69" stroke-width="7"/>
+  <path d="M241 255l12 141M137 323q12 44 56 51" fill="none" stroke="#ae713b" stroke-width="6"/>
+  <g fill="#faf0c3" stroke="none"><circle cx="246" cy="289" r="6"/><circle cx="249" cy="331" r="6"/><circle cx="252" cy="372" r="6"/></g>
+  <path d="M169 297l-17 11 12 19 19-7-3-16zM308 318l-14 15 14 17 17-11-1-16zM187 365l-10 13 14 10 13-11-4-12z" fill="#6b9474" stroke-width="5"/>
+  <path d="M138 259q-22-18-35 2l-3 25q-9 18 4 27 11 8 22-3l28-27" fill="url(#skin)" stroke-width="7"/>
+  <!-- Loose cheeky face and the one remaining stubborn tuft of hair. -->
+  <path d="M174 86q24-51 85-45 72 3 77 64l-6 51q-9 53-77 55-67-5-79-56z" fill="url(#skin)"/>
+  <path d="M177 115q-13-28 0-47l23-14-8 50M327 108l-7-40 20 28-5 31" fill="#49382e" stroke-width="6"/>
+  <path d="M233 46q-6-20 4-26M247 44q3-20 15-24M260 44l23-19" fill="none" stroke="#49382e" stroke-width="7"/>
+  <ellipse cx="204" cy="144" rx="22" ry="13" fill="#ed917b" stroke="none"/>
+  <ellipse cx="304" cy="145" rx="21" ry="14" fill="#ed917b" stroke="none"/>
+  <path d="M196 119l29-7M280 113l29 9" fill="none" stroke-width="7"/>
+  <path d="M205 131l20 2M281 130q10-8 21 1" fill="none" stroke-width="7"/>
+  <ellipse cx="254" cy="143" rx="20" ry="16" fill="#eb927b" stroke="#925446" stroke-width="6"/>
+  <path d="M225 164q13-12 29-5 15-6 31 5l-15 13-16-4-16 4z" fill="#5e4238" stroke-width="4"/>
+  <path d="M239 182q23 12 42-1" fill="none" stroke="#925446" stroke-width="6"/>
+  <!-- Oversized amber mug; opaque liquid and foam read against any stage. -->
+  <path d="M350 223q22-17 43 2l-2 59-46 6-24-38" fill="url(#skin)"/>
+  <path d="M426 221h26q31 4 27 45l-3 37q-4 28-37 26h-13v-28h14q10 1 11-10l2-33q1-10-9-11h-18z" fill="#efcfa0" stroke-width="8"/>
+  <path d="M333 211l13 133q43 17 84-1l10-132z" fill="#f3cf8b"/>
+  <path d="M351 235l8 92q27 10 54 0l7-93z" fill="#db8a23" stroke-width="5"/>
+  <path d="M371 253l4 52M394 251l1 55" fill="none" stroke="#ffd66f" stroke-width="10"/>
+  <path d="M330 217q-14-19 4-31 8-7 21-1 1-28 27-23 14 0 20 14 19-20 36-2 7 7 5 18 18-2 20 13 3 16-17 20l-11-3q-2 33-15 27-10-3-9-24z" fill="#fff5d6" stroke-width="7"/>
+  <path d="M333 268q-13-6-18 6l-1 25q-1 15 12 20l18-4-2-20-10-2 9-10z" fill="url(#skin)" stroke-width="7"/>
+</g>
+</svg>

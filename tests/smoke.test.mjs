@@ -82,8 +82,16 @@ try {
   timing.results.forEach(result => console.log('PASS ' + result));
   console.log('TIMING TRACE ' + JSON.stringify(timing.trace));
 
+  const characters = await page.evaluate(async () => (await import('/tests/browser-characters.js')).runCharacterRegression());
+  characters.results.forEach(result => console.log('PASS ' + result));
+  console.log('CHARACTER TRACE ' + JSON.stringify(characters.trace));
+
   const save = await page.evaluate(() => localStorage.getItem('cc3d_save_v1'));
   if (!save) throw new Error('Expected localStorage save key cc3d_save_v1');
+  if (errors.length) throw new Error('Console errors:\n' + errors.join('\n'));
+  await page.setViewportSize({width:1440,height:900});
+  const wideCharacters = await page.evaluate(async () => (await import('/tests/browser-characters.js')).runCharacterRegression());
+  wideCharacters.results.forEach(result => console.log('PASS 1440x900 ' + result));
   if (errors.length) throw new Error('Console errors:\n' + errors.join('\n'));
   console.log('Smoke test passed');
 } finally {
