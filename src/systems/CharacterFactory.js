@@ -7,16 +7,63 @@ function toHex(value, fallback = 0xffffff) {
   return Number.isFinite(parsed) ? parsed : fallback;
 }
 
+export const CHARACTER_ANIMATION_PRESETS = Object.freeze([
+  'standard', 'gym_smash', 'office_jab', 'drunk_sway', 'grocery_throw',
+]);
+const ART_STATUSES = ['approved', 'provisional', 'placeholder'];
+const isRecord = value => value !== null && typeof value === 'object' && !Array.isArray(value);
+
+// Asset existence/decoding is checked by the asset tests and by the renderer's
+// visible loading/error fallback. DNA only accepts portable local image paths.
+export function isLocalCharacterAssetPath(value) {
+  return typeof value === 'string'
+    && /^\/?assets\/[a-z0-9_./-]+\.(?:svg|png)$/i.test(value)
+    && !/(?:^|\/)\.{1,2}(?:\/|$)/.test(value);
+}
+
 export class CharacterFactory {
   static validateDNA(dna) {
     const errors = [];
-    if (!dna || typeof dna !== 'object') return ['Character DNA must be an object.'];
+    if (!isRecord(dna)) return ['Character DNA must be an object.'];
     if (!dna.id) errors.push('Missing id.');
     if (!dna.name) errors.push('Missing name.');
-    if (!dna.visual) errors.push('Missing visual block.');
-    if (!dna.stats) errors.push('Missing stats block.');
-    if (!dna.combat) errors.push('Missing combat block.');
-    if (!dna.comedy) errors.push('Missing comedy block.');
+    for (const key of ['visual', 'stats', 'combat', 'comedy']) {
+      if (!isRecord(dna[key])) errors.push(`Missing/invalid ${key} block.`);
+    }
+
+    if (isRecord(dna.visual)) {
+      for (const key of ['portrait', 'battleSprite']) {
+        if (dna.visual[key] != null && !isLocalCharacterAssetPath(dna.visual[key])) {
+          errors.push(`visual.${key} must be a local assets/ SVG or PNG path.`);
+        }
+      }
+      for (const key of ['battleSpriteWidth', 'battleSpriteHeight', 'battleBarY']) {
+        const value = dna.visual[key];
+        if (value != null && (!Number.isFinite(value) || value <= 0)) {
+          errors.push(`visual.${key} must be a positive finite number.`);
+        }
+      }
+      if (dna.visual.battleSprite && dna.visual.battleBarY != null &&
+          dna.visual.battleBarY <= (dna.visual.battleSpriteHeight || 2.1)) {
+        errors.push('visual.battleBarY must be above the battle sprite.');
+      }
+      if (dna.visual.animationPreset != null && !CHARACTER_ANIMATION_PRESETS.includes(dna.visual.animationPreset)) {
+        errors.push('Unknown visual.animationPreset.');
+      }
+      if (dna.visual.artStatus != null && !ART_STATUSES.includes(dna.visual.artStatus)) {
+        errors.push('Unknown visual.artStatus.');
+      }
+      if (dna.visual.animationPersonality != null && typeof dna.visual.animationPersonality !== 'string') {
+        errors.push('visual.animationPersonality must be a string.');
+      }
+      const origin = dna.visual.projectileOrigin;
+      if (origin != null && (!isRecord(origin) || !Number.isFinite(origin.x) || !Number.isFinite(origin.y) || origin.y < 0)) {
+        errors.push('visual.projectileOrigin must contain finite x and nonnegative y.');
+      }
+    }
+    if (dna.role != null && (typeof dna.role !== 'string' || !dna.role.trim())) {
+      errors.push('role must be a nonempty string.');
+    }
 
     const requiredStats = ['cost', 'hp', 'attack', 'range', 'attackSpeed', 'moveSpeed', 'deployCD'];
     for (const key of requiredStats) {
@@ -41,7 +88,10 @@ export class CharacterFactory {
       battleSprite: dna.visual.battleSprite || null,
       battleSpriteWidth: dna.visual.battleSpriteWidth || 1.55,
       battleSpriteHeight: dna.visual.battleSpriteHeight || 2.1,
-      battleBarY: dna.visual.battleBarY || 1.7,
+      battleBarY: dna.visual.battleBarY || (dna.visual.battleSprite ? (dna.visual.battleSpriteHeight || 2.1) + .15 : 1.7),
+      animationPreset: dna.visual.animationPreset || 'standard',
+      artStatus: dna.visual.artStatus || null,
+      projectileOrigin: Object.freeze({ ...(dna.visual.projectileOrigin || { x: 0, y: 0.9 }) }),
       color: toHex(dna.visual.color, 0xffffff),
       accent: toHex(dna.visual.accent, 0x222222),
       modelType: dna.visual.modelType || 'box',

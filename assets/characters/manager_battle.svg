@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Manager battlefield sprite, provisional original artwork">
+<defs><linearGradient id="skin" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffdab7"/><stop offset="1" stop-color="#e4a47b"/></linearGradient></defs>
+<g stroke="#242837" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Narrow tailored silhouette, impatient pointing hand and oversized clipboard. -->
+  <path d="M206 357l-9 118 43 6 20-111 10 109 42-3-8-119z" fill="#263c6e"/>
+  <path d="M197 470l-22 11q-13 10-8 16h76l-2-24zM271 473l-1 24h72q8-9-5-17l-27-8z" fill="#222630"/>
+  <path d="M214 180l-40 40 20 141q59 23 121-1l16-142-41-39z" fill="#416bd0"/>
+  <path d="M231 177h42l20 53-38 103-38-104z" fill="#f8f5df"/>
+  <path d="M244 206h23l-4 24 15 68-22 27-18-28 13-67z" fill="#8ed4bc" stroke-width="6"/>
+  <path d="M220 181l-31 37 28 9-10 24 49 79-26-126M286 182l30 34-25 13 11 21-46 80 22-126" fill="#527fe3" stroke-width="7"/>
+  <path d="M181 210q-37 8-47 58l33 30 40-55" fill="#416bd0"/>
+  <path d="M321 213l28 50 42-34 18 24-52 54q-19 16-31-9l-21-43" fill="#416bd0"/>
+  <path d="M385 232l10-17 7-32q4-14 14-8l-1 35 22-6q15-3 17 8l-25 12 20 1q13 4 9 14l-39 18-24-9z" fill="url(#skin)" stroke-width="7"/>
+  <path d="M337 264l13 18M203 339h32M282 339h23" fill="none" stroke="#253b78" stroke-width="6"/>
+  <!-- Shirt collar and neck. -->
+  <path d="M230 150l-2 37 26 23 27-25-2-37" fill="url(#skin)"/>
+  <path d="M228 180l26 26-22 24-14-40M281 180l-27 26 20 24 17-40" fill="#fffced" stroke-width="6"/>
+  <!-- Large square spectacles remain legible at deployment scale. -->
+  <path d="M183 91q-9-57 65-63 70-4 72 66l-6 40q-7 50-60 51-55-5-63-51z" fill="url(#skin)"/>
+  <path d="M184 98q-16-56 39-71 34-11 50-3 34-9 50 20l-8 54-17-35-71-2-26 42-3-24z" fill="#222735"/>
+  <path d="M198 69q45 5 81-14" fill="none" stroke="#4a5264" stroke-width="7"/>
+  <path d="M193 106h48v33h-43zM263 106h45l-4 33h-41z" fill="#dff7ff" fill-opacity=".65" stroke-width="8"/>
+  <path d="M242 116h20M215 115v9M285 115v9" fill="none" stroke-width="7"/>
+  <path d="M250 128l-4 13 12 2M233 157l36-2" fill="none" stroke="#7b4740" stroke-width="6"/>
+  <path d="M205 93l26 3M272 94l25-4" fill="none" stroke-width="6"/>
+  <!-- Paper-heavy clipboard, with a chart instead of readable text. -->
+  <g transform="rotate(-8 154 318)">
+    <rect x="105" y="244" width="111" height="155" rx="10" fill="#bd8041"/>
+    <path d="M119 260h83v123h-83z" fill="#fff4d4" stroke-width="5"/>
+    <rect x="139" y="237" width="43" height="24" rx="5" fill="#b9d1dc" stroke-width="6"/>
+    <path d="M133 282h52M133 300h41" fill="none" stroke="#79868f" stroke-width="6"/>
+    <path d="M134 360v-27M154 360v-17M175 360v-40" fill="none" stroke="#4876cc" stroke-width="10"/>
+  </g>
+  <path d="M109 282q-17-1-19 17l10 26q12 13 25 3l11-21q-1-11-12-9l-1-11z" fill="url(#skin)" stroke-width="7"/>
+</g>
+</svg>

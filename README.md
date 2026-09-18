@@ -59,6 +59,13 @@ npm test
 
 ## Current playable systems
 
+Day 3 adds provisional original battlefield SVGs and matching portraits for
+Manager, Drunk Uncle and Supermarket Auntie through the existing CharacterFactory
+and DNA. Gym Uncle's approved art/stats/timeline remain unchanged. Shared textures,
+visible loading/error fallbacks, real roster previews and preset motion are tested
+at two viewport sizes. See [Day 3 captures, traces and limitations](docs/day3/README.md)
+and the [character production template](production/CHARACTER_TEMPLATE.md).
+
 Day 2 aligns anticipation, damage/release, impact and recovery using one bounded
 simulation timeline per actor. Gym Uncle's approved single sprite has a loaded
 windup, visible billboard rotation, contact hold and recovery; this is code-driven

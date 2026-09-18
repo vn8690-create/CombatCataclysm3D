@@ -23,6 +23,13 @@ This gives immediate motion from one approved character image and avoids waiting
 
 ## Planned V2
 
+The current implemented Day 3 pipeline is documented in
+[CHARACTER_TEMPLATE.md](CHARACTER_TEMPLATE.md). It extends the existing DNA and
+factory, supports local SVG/PNG references, visible image failure, shared textures
+and preset motion. Manager, Drunk Uncle and Supermarket Auntie are provisional
+single-image artwork. The atlas example below remains a proposal, with no frame
+assets or atlas player implemented.
+
 When approved frame art exists, add a generic SpriteAtlasAnimator with JSON metadata:
 
 ```json

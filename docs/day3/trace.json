@@ -1,0 +1,3252 @@
+[
+  {
+    "width": 1440,
+    "height": 900,
+    "scenario": "four cast vs three printers; capture-only 5000 troop HP, waves/comedy disabled",
+    "time": 3.7559999999999927,
+    "actors": [
+      {
+        "id": "gym_uncle",
+        "hp": 5000,
+        "position": [
+          -0.7946666666666639,
+          0,
+          0
+        ],
+        "phase": "idle",
+        "assetState": "ready"
+      },
+      {
+        "id": "manager",
+        "hp": 5000,
+        "position": [
+          -4.144666666666664,
+          0,
+          1.8
+        ],
+        "phase": "idle",
+        "assetState": "ready"
+      },
+      {
+        "id": "drunk_uncle",
+        "hp": 4890,
+        "position": [
+          -0.6984846073015504,
+          0,
+          -1.8
+        ],
+        "phase": "walk",
+        "assetState": "ready"
+      },
+      {
+        "id": "supermarket_auntie",
+        "hp": 5000,
+        "position": [
+          -2.594666666666664,
+          0,
+          -1.8
+        ],
+        "phase": "idle",
+        "assetState": "ready"
+      }
+    ],
+    "trace": [
+      {
+        "time": 0.85,
+        "event": "attack-start",
+        "id": "drunk_uncle",
+        "target": "angry_printer",
+        "phase": "anticipation"
+      },
+      {
+        "time": 0.9333,
+        "event": "attack-start",
+        "id": "manager",
+        "target": "angry_printer",
+        "phase": "anticipation"
+      },
+      {
+        "time": 0.95,
+        "event": "impact",
+        "id": "drunk_uncle",
+        "target": "angry_printer",
+        "damage": 48,
+        "phase": "strike"
+      },
+      {
+        "time": 0.95,
+        "event": "contact",
+        "id": "drunk_uncle",
+        "target": "angry_printer",
+        "phase": "strike"
+      },
+      {
+        "time": 1.0487,
+        "event": "release",
+        "id": "manager",
+        "target": "angry_printer",
+        "phase": "strike"
+      },
+      {
+        "time": 1.0987,
+        "event": "attack-start",
+        "id": "supermarket_auntie",
+        "target": "angry_printer",
+        "phase": "anticipation"
+      },
+      {
+        "time": 1.1987,
+        "event": "release",
+        "id": "supermarket_auntie",
+        "target": "angry_printer",
+        "phase": "strike"
+      },
+      {
+        "time": 1.282,
+        "event": "attack-start",
+        "id": "angry_printer",
+        "target": "drunk_uncle",
+        "phase": "anticipation"
+      },
+      {
+        "time": 1.282,
+        "event": "attack-start",
+        "id": "angry_printer",
+        "target": "drunk_uncle",
+        "phase": "anticipation"
+      },
+      {
+        "time": 1.382,
+        "event": "impact",
+        "id": "angry_printer",
+        "target": "drunk_uncle",
+        "damage": 22,
+        "phase": "strike"
+      },
+      {
+        "time": 1.382,
+        "event": "contact",
+        "id": "angry_printer",
+        "target": "drunk_uncle",
+        "phase": "strike"
+      },
+      {
+        "time": 1.382,
+        "event": "impact",
+        "id": "angry_printer",
+        "target": "drunk_uncle",
+        "damage": 22,
+        "phase": "strike"
+      },
+      {
+        "time": 1.382,
+        "event": "contact",
+        "id": "angry_printer",
+        "target": "drunk_uncle",
+        "phase": "strike"
+      },
+      {
+        "time": 1.3973,
+        "event": "attack-start",
+        "id": "gym_uncle",
+        "target": "angry_printer",
+        "phase": "anticipation"
+      },
+      {
+        "time": 1.4473,
+        "event": "impact",
+        "id": "supermarket_auntie",
+        "target": "angry_printer",
+        "damage": 31,
+        "phase": "idle"
+      },
+      {
+        "time": 1.6807,
+        "event": "impact",
+        "id": "gym_uncle",
+        "target": "angry_printer",
+        "damage": 58,
+        "phase": "strike"
+      },
+      {
+        "time": 1.6807,
+        "event": "contact",
+        "id": "gym_uncle",
+        "target": "angry_printer",
+        "phase": "strike"
+      },
+      {
+        "time": 1.814,
+        "event": "impact",
+        "id": "manager",
+        "target": "angry_printer",
+        "damage": 18,
+        "phase": "idle"
+      },
+      {
+        "time": 1.9127,
+        "event": "attack-start",
+        "id": "angry_printer",
+        "target": "drunk_uncle",
+        "phase": "anticipation"
+      },
+      {
+        "time": 2.0127,
+        "event": "impact",
+        "id": "angry_printer",
+        "target": "drunk_uncle",
+        "damage": 22,
+        "phase": "strike"
+      },
+      {
+        "time": 2.0127,
+        "event": "contact",
+        "id": "angry_printer",
+        "target": "drunk_uncle",
+        "phase": "strike"
+      },
+      {
+        "time": 2.0613,
+        "event": "attack-start",
+        "id": "supermarket_auntie",
+        "target": "angry_printer",
+        "phase": "anticipation"
+      },
+      {
+        "time": 2.128,
+        "event": "attack-start",
+        "id": "drunk_uncle",
+        "target": "angry_printer",
+        "phase": "anticipation"
+      },
+      {
+        "time": 2.1613,
+        "event": "release",
+        "id": "supermarket_auntie",
+        "target": "angry_printer",
+        "phase": "strike"
+      },
+      {
+        "time": 2.228,
+        "event": "impact",
+        "id": "drunk_uncle",
+        "target": "angry_printer",
+        "damage": 48,
+        "phase": "strike"
+      },
+      {
+        "time": 2.228,
+        "event": "contact",
+        "id": "drunk_uncle",
+        "target": "angry_printer",
+        "phase": "strike"
+      },
+      {
+        "time": 2.4933,
+        "event": "impact",
+        "id": "supermarket_auntie",
+        "target": "angry_printer",
+        "damage": 31,
+        "phase": "idle"
+      },
+      {
+        "time": 2.8753,
+        "event": "attack-start",
+        "id": "manager",
+        "target": "angry_printer",
+        "phase": "anticipation"
+      },
+      {
+        "time": 2.8753,
+        "event": "attack-start",
+        "id": "angry_printer",
+        "target": "drunk_uncle",
+        "phase": "anticipation"
+      },
+      {
+        "time": 2.942,
+        "event": "attack-start",
+        "id": "gym_uncle",
+        "target": "angry_printer",
+        "phase": "anticipation"
+      },
+      {
+        "time": 2.9753,
+        "event": "release",
+        "id": "manager",
+        "target": "angry_printer",
+        "phase": "strike"
+      },
+      {
+        "time": 2.9753,
+        "event": "impact",
+        "id": "angry_printer",
+        "target": "drunk_uncle",
+        "damage": 22,
+        "phase": "strike"
+      },
+      {
+        "time": 2.9753,
+        "event": "contact",
+        "id": "angry_printer",
+        "target": "drunk_uncle",
+        "phase": "strike"
+      },
+      {
+        "time": 2.9907,
+        "event": "attack-start",
+        "id": "angry_printer",
+        "target": "drunk_uncle",
+        "phase": "anticipation"
+      },
+      {
+        "time": 3.0407,
+        "event": "attack-start",
+        "id": "supermarket_auntie",
+        "target": "angry_printer",
+        "phase": "anticipation"
+      },
+      {
+        "time": 3.0907,
+        "event": "impact",
+        "id": "angry_printer",
+        "target": "drunk_uncle",
+        "damage": 22,
+        "phase": "strike"
+      },
+      {
+        "time": 3.0907,
+        "event": "contact",
+        "id": "angry_printer",
+        "target": "drunk_uncle",
+        "phase": "strike"
+      },
+      {
+        "time": 3.1407,
+        "event": "release",
+        "id": "supermarket_auntie",
+        "target": "angry_printer",
+        "phase": "strike"
+      },
+      {
+        "time": 3.224,
+        "event": "impact",
+        "id": "gym_uncle",
+        "target": "angry_printer",
+        "damage": 58,
+        "phase": "strike"
+      },
+      {
+        "time": 3.224,
+        "event": "contact",
+        "id": "gym_uncle",
+        "target": "angry_printer",
+        "phase": "strike"
+      },
+      {
+        "time": 3.424,
+        "event": "attack-start",
+        "id": "drunk_uncle",
+        "target": "angry_printer",
+        "phase": "anticipation"
+      },
+      {
+        "time": 3.524,
+        "event": "impact",
+        "id": "drunk_uncle",
+        "target": "angry_printer",
+        "damage": 48,
+        "phase": "strike"
+      },
+      {
+        "time": 3.524,
+        "event": "contact",
+        "id": "drunk_uncle",
+        "target": "angry_printer",
+        "phase": "strike"
+      },
+      {
+        "time": 3.606,
+        "event": "impact",
+        "id": "manager",
+        "target": "angry_printer",
+        "damage": 18,
+        "phase": "idle"
+      },
+      {
+        "time": 3.6227,
+        "event": "impact",
+        "id": "supermarket_auntie",
+        "target": "angry_printer",
+        "damage": 31,
+        "phase": "idle"
+      },
+      {
+        "time": 3.6893,
+        "event": "attack-start",
+        "id": "angry_printer",
+        "target": "drunk_uncle",
+        "phase": "anticipation"
+      }
+    ],
+    "poses": [
+      {
+        "time": 0.0167,
+        "id": "gym_uncle",
+        "phase": "walk",
+        "position": [
+          -0.012977383215792091,
+          1.1683875333403628,
+          0
+        ],
+        "rotation": -0.04772628667439912,
+        "scale": [
+          1.0156195120025306,
+          0.9895869919983129,
+          1
+        ]
+      },
+      {
+        "time": 0.0167,
+        "id": "manager",
+        "phase": "walk",
+        "position": [
+          -0.81,
+          1.0549109129176824,
+          0
+        ],
+        "rotation": 0.006875278084755151,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 0.0167,
+        "id": "drunk_uncle",
+        "phase": "walk",
+        "position": [
+          0.81,
+          1.0254981882665948,
+          0
+        ],
+        "rotation": 0.003609954493665327,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 0.0167,
+        "id": "supermarket_auntie",
+        "phase": "walk",
+        "position": [
+          0.81,
+          1.04565900346847,
+          0
+        ],
+        "rotation": -0.02065900346847006,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 0.85,
+        "id": "drunk_uncle",
+        "phase": "anticipation",
+        "position": [
+          0.81,
+          1,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 0.9333,
+        "id": "manager",
+        "phase": "anticipation",
+        "position": [
+          -0.81,
+          1.05,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 0.95,
+        "id": "drunk_uncle",
+        "phase": "strike",
+        "position": [
+          1,
+          0.965,
+          0
+        ],
+        "rotation": -0.2,
+        "scale": [
+          1.035,
+          0.965,
+          1
+        ]
+      },
+      {
+        "time": 1.0153,
+        "id": "drunk_uncle",
+        "phase": "recovery",
+        "position": [
+          0.957822748191979,
+          0.9727694937541091,
+          0
+        ],
+        "rotation": -0.1556028928336621,
+        "scale": [
+          1.0272305062458909,
+          0.9727694937541091,
+          1
+        ]
+      },
+      {
+        "time": 1.0487,
+        "id": "manager",
+        "phase": "strike",
+        "position": [
+          -0.65,
+          1.0311000000000001,
+          0
+        ],
+        "rotation": -0.12,
+        "scale": [
+          1.018,
+          0.982,
+          1
+        ]
+      },
+      {
+        "time": 1.0987,
+        "id": "manager",
+        "phase": "recovery",
+        "position": [
+          -0.6855176857330703,
+          1.035295526627219,
+          0
+        ],
+        "rotation": -0.0933617357001973,
+        "scale": [
+          1.0140042603550297,
+          0.9859957396449704,
+          1
+        ]
+      },
+      {
+        "time": 1.0987,
+        "id": "supermarket_auntie",
+        "phase": "anticipation",
+        "position": [
+          0.81,
+          1.025,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 1.132,
+        "id": "drunk_uncle",
+        "phase": "idle",
+        "position": [
+          0.81,
+          1,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 1.1987,
+        "id": "supermarket_auntie",
+        "phase": "strike",
+        "position": [
+          0.9700000000000001,
+          0.9993749999999999,
+          0
+        ],
+        "rotation": -0.17,
+        "scale": [
+          1.025,
+          0.975,
+          1
+        ]
+      },
+      {
+        "time": 1.2153,
+        "id": "manager",
+        "phase": "idle",
+        "position": [
+          -0.81,
+          1.05,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 1.2653,
+        "id": "supermarket_auntie",
+        "phase": "recovery",
+        "position": [
+          0.931604207758054,
+          1.005524326101249,
+          0
+        ],
+        "rotation": -0.12920447074293234,
+        "scale": [
+          1.019000657462196,
+          0.9809993425378041,
+          1
+        ]
+      },
+      {
+        "time": 1.382,
+        "id": "drunk_uncle",
+        "phase": "hit",
+        "position": [
+          0.7598880000000001,
+          1.016704,
+          0
+        ],
+        "rotation": 0.05011199999999999,
+        "scale": [
+          1.054288,
+          0.9498880000000001,
+          1
+        ]
+      },
+      {
+        "time": 1.382,
+        "id": "supermarket_auntie",
+        "phase": "idle",
+        "position": [
+          0.81,
+          1.025,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 1.3973,
+        "id": "gym_uncle",
+        "phase": "anticipation",
+        "position": [
+          0,
+          1.125,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 1.5307,
+        "id": "drunk_uncle",
+        "phase": "idle",
+        "position": [
+          0.81,
+          1.0309300056612138,
+          0
+        ],
+        "rotation": -0.054050983021966516,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 1.6807,
+        "id": "gym_uncle",
+        "phase": "strike",
+        "position": [
+          0.3,
+          1.015,
+          0
+        ],
+        "rotation": -0.42,
+        "scale": [
+          1.145,
+          0.855,
+          1
+        ]
+      },
+      {
+        "time": 1.6973,
+        "id": "manager",
+        "phase": "walk",
+        "position": [
+          -0.81,
+          1.0734703186892858,
+          0
+        ],
+        "rotation": -0.03285844616500005,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 1.6973,
+        "id": "drunk_uncle",
+        "phase": "walk",
+        "position": [
+          0.81,
+          1.0045665941497788,
+          0
+        ],
+        "rotation": -0.09247463127013805,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 1.6973,
+        "id": "supermarket_auntie",
+        "phase": "walk",
+        "position": [
+          0.81,
+          1.0426064075387702,
+          0
+        ],
+        "rotation": 0.01760640753877037,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 1.7473,
+        "id": "supermarket_auntie",
+        "phase": "idle",
+        "position": [
+          0.81,
+          1.040613444617761,
+          0
+        ],
+        "rotation": -0.01359182212498181,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 1.764,
+        "id": "gym_uncle",
+        "phase": "recovery",
+        "position": [
+          0.2858843537414967,
+          1.0201757369614513,
+          0
+        ],
+        "rotation": -0.4002380952380954,
+        "scale": [
+          1.1381774376417235,
+          0.8618225623582766,
+          1
+        ]
+      },
+      {
+        "time": 1.764,
+        "id": "manager",
+        "phase": "idle",
+        "position": [
+          -0.81,
+          1.0538666875069869,
+          0
+        ],
+        "rotation": 0.010975549124383267,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 1.764,
+        "id": "drunk_uncle",
+        "phase": "idle",
+        "position": [
+          0.81,
+          1.0387910145547725,
+          0
+        ],
+        "rotation": -0.06349563246443159,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 2.0127,
+        "id": "drunk_uncle",
+        "phase": "hit",
+        "position": [
+          0.7598880000000001,
+          1.016704,
+          0
+        ],
+        "rotation": 0.05011199999999999,
+        "scale": [
+          1.054288,
+          0.9498880000000001,
+          1
+        ]
+      },
+      {
+        "time": 2.0447,
+        "id": "gym_uncle",
+        "phase": "idle",
+        "position": [
+          0,
+          1.125,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 2.0613,
+        "id": "gym_uncle",
+        "phase": "walk",
+        "position": [
+          -0.0135602480374181,
+          1.1636464798920672,
+          0
+        ],
+        "rotation": 0.04251112788127396,
+        "scale": [
+          1.0139127327611441,
+          0.9907248448259038,
+          1
+        ]
+      },
+      {
+        "time": 2.0613,
+        "id": "supermarket_auntie",
+        "phase": "anticipation",
+        "position": [
+          0.81,
+          1.025,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 2.128,
+        "id": "drunk_uncle",
+        "phase": "anticipation",
+        "position": [
+          0.785,
+          1,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 2.1447,
+        "id": "gym_uncle",
+        "phase": "idle",
+        "position": [
+          0,
+          1.130512693764924,
+          0
+        ],
+        "rotation": -0.015285173429734292,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 2.1613,
+        "id": "supermarket_auntie",
+        "phase": "strike",
+        "position": [
+          0.9700000000000001,
+          0.9993749999999999,
+          0
+        ],
+        "rotation": -0.17,
+        "scale": [
+          1.025,
+          0.975,
+          1
+        ]
+      },
+      {
+        "time": 2.228,
+        "id": "drunk_uncle",
+        "phase": "strike",
+        "position": [
+          1,
+          0.965,
+          0
+        ],
+        "rotation": -0.2,
+        "scale": [
+          1.035,
+          0.965,
+          1
+        ]
+      },
+      {
+        "time": 2.228,
+        "id": "supermarket_auntie",
+        "phase": "recovery",
+        "position": [
+          0.931604207758054,
+          1.005524326101249,
+          0
+        ],
+        "rotation": -0.12920447074293234,
+        "scale": [
+          1.019000657462196,
+          0.9809993425378041,
+          1
+        ]
+      },
+      {
+        "time": 2.2433,
+        "id": "gym_uncle",
+        "phase": "walk",
+        "position": [
+          -0.014992569481783938,
+          1.1281456466769575,
+          0
+        ],
+        "rotation": -0.0034602113446532273,
+        "scale": [
+          1.0011324328037048,
+          0.9992450447975302,
+          1
+        ]
+      },
+      {
+        "time": 2.2433,
+        "id": "manager",
+        "phase": "walk",
+        "position": [
+          -0.81,
+          1.0749550685717562,
+          0
+        ],
+        "rotation": 0.03493709600045851,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 2.2933,
+        "id": "drunk_uncle",
+        "phase": "recovery",
+        "position": [
+          0.957822748191979,
+          0.9727694937541091,
+          0
+        ],
+        "rotation": -0.1556028928336621,
+        "scale": [
+          1.0272305062458909,
+          0.9727694937541091,
+          1
+        ]
+      },
+      {
+        "time": 2.31,
+        "id": "manager",
+        "phase": "idle",
+        "position": [
+          -0.81,
+          1.0894631405720323,
+          0
+        ],
+        "rotation": -0.03525568498590429,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 2.3267,
+        "id": "gym_uncle",
+        "phase": "idle",
+        "position": [
+          0,
+          1.126602350166962,
+          0
+        ],
+        "rotation": -0.013883003641610098,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 2.3433,
+        "id": "supermarket_auntie",
+        "phase": "idle",
+        "position": [
+          0.81,
+          1.025,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 2.36,
+        "id": "supermarket_auntie",
+        "phase": "walk",
+        "position": [
+          0.81,
+          1.0496557579923294,
+          0
+        ],
+        "rotation": -0.02465575799232949,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 2.41,
+        "id": "drunk_uncle",
+        "phase": "idle",
+        "position": [
+          0.81,
+          1,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 2.41,
+        "id": "supermarket_auntie",
+        "phase": "idle",
+        "position": [
+          0.81,
+          1.0285923272539885,
+          0
+        ],
+        "rotation": -0.018680220362634066,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 2.4267,
+        "id": "drunk_uncle",
+        "phase": "walk",
+        "position": [
+          0.81,
+          1.0246592255663751,
+          0
+        ],
+        "rotation": 0.0956173922625469,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 2.4933,
+        "id": "drunk_uncle",
+        "phase": "idle",
+        "position": [
+          0.81,
+          1.0399901182561568,
+          0
+        ],
+        "rotation": -0.03773697262067405,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 2.8753,
+        "id": "manager",
+        "phase": "anticipation",
+        "position": [
+          -0.81,
+          1.05,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 2.942,
+        "id": "gym_uncle",
+        "phase": "anticipation",
+        "position": [
+          0,
+          1.125,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 2.9753,
+        "id": "manager",
+        "phase": "strike",
+        "position": [
+          -0.65,
+          1.0311000000000001,
+          0
+        ],
+        "rotation": -0.12,
+        "scale": [
+          1.018,
+          0.982,
+          1
+        ]
+      },
+      {
+        "time": 2.9753,
+        "id": "drunk_uncle",
+        "phase": "hit",
+        "position": [
+          0.7598880000000001,
+          1.016704,
+          0
+        ],
+        "rotation": 0.05011199999999999,
+        "scale": [
+          1.054288,
+          0.9498880000000001,
+          1
+        ]
+      },
+      {
+        "time": 3.0407,
+        "id": "manager",
+        "phase": "recovery",
+        "position": [
+          -0.6855176857330704,
+          1.035295526627219,
+          0
+        ],
+        "rotation": -0.09336173570019725,
+        "scale": [
+          1.0140042603550297,
+          0.9859957396449704,
+          1
+        ]
+      },
+      {
+        "time": 3.0407,
+        "id": "supermarket_auntie",
+        "phase": "anticipation",
+        "position": [
+          0.81,
+          1.025,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.1407,
+        "id": "supermarket_auntie",
+        "phase": "strike",
+        "position": [
+          0.9700000000000001,
+          0.9993749999999999,
+          0
+        ],
+        "rotation": -0.17,
+        "scale": [
+          1.025,
+          0.975,
+          1
+        ]
+      },
+      {
+        "time": 3.1573,
+        "id": "manager",
+        "phase": "idle",
+        "position": [
+          -0.81,
+          1.05,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.2073,
+        "id": "supermarket_auntie",
+        "phase": "recovery",
+        "position": [
+          0.931604207758054,
+          1.005524326101249,
+          0
+        ],
+        "rotation": -0.12920447074293234,
+        "scale": [
+          1.019000657462196,
+          0.9809993425378041,
+          1
+        ]
+      },
+      {
+        "time": 3.224,
+        "id": "gym_uncle",
+        "phase": "strike",
+        "position": [
+          0.3,
+          1.015,
+          0
+        ],
+        "rotation": -0.42,
+        "scale": [
+          1.145,
+          0.855,
+          1
+        ]
+      },
+      {
+        "time": 3.2407,
+        "id": "manager",
+        "phase": "walk",
+        "position": [
+          -0.81,
+          1.0553169399384228,
+          0
+        ],
+        "rotation": 0.007443715913791768,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.2407,
+        "id": "drunk_uncle",
+        "phase": "walk",
+        "position": [
+          0.81,
+          1.0334139529311488,
+          0
+        ],
+        "rotation": -0.10498964278845925,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.2573,
+        "id": "manager",
+        "phase": "idle",
+        "position": [
+          -0.81,
+          1.0896329748835565,
+          0
+        ],
+        "rotation": -0.011219445230665268,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.2573,
+        "id": "drunk_uncle",
+        "phase": "idle",
+        "position": [
+          0.81,
+          1.0399197266199334,
+          0
+        ],
+        "rotation": 0.03686108395812403,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.3073,
+        "id": "gym_uncle",
+        "phase": "recovery",
+        "position": [
+          0.28868027210884367,
+          1.019150566893424,
+          0
+        ],
+        "rotation": -0.40415238095238115,
+        "scale": [
+          1.1395287981859412,
+          0.8604712018140589,
+          1
+        ]
+      },
+      {
+        "time": 3.324,
+        "id": "supermarket_auntie",
+        "phase": "idle",
+        "position": [
+          0.81,
+          1.025,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.3407,
+        "id": "supermarket_auntie",
+        "phase": "walk",
+        "position": [
+          0.81,
+          1.062429668149032,
+          0
+        ],
+        "rotation": 0.0374296681490321,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.3573,
+        "id": "supermarket_auntie",
+        "phase": "idle",
+        "position": [
+          0.81,
+          1.046173222724473,
+          0
+        ],
+        "rotation": 0.024970701817676827,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.424,
+        "id": "drunk_uncle",
+        "phase": "anticipation",
+        "position": [
+          0.81,
+          1,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.524,
+        "id": "drunk_uncle",
+        "phase": "strike",
+        "position": [
+          1,
+          0.965,
+          0
+        ],
+        "rotation": -0.2,
+        "scale": [
+          1.035,
+          0.965,
+          1
+        ]
+      },
+      {
+        "time": 3.5393,
+        "id": "manager",
+        "phase": "walk",
+        "position": [
+          -0.81,
+          1.0747662611727897,
+          0
+        ],
+        "rotation": 0.0346727656419055,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.5393,
+        "id": "supermarket_auntie",
+        "phase": "walk",
+        "position": [
+          0.81,
+          1.0492823051212352,
+          0
+        ],
+        "rotation": 0.024282305121235387,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.5893,
+        "id": "gym_uncle",
+        "phase": "idle",
+        "position": [
+          0,
+          1.125,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.5893,
+        "id": "drunk_uncle",
+        "phase": "recovery",
+        "position": [
+          0.957822748191979,
+          0.9727694937541091,
+          0
+        ],
+        "rotation": -0.1556028928336621,
+        "scale": [
+          1.0272305062458909,
+          0.9727694937541091,
+          1
+        ]
+      },
+      {
+        "time": 3.5893,
+        "id": "supermarket_auntie",
+        "phase": "idle",
+        "position": [
+          0.81,
+          1.0648556379363778,
+          0
+        ],
+        "rotation": 0.019877587597318724,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.606,
+        "id": "gym_uncle",
+        "phase": "walk",
+        "position": [
+          0.01361681141494101,
+          1.1630753779963965,
+          0
+        ],
+        "rotation": -0.04188291579603626,
+        "scale": [
+          1.0137071360787027,
+          0.9908619092808648,
+          1
+        ]
+      },
+      {
+        "time": 3.606,
+        "id": "manager",
+        "phase": "idle",
+        "position": [
+          -0.81,
+          1.0745362673353824,
+          0
+        ],
+        "rotation": 0.020788881334553398,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.6893,
+        "id": "gym_uncle",
+        "phase": "idle",
+        "position": [
+          0,
+          1.1259821057871102,
+          0
+        ],
+        "rotation": 0.009011749099440648,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.706,
+        "id": "drunk_uncle",
+        "phase": "idle",
+        "position": [
+          0.81,
+          1,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.7227,
+        "id": "drunk_uncle",
+        "phase": "walk",
+        "position": [
+          0.81,
+          1.0330773796800674,
+          0
+        ],
+        "rotation": 0.05613433759947648,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ]
+  },
+  {
+    "width": 960,
+    "height": 540,
+    "scenario": "four cast vs three printers; capture-only 5000 troop HP, waves/comedy disabled",
+    "time": 3.7559999999999927,
+    "actors": [
+      {
+        "id": "gym_uncle",
+        "hp": 5000,
+        "position": [
+          -0.7946666666666639,
+          0,
+          0
+        ],
+        "phase": "idle",
+        "assetState": "ready"
+      },
+      {
+        "id": "manager",
+        "hp": 5000,
+        "position": [
+          -4.144666666666664,
+          0,
+          1.8
+        ],
+        "phase": "idle",
+        "assetState": "ready"
+      },
+      {
+        "id": "drunk_uncle",
+        "hp": 4890,
+        "position": [
+          -0.6984846073015504,
+          0,
+          -1.8
+        ],
+        "phase": "walk",
+        "assetState": "ready"
+      },
+      {
+        "id": "supermarket_auntie",
+        "hp": 5000,
+        "position": [
+          -2.594666666666664,
+          0,
+          -1.8
+        ],
+        "phase": "idle",
+        "assetState": "ready"
+      }
+    ],
+    "trace": [
+      {
+        "time": 0.85,
+        "event": "attack-start",
+        "id": "drunk_uncle",
+        "target": "angry_printer",
+        "phase": "anticipation"
+      },
+      {
+        "time": 0.9333,
+        "event": "attack-start",
+        "id": "manager",
+        "target": "angry_printer",
+        "phase": "anticipation"
+      },
+      {
+        "time": 0.95,
+        "event": "impact",
+        "id": "drunk_uncle",
+        "target": "angry_printer",
+        "damage": 48,
+        "phase": "strike"
+      },
+      {
+        "time": 0.95,
+        "event": "contact",
+        "id": "drunk_uncle",
+        "target": "angry_printer",
+        "phase": "strike"
+      },
+      {
+        "time": 1.0487,
+        "event": "release",
+        "id": "manager",
+        "target": "angry_printer",
+        "phase": "strike"
+      },
+      {
+        "time": 1.0987,
+        "event": "attack-start",
+        "id": "supermarket_auntie",
+        "target": "angry_printer",
+        "phase": "anticipation"
+      },
+      {
+        "time": 1.1987,
+        "event": "release",
+        "id": "supermarket_auntie",
+        "target": "angry_printer",
+        "phase": "strike"
+      },
+      {
+        "time": 1.282,
+        "event": "attack-start",
+        "id": "angry_printer",
+        "target": "drunk_uncle",
+        "phase": "anticipation"
+      },
+      {
+        "time": 1.282,
+        "event": "attack-start",
+        "id": "angry_printer",
+        "target": "drunk_uncle",
+        "phase": "anticipation"
+      },
+      {
+        "time": 1.382,
+        "event": "impact",
+        "id": "angry_printer",
+        "target": "drunk_uncle",
+        "damage": 22,
+        "phase": "strike"
+      },
+      {
+        "time": 1.382,
+        "event": "contact",
+        "id": "angry_printer",
+        "target": "drunk_uncle",
+        "phase": "strike"
+      },
+      {
+        "time": 1.382,
+        "event": "impact",
+        "id": "angry_printer",
+        "target": "drunk_uncle",
+        "damage": 22,
+        "phase": "strike"
+      },
+      {
+        "time": 1.382,
+        "event": "contact",
+        "id": "angry_printer",
+        "target": "drunk_uncle",
+        "phase": "strike"
+      },
+      {
+        "time": 1.3973,
+        "event": "attack-start",
+        "id": "gym_uncle",
+        "target": "angry_printer",
+        "phase": "anticipation"
+      },
+      {
+        "time": 1.4473,
+        "event": "impact",
+        "id": "supermarket_auntie",
+        "target": "angry_printer",
+        "damage": 31,
+        "phase": "idle"
+      },
+      {
+        "time": 1.6807,
+        "event": "impact",
+        "id": "gym_uncle",
+        "target": "angry_printer",
+        "damage": 58,
+        "phase": "strike"
+      },
+      {
+        "time": 1.6807,
+        "event": "contact",
+        "id": "gym_uncle",
+        "target": "angry_printer",
+        "phase": "strike"
+      },
+      {
+        "time": 1.814,
+        "event": "impact",
+        "id": "manager",
+        "target": "angry_printer",
+        "damage": 18,
+        "phase": "idle"
+      },
+      {
+        "time": 1.9127,
+        "event": "attack-start",
+        "id": "angry_printer",
+        "target": "drunk_uncle",
+        "phase": "anticipation"
+      },
+      {
+        "time": 2.0127,
+        "event": "impact",
+        "id": "angry_printer",
+        "target": "drunk_uncle",
+        "damage": 22,
+        "phase": "strike"
+      },
+      {
+        "time": 2.0127,
+        "event": "contact",
+        "id": "angry_printer",
+        "target": "drunk_uncle",
+        "phase": "strike"
+      },
+      {
+        "time": 2.0613,
+        "event": "attack-start",
+        "id": "supermarket_auntie",
+        "target": "angry_printer",
+        "phase": "anticipation"
+      },
+      {
+        "time": 2.128,
+        "event": "attack-start",
+        "id": "drunk_uncle",
+        "target": "angry_printer",
+        "phase": "anticipation"
+      },
+      {
+        "time": 2.1613,
+        "event": "release",
+        "id": "supermarket_auntie",
+        "target": "angry_printer",
+        "phase": "strike"
+      },
+      {
+        "time": 2.228,
+        "event": "impact",
+        "id": "drunk_uncle",
+        "target": "angry_printer",
+        "damage": 48,
+        "phase": "strike"
+      },
+      {
+        "time": 2.228,
+        "event": "contact",
+        "id": "drunk_uncle",
+        "target": "angry_printer",
+        "phase": "strike"
+      },
+      {
+        "time": 2.4933,
+        "event": "impact",
+        "id": "supermarket_auntie",
+        "target": "angry_printer",
+        "damage": 31,
+        "phase": "idle"
+      },
+      {
+        "time": 2.8753,
+        "event": "attack-start",
+        "id": "manager",
+        "target": "angry_printer",
+        "phase": "anticipation"
+      },
+      {
+        "time": 2.8753,
+        "event": "attack-start",
+        "id": "angry_printer",
+        "target": "drunk_uncle",
+        "phase": "anticipation"
+      },
+      {
+        "time": 2.942,
+        "event": "attack-start",
+        "id": "gym_uncle",
+        "target": "angry_printer",
+        "phase": "anticipation"
+      },
+      {
+        "time": 2.9753,
+        "event": "release",
+        "id": "manager",
+        "target": "angry_printer",
+        "phase": "strike"
+      },
+      {
+        "time": 2.9753,
+        "event": "impact",
+        "id": "angry_printer",
+        "target": "drunk_uncle",
+        "damage": 22,
+        "phase": "strike"
+      },
+      {
+        "time": 2.9753,
+        "event": "contact",
+        "id": "angry_printer",
+        "target": "drunk_uncle",
+        "phase": "strike"
+      },
+      {
+        "time": 2.9907,
+        "event": "attack-start",
+        "id": "angry_printer",
+        "target": "drunk_uncle",
+        "phase": "anticipation"
+      },
+      {
+        "time": 3.0407,
+        "event": "attack-start",
+        "id": "supermarket_auntie",
+        "target": "angry_printer",
+        "phase": "anticipation"
+      },
+      {
+        "time": 3.0907,
+        "event": "impact",
+        "id": "angry_printer",
+        "target": "drunk_uncle",
+        "damage": 22,
+        "phase": "strike"
+      },
+      {
+        "time": 3.0907,
+        "event": "contact",
+        "id": "angry_printer",
+        "target": "drunk_uncle",
+        "phase": "strike"
+      },
+      {
+        "time": 3.1407,
+        "event": "release",
+        "id": "supermarket_auntie",
+        "target": "angry_printer",
+        "phase": "strike"
+      },
+      {
+        "time": 3.224,
+        "event": "impact",
+        "id": "gym_uncle",
+        "target": "angry_printer",
+        "damage": 58,
+        "phase": "strike"
+      },
+      {
+        "time": 3.224,
+        "event": "contact",
+        "id": "gym_uncle",
+        "target": "angry_printer",
+        "phase": "strike"
+      },
+      {
+        "time": 3.424,
+        "event": "attack-start",
+        "id": "drunk_uncle",
+        "target": "angry_printer",
+        "phase": "anticipation"
+      },
+      {
+        "time": 3.524,
+        "event": "impact",
+        "id": "drunk_uncle",
+        "target": "angry_printer",
+        "damage": 48,
+        "phase": "strike"
+      },
+      {
+        "time": 3.524,
+        "event": "contact",
+        "id": "drunk_uncle",
+        "target": "angry_printer",
+        "phase": "strike"
+      },
+      {
+        "time": 3.606,
+        "event": "impact",
+        "id": "manager",
+        "target": "angry_printer",
+        "damage": 18,
+        "phase": "idle"
+      },
+      {
+        "time": 3.6227,
+        "event": "impact",
+        "id": "supermarket_auntie",
+        "target": "angry_printer",
+        "damage": 31,
+        "phase": "idle"
+      },
+      {
+        "time": 3.6893,
+        "event": "attack-start",
+        "id": "angry_printer",
+        "target": "drunk_uncle",
+        "phase": "anticipation"
+      }
+    ],
+    "poses": [
+      {
+        "time": 0.0167,
+        "id": "gym_uncle",
+        "phase": "walk",
+        "position": [
+          0.005033607458819732,
+          1.1566115215816788,
+          0
+        ],
+        "rotation": -0.03477267373984656,
+        "scale": [
+          1.0113801477694044,
+          0.9924132348203971,
+          1
+        ]
+      },
+      {
+        "time": 0.0167,
+        "id": "manager",
+        "phase": "walk",
+        "position": [
+          -0.81,
+          1.0747738928152046,
+          0
+        ],
+        "rotation": 0.03468344994128648,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 0.0167,
+        "id": "drunk_uncle",
+        "phase": "walk",
+        "position": [
+          0.81,
+          1.0319392025575966,
+          0
+        ],
+        "rotation": -0.049351713660423555,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 0.0167,
+        "id": "supermarket_auntie",
+        "phase": "walk",
+        "position": [
+          0.81,
+          1.02666369892591,
+          0
+        ],
+        "rotation": 0.0016636989259100816,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 0.85,
+        "id": "drunk_uncle",
+        "phase": "anticipation",
+        "position": [
+          0.81,
+          1,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 0.9333,
+        "id": "manager",
+        "phase": "anticipation",
+        "position": [
+          -0.81,
+          1.05,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 0.95,
+        "id": "drunk_uncle",
+        "phase": "strike",
+        "position": [
+          1,
+          0.965,
+          0
+        ],
+        "rotation": -0.2,
+        "scale": [
+          1.035,
+          0.965,
+          1
+        ]
+      },
+      {
+        "time": 1.0153,
+        "id": "drunk_uncle",
+        "phase": "recovery",
+        "position": [
+          0.957822748191979,
+          0.9727694937541091,
+          0
+        ],
+        "rotation": -0.1556028928336621,
+        "scale": [
+          1.0272305062458909,
+          0.9727694937541091,
+          1
+        ]
+      },
+      {
+        "time": 1.0487,
+        "id": "manager",
+        "phase": "strike",
+        "position": [
+          -0.65,
+          1.0311000000000001,
+          0
+        ],
+        "rotation": -0.12,
+        "scale": [
+          1.018,
+          0.982,
+          1
+        ]
+      },
+      {
+        "time": 1.0987,
+        "id": "manager",
+        "phase": "recovery",
+        "position": [
+          -0.6855176857330703,
+          1.035295526627219,
+          0
+        ],
+        "rotation": -0.0933617357001973,
+        "scale": [
+          1.0140042603550297,
+          0.9859957396449704,
+          1
+        ]
+      },
+      {
+        "time": 1.0987,
+        "id": "supermarket_auntie",
+        "phase": "anticipation",
+        "position": [
+          0.81,
+          1.025,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 1.132,
+        "id": "drunk_uncle",
+        "phase": "idle",
+        "position": [
+          0.81,
+          1,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 1.1987,
+        "id": "supermarket_auntie",
+        "phase": "strike",
+        "position": [
+          0.9700000000000001,
+          0.9993749999999999,
+          0
+        ],
+        "rotation": -0.17,
+        "scale": [
+          1.025,
+          0.975,
+          1
+        ]
+      },
+      {
+        "time": 1.2153,
+        "id": "manager",
+        "phase": "idle",
+        "position": [
+          -0.81,
+          1.05,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 1.2653,
+        "id": "supermarket_auntie",
+        "phase": "recovery",
+        "position": [
+          0.931604207758054,
+          1.005524326101249,
+          0
+        ],
+        "rotation": -0.12920447074293234,
+        "scale": [
+          1.019000657462196,
+          0.9809993425378041,
+          1
+        ]
+      },
+      {
+        "time": 1.382,
+        "id": "drunk_uncle",
+        "phase": "hit",
+        "position": [
+          0.7598880000000001,
+          1.016704,
+          0
+        ],
+        "rotation": 0.05011199999999999,
+        "scale": [
+          1.054288,
+          0.9498880000000001,
+          1
+        ]
+      },
+      {
+        "time": 1.382,
+        "id": "supermarket_auntie",
+        "phase": "idle",
+        "position": [
+          0.81,
+          1.025,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 1.3973,
+        "id": "gym_uncle",
+        "phase": "anticipation",
+        "position": [
+          0,
+          1.125,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 1.5307,
+        "id": "drunk_uncle",
+        "phase": "idle",
+        "position": [
+          0.81,
+          1.0150747176338535,
+          0
+        ],
+        "rotation": 0.05798944517238109,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 1.6807,
+        "id": "gym_uncle",
+        "phase": "strike",
+        "position": [
+          0.3,
+          1.015,
+          0
+        ],
+        "rotation": -0.42,
+        "scale": [
+          1.145,
+          0.855,
+          1
+        ]
+      },
+      {
+        "time": 1.6973,
+        "id": "manager",
+        "phase": "walk",
+        "position": [
+          -0.81,
+          1.0657964308166703,
+          0
+        ],
+        "rotation": -0.02211500314333836,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 1.6973,
+        "id": "drunk_uncle",
+        "phase": "walk",
+        "position": [
+          0.81,
+          1.0337874950378383,
+          0
+        ],
+        "rotation": 0.06121691974385126,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 1.6973,
+        "id": "supermarket_auntie",
+        "phase": "walk",
+        "position": [
+          0.81,
+          1.0606911560115262,
+          0
+        ],
+        "rotation": 0.035691156011526386,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 1.7473,
+        "id": "supermarket_auntie",
+        "phase": "idle",
+        "position": [
+          0.81,
+          1.0494605115710431,
+          0
+        ],
+        "rotation": 0.01843065719050507,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 1.764,
+        "id": "gym_uncle",
+        "phase": "recovery",
+        "position": [
+          0.2858843537414967,
+          1.0201757369614513,
+          0
+        ],
+        "rotation": -0.4002380952380954,
+        "scale": [
+          1.1381774376417235,
+          0.8618225623582766,
+          1
+        ]
+      },
+      {
+        "time": 1.764,
+        "id": "manager",
+        "phase": "idle",
+        "position": [
+          -0.81,
+          1.0882579979929878,
+          0
+        ],
+        "rotation": -0.011737817473328452,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 1.764,
+        "id": "drunk_uncle",
+        "phase": "idle",
+        "position": [
+          0.81,
+          1.0208023847869425,
+          0
+        ],
+        "rotation": 0.06470449250456221,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 2.0127,
+        "id": "drunk_uncle",
+        "phase": "hit",
+        "position": [
+          0.7598880000000001,
+          1.016704,
+          0
+        ],
+        "rotation": 0.05011199999999999,
+        "scale": [
+          1.054288,
+          0.9498880000000001,
+          1
+        ]
+      },
+      {
+        "time": 2.0447,
+        "id": "gym_uncle",
+        "phase": "idle",
+        "position": [
+          0,
+          1.125,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 2.0613,
+        "id": "gym_uncle",
+        "phase": "walk",
+        "position": [
+          0.014489932569760673,
+          1.1499766698147746,
+          0
+        ],
+        "rotation": -0.02747433679625212,
+        "scale": [
+          1.0089916011333189,
+          0.9940055992444541,
+          1
+        ]
+      },
+      {
+        "time": 2.0613,
+        "id": "supermarket_auntie",
+        "phase": "anticipation",
+        "position": [
+          0.81,
+          1.025,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 2.128,
+        "id": "drunk_uncle",
+        "phase": "anticipation",
+        "position": [
+          0.785,
+          1,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 2.1447,
+        "id": "gym_uncle",
+        "phase": "idle",
+        "position": [
+          0,
+          1.1374931586233668,
+          0
+        ],
+        "rotation": -0.010742147265786177,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 2.1613,
+        "id": "supermarket_auntie",
+        "phase": "strike",
+        "position": [
+          0.9700000000000001,
+          0.9993749999999999,
+          0
+        ],
+        "rotation": -0.17,
+        "scale": [
+          1.025,
+          0.975,
+          1
+        ]
+      },
+      {
+        "time": 2.228,
+        "id": "drunk_uncle",
+        "phase": "strike",
+        "position": [
+          1,
+          0.965,
+          0
+        ],
+        "rotation": -0.2,
+        "scale": [
+          1.035,
+          0.965,
+          1
+        ]
+      },
+      {
+        "time": 2.228,
+        "id": "supermarket_auntie",
+        "phase": "recovery",
+        "position": [
+          0.931604207758054,
+          1.005524326101249,
+          0
+        ],
+        "rotation": -0.12920447074293234,
+        "scale": [
+          1.019000657462196,
+          0.9809993425378041,
+          1
+        ]
+      },
+      {
+        "time": 2.2433,
+        "id": "gym_uncle",
+        "phase": "walk",
+        "position": [
+          0.011130176412395679,
+          1.1747434937043735,
+          0
+        ],
+        "rotation": -0.05471784307481083,
+        "scale": [
+          1.0179076577335744,
+          0.9880615615109504,
+          1
+        ]
+      },
+      {
+        "time": 2.2433,
+        "id": "manager",
+        "phase": "walk",
+        "position": [
+          -0.81,
+          1.056724994735302,
+          0
+        ],
+        "rotation": 0.009414992629422648,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 2.2933,
+        "id": "drunk_uncle",
+        "phase": "recovery",
+        "position": [
+          0.957822748191979,
+          0.9727694937541091,
+          0
+        ],
+        "rotation": -0.1556028928336621,
+        "scale": [
+          1.0272305062458909,
+          0.9727694937541091,
+          1
+        ]
+      },
+      {
+        "time": 2.31,
+        "id": "manager",
+        "phase": "idle",
+        "position": [
+          -0.81,
+          1.0642186419992543,
+          0
+        ],
+        "rotation": 0.0347607476674677,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 2.3267,
+        "id": "gym_uncle",
+        "phase": "idle",
+        "position": [
+          0,
+          1.1415560394771527,
+          0
+        ],
+        "rotation": -0.013072976547618586,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 2.3433,
+        "id": "supermarket_auntie",
+        "phase": "idle",
+        "position": [
+          0.81,
+          1.025,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 2.36,
+        "id": "supermarket_auntie",
+        "phase": "walk",
+        "position": [
+          0.81,
+          1.0279637913830724,
+          0
+        ],
+        "rotation": -0.0029637913830723684,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 2.41,
+        "id": "drunk_uncle",
+        "phase": "idle",
+        "position": [
+          0.81,
+          1,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 2.41,
+        "id": "supermarket_auntie",
+        "phase": "idle",
+        "position": [
+          0.81,
+          1.0316507735932638,
+          0
+        ],
+        "rotation": -0.019489226977689022,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 2.4267,
+        "id": "drunk_uncle",
+        "phase": "walk",
+        "position": [
+          0.81,
+          1.032412219105026,
+          0
+        ],
+        "rotation": -0.06682934000552747,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 2.4933,
+        "id": "drunk_uncle",
+        "phase": "idle",
+        "position": [
+          0.81,
+          1.0126836707099964,
+          0
+        ],
+        "rotation": 0.031120094994077144,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 2.8753,
+        "id": "manager",
+        "phase": "anticipation",
+        "position": [
+          -0.81,
+          1.05,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 2.942,
+        "id": "gym_uncle",
+        "phase": "anticipation",
+        "position": [
+          0,
+          1.125,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 2.9753,
+        "id": "manager",
+        "phase": "strike",
+        "position": [
+          -0.65,
+          1.0311000000000001,
+          0
+        ],
+        "rotation": -0.12,
+        "scale": [
+          1.018,
+          0.982,
+          1
+        ]
+      },
+      {
+        "time": 2.9753,
+        "id": "drunk_uncle",
+        "phase": "hit",
+        "position": [
+          0.7598880000000001,
+          1.016704,
+          0
+        ],
+        "rotation": 0.05011199999999999,
+        "scale": [
+          1.054288,
+          0.9498880000000001,
+          1
+        ]
+      },
+      {
+        "time": 3.0407,
+        "id": "manager",
+        "phase": "recovery",
+        "position": [
+          -0.6855176857330704,
+          1.035295526627219,
+          0
+        ],
+        "rotation": -0.09336173570019725,
+        "scale": [
+          1.0140042603550297,
+          0.9859957396449704,
+          1
+        ]
+      },
+      {
+        "time": 3.0407,
+        "id": "supermarket_auntie",
+        "phase": "anticipation",
+        "position": [
+          0.81,
+          1.025,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.1407,
+        "id": "supermarket_auntie",
+        "phase": "strike",
+        "position": [
+          0.9700000000000001,
+          0.9993749999999999,
+          0
+        ],
+        "rotation": -0.17,
+        "scale": [
+          1.025,
+          0.975,
+          1
+        ]
+      },
+      {
+        "time": 3.1573,
+        "id": "manager",
+        "phase": "idle",
+        "position": [
+          -0.81,
+          1.05,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.2073,
+        "id": "supermarket_auntie",
+        "phase": "recovery",
+        "position": [
+          0.931604207758054,
+          1.005524326101249,
+          0
+        ],
+        "rotation": -0.12920447074293234,
+        "scale": [
+          1.019000657462196,
+          0.9809993425378041,
+          1
+        ]
+      },
+      {
+        "time": 3.224,
+        "id": "gym_uncle",
+        "phase": "strike",
+        "position": [
+          0.3,
+          1.015,
+          0
+        ],
+        "rotation": -0.42,
+        "scale": [
+          1.145,
+          0.855,
+          1
+        ]
+      },
+      {
+        "time": 3.2407,
+        "id": "manager",
+        "phase": "walk",
+        "position": [
+          -0.81,
+          1.071357001339349,
+          0
+        ],
+        "rotation": -0.0298998018750886,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.2407,
+        "id": "drunk_uncle",
+        "phase": "walk",
+        "position": [
+          0.81,
+          1.0032376429742489,
+          0
+        ],
+        "rotation": 0.09495970090120884,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.2573,
+        "id": "manager",
+        "phase": "idle",
+        "position": [
+          -0.81,
+          1.0525510666863018,
+          0
+        ],
+        "rotation": 0.011980589745861641,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.2573,
+        "id": "drunk_uncle",
+        "phase": "idle",
+        "position": [
+          0.81,
+          1.0093941760448826,
+          0
+        ],
+        "rotation": -0.04301353010220624,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.3073,
+        "id": "gym_uncle",
+        "phase": "recovery",
+        "position": [
+          0.28868027210884367,
+          1.019150566893424,
+          0
+        ],
+        "rotation": -0.40415238095238115,
+        "scale": [
+          1.1395287981859412,
+          0.8604712018140589,
+          1
+        ]
+      },
+      {
+        "time": 3.324,
+        "id": "supermarket_auntie",
+        "phase": "idle",
+        "position": [
+          0.81,
+          1.025,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.3407,
+        "id": "supermarket_auntie",
+        "phase": "walk",
+        "position": [
+          0.81,
+          1.0698749826471363,
+          0
+        ],
+        "rotation": 0.04487498264713648,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.3573,
+        "id": "supermarket_auntie",
+        "phase": "idle",
+        "position": [
+          0.81,
+          1.0541031470224829,
+          0
+        ],
+        "rotation": 0.005344713052141544,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.424,
+        "id": "drunk_uncle",
+        "phase": "anticipation",
+        "position": [
+          0.81,
+          1,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.524,
+        "id": "drunk_uncle",
+        "phase": "strike",
+        "position": [
+          1,
+          0.965,
+          0
+        ],
+        "rotation": -0.2,
+        "scale": [
+          1.035,
+          0.965,
+          1
+        ]
+      },
+      {
+        "time": 3.5393,
+        "id": "manager",
+        "phase": "walk",
+        "position": [
+          -0.81,
+          1.061303632778188,
+          0
+        ],
+        "rotation": 0.01582508588946321,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.5393,
+        "id": "supermarket_auntie",
+        "phase": "walk",
+        "position": [
+          0.81,
+          1.0275196281392065,
+          0
+        ],
+        "rotation": 0.002519628139206521,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.5893,
+        "id": "gym_uncle",
+        "phase": "idle",
+        "position": [
+          0,
+          1.125,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.5893,
+        "id": "drunk_uncle",
+        "phase": "recovery",
+        "position": [
+          0.957822748191979,
+          0.9727694937541091,
+          0
+        ],
+        "rotation": -0.1556028928336621,
+        "scale": [
+          1.0272305062458909,
+          0.9727694937541091,
+          1
+        ]
+      },
+      {
+        "time": 3.5893,
+        "id": "supermarket_auntie",
+        "phase": "idle",
+        "position": [
+          0.81,
+          1.0644098492498,
+          0
+        ],
+        "rotation": 0.018255629935417853,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.606,
+        "id": "gym_uncle",
+        "phase": "walk",
+        "position": [
+          -0.006317423257204725,
+          1.163198747776284,
+          0
+        ],
+        "rotation": -0.04201862255391233,
+        "scale": [
+          1.0137515491994622,
+          0.9908323005336919,
+          1
+        ]
+      },
+      {
+        "time": 3.606,
+        "id": "manager",
+        "phase": "idle",
+        "position": [
+          -0.81,
+          1.08582474495223,
+          0
+        ],
+        "rotation": -0.020087055052073612,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.6893,
+        "id": "gym_uncle",
+        "phase": "idle",
+        "position": [
+          0,
+          1.1403735704978046,
+          0
+        ],
+        "rotation": -0.008177695493502805,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.706,
+        "id": "drunk_uncle",
+        "phase": "idle",
+        "position": [
+          0.81,
+          1,
+          0
+        ],
+        "rotation": 0,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      {
+        "time": 3.7227,
+        "id": "drunk_uncle",
+        "phase": "walk",
+        "position": [
+          0.81,
+          1.0232837647743436,
+          0
+        ],
+        "rotation": -0.01143565463724706,
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    ]
+  }
+]

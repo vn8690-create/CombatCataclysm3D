@@ -16,10 +16,18 @@
     "test:roster": "node tests/roster.test.mjs",
     "test:personality": "node tests/character-personality.test.mjs",
     "test:timing": "node tests/attack-timing.test.mjs",
-    "test:unit": "npm run test:feel && npm run test:comedy && npm run test:characters && npm run test:world && npm run test:boken && npm run test:roster && npm run test:personality && npm run test:formation && npm run test:timing",
-    "test:formation": "node tests/formation.test.mjs"
+    "test:unit": "npm run test:feel && npm run test:comedy && npm run test:characters && npm run test:world && npm run test:boken && npm run test:roster && npm run test:personality && npm run test:formation && npm run test:timing && npm run test:assets",
+    "test:formation": "node tests/formation.test.mjs",
+    "test:assets": "node tests/character-assets.test.mjs"
   },
-  "keywords": ["three.js", "game", "lane-defense", "3d", "browser-game", "webgl"],
+  "keywords": [
+    "three.js",
+    "game",
+    "lane-defense",
+    "3d",
+    "browser-game",
+    "webgl"
+  ],
   "author": "Combat Cataclysm Team",
   "license": "MIT",
   "dependencies": {},

@@ -33,8 +33,11 @@
     .deploySlot { width:84px; height:96px; background:linear-gradient(180deg,#1a2244,#0e1430); border:1px solid #3a4278; border-radius:10px; display:flex; flex-direction:column; align-items:center; justify-content:space-between; padding:6px 4px; cursor:pointer; position:relative; transition:transform .08s ease,filter .15s ease; overflow:hidden; }
     .deploySlot:hover { filter:brightness(1.18); } .deploySlot:active { transform:translateY(2px); } .deploySlot.locked { opacity:.4; cursor:not-allowed; filter:grayscale(.8); } .deploySlot.affordable { box-shadow:0 0 0 1px #ffcc40,0 0 12px rgba(255,200,60,.25); }
     .deploySlot .icon { width:40px; height:40px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:700; }
-    .deploySlot[data-unit="gym_uncle"] .icon { font-size:0; background:url('/assets/characters/gym_uncle_portrait.svg') center 22%/cover no-repeat !important; border:2px solid #fff06a; }
-    button[data-character="gym_uncle"] > div:first-child { font-size:0 !important; width:64px; height:64px; border-radius:12px; background:url('/assets/characters/gym_uncle_portrait.svg') center 22%/cover no-repeat; border:2px solid #fff06a; box-shadow:0 0 14px rgba(199,91,255,.35); }
+    .characterPortrait { position:relative; flex-shrink:0; display:flex; align-items:center; justify-content:center; overflow:hidden; border-radius:12px; background:#273252; font-size:28px; }
+    .characterPortrait img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 22%; visibility:hidden; }
+    .characterPortrait[data-portrait="gym_uncle"] { border:2px solid #fff06a; box-shadow:0 0 14px rgba(199,91,255,.35); }
+    .deploySlot .characterPortrait { width:40px !important; height:40px !important; }
+    .rosterArt { float:left; width:130px; height:160px; object-fit:contain; margin-right:18px; }
     .deploySlot .name { font-size:10px; color:#cfd6f0; text-align:center; line-height:1.05; } .deploySlot .cost { font-size:12px; color:#ffcc66; font-weight:700; }
     .deploySlot .cd { position:absolute; left:0; right:0; bottom:0; background:rgba(0,0,0,.6); height:0%; transition:height .05s linear; pointer-events:none; }
     .stageGrid { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; max-width:720px; padding:12px; }
@@ -52,6 +55,7 @@
       #deployBar { flex-wrap:nowrap; gap:4px; justify-content:flex-start; overflow-x:auto; padding:8px; }
       .deploySlot { flex:0 0 54px; width:54px; height:76px; padding:4px 2px; }
       .deploySlot .icon { width:28px; height:28px; font-size:20px; }
+      .deploySlot .characterPortrait { width:28px !important; height:28px !important; }
       .deploySlot .name { font-size:9px; }
       .deploySlot .cost { font-size:11px; }
     }
