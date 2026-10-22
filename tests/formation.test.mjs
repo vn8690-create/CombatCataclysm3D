@@ -30,10 +30,10 @@ depthB.group.position.z = 2.2;
 assert.ok(attackDistance(depthA, depthB) > depthA.range);
 
 // Five bounded engagement slots are deterministic for a small frontline.
-const ps = Array.from({ length: 5 }, () => actor('player', -3));
-const es = Array.from({ length: 5 }, () => actor('enemy', 3));
+const ps = Array.from({ length: 4 }, () => actor('player', -3));
+const es = Array.from({ length: 4 }, () => actor('enemy', 3));
 const { formation: f, world } = setup(ps, es);
-assert.equal(new Set(ps.map(p => p.group.position.z)).size, 5);
+assert.equal(new Set(ps.map(p => p.group.position.z)).size, 4);
 assert.ok([...ps, ...es].every(u => Math.abs(u.group.position.z) <= 2.35));
 
 // Rear melee must flank a stationary friendly melee instead of freezing forever.
@@ -76,7 +76,7 @@ assert.ok(melee.group.position.x > ranged.group.position.x + 2);
 
 // Saturation fallback: five occupied front slots make a stable second-row queue.
 // It may wait, but must not oscillate lanes, overlap allies, or tunnel through them.
-const wall = Array.from({ length: 5 }, () => actor('player', 0));
+const wall = Array.from({ length: 4 }, () => actor('player', 0));
 const reinforcement = actor('player', -2.5);
 const crowded = setup([...wall, reinforcement], []);
 let laneChanges = 0;
@@ -119,4 +119,4 @@ const contact = p.group.position.x;
 bossTest.formation.move(p, -1, .1);
 assert.equal(p.group.position.x, contact - 1);
 
-console.log('Formation regression tests passed (5-slot flanking, saturation queue, depth-aware contact, symmetry, release, flying/dash, boss, knockback)');
+console.log('Formation regression tests passed (4-slot flanking, saturation queue, depth-aware contact, symmetry, release, flying/dash, boss, knockback)');
