@@ -23,9 +23,9 @@ export class FormationSystem {
   constructor() {
     this.members = new Map();
     this.nextId = 1;
-    // Five deterministic engagement slots. More than the old three lanes keeps
+    // Four deterministic engagement slots. More than the old three lanes keeps
     // small battles fluid while still preserving a bounded readable frontline.
-    this.depths = [-2.2, -1.1, 0, 1.1, 2.2].map(z =>
+    this.depths = [-2.1, -0.7, 0.7, 2.1].map(z =>
       Math.max(-BALANCE.LANE_WIDTH / 2 + .65, Math.min(BALANCE.LANE_WIDTH / 2 - .65, z)));
   }
 
@@ -95,7 +95,7 @@ export class FormationSystem {
       state.switchCd = Math.max(0, state.switchCd - dt);
 
       // If a unit has been held up by an ally, reserve a better depth slot.
-      // This is symmetric for player/enemy and deliberately bounded to five slots.
+      // This is symmetric for player/enemy and deliberately bounded to four slots.
       if (state.blocked > .16 && state.switchCd <= 0) {
         const lane = this._choosePassingLane(u, state);
         if (lane !== state.lane) {
